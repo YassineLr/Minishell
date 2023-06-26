@@ -67,9 +67,10 @@ typedef struct s_list
 typedef struct s_command
 {
 	char	**cmd;
-
-
-
+	int		*pipe;
+	int		red_out;
+	int		red_in;
+	int		append;
 
 }	t_command;
 

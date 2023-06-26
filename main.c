@@ -57,11 +57,9 @@ int	main(int ac, char **av, char **envp)
 	line = readline("minishell-1.0$ ");
 	while (line)
 	{
+		check_errors(line);
 		hdoc_pipe = here_doc(line);
 		if (hdoc_pipe == NULL)
-			return (0);
-		printf("here\n");
-		if (!check_errors(line))
 			return (0);
 		lexer = init_lexer(line, envp);
 		if (lexer)
@@ -69,12 +67,12 @@ int	main(int ac, char **av, char **envp)
 			ft_lexer(lexer, &lexer_list);
 			// ft_parser(lexer_list, hdoc_pipe);
 		}
-		while (lexer_list)
-		{
-			printf("WORD :  %s\nType :  %d\n", lexer_list->token->value, lexer_list->token->type);
-			lexer_list = lexer_list->next;
-		}
-		printf("\n");
+		// while (lexer_list)
+		// {
+		// 	printf("WORD :  %s\nType :  %d\n", lexer_list->token->value, lexer_list->token->type);
+		// 	lexer_list = lexer_list->next;
+		// }
+		// printf("\n");
 		free_lexer(lexer);
 		free(lexer_list);
 		lexer_list = NULL;
