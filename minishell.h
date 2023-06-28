@@ -64,19 +64,19 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_command
+typedef struct s_cmd
 {
-	char	**cmd;
-	int		*pipe;
+	char	**cmds;
+	int		pipe;
 	int		red_out;
 	int		red_in;
 	int		append;
-
-}	t_command;
+	int		*heredoc;
+}	t_cmd;
 
 typedef struct s_parser
 {
-	t_command		*cmd;
+	t_command		*command;
 	struct s_parser	*next;
 }	t_parser;
 
@@ -86,13 +86,16 @@ void	exit_error(char *message, int s);
 int		check_end(char *input);
 
 // Linked lists
-t_list	*ft_lstnew(t_token *token);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
-int		ft_lstsize(t_list *lst);
-void	ft_lstclear(t_list **lst, void (*del)(void*));
-void	free_list(t_list *list);
+t_list		*ft_lstnew(t_token *token);
+t_list		*ft_lstlast(t_list *lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+void		ft_lstdelone(t_list *lst, void (*del)(void *));
+int			ft_lstsize(t_list *lst);
+void		ft_lstclear(t_list **lst, void (*del)(void*));
+void		free_list(t_list *list);
+t_parser	*ft_lstnew_alt(t_cmd *cmd);
+void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
+t_parser	*ft_lstlast_alt(t_parser *lst);
 
 // Lexer
 t_lexer	*init_lexer(char *content, char **envp);
@@ -141,5 +144,6 @@ char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 
 int		*here_doc(char *line);
+int		heredoc_count(char *input);
 
 #endif
