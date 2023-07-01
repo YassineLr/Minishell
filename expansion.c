@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/06/17 13:30:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/01 09:19:52 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*expansion(t_lexer *lexer)
 	len = 0;
 	lexer_advance(lexer);
 	start = lexer->i;
-	while (lexer->c && not_special(lexer->c))
+	while (lexer->c && !is_special(lexer->c))
 	{
 		len++;
 		lexer_advance(lexer);

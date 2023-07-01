@@ -6,23 +6,24 @@
 #    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/06/23 15:08:27 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/07/01 11:50:35 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c lexer.c parser.c initialization.c error_handling.c expansion.c here_doc.c ./helpers/ft_atoi.c \
+SRC = main.c file_opening.c lexer.c parser.c initialization.c error_handling.c expansion.c here_doc.c ./helpers/ft_atoi.c \
 	./helpers/ft_is_whitespace.c ./helpers/ft_isalnum.c ./helpers/ft_isalpha.c ./helpers/ft_isdigit.c \
 	./helpers/ft_putchar_fd.c ./helpers/ft_putnbr_fd.c ./helpers/ft_putstr_fd.c ./helpers/ft_exit_error.c \
-	./helpers/ft_not_special.c ./helpers/ft_putendl.c \
+	./helpers/ft_putendl.c \
 	./linked_lists/ft_lstadd_back.c ./linked_lists/ft_lstclear.c ./linked_lists/ft_lstdelone.c \
 	./linked_lists/ft_lstlast.c ./linked_lists/ft_lstnew.c ./linked_lists/ft_lstsize.c \
 	./string_helpers/ft_free_strs.c ./string_helpers/ft_split.c ./string_helpers/ft_strdup.c \
 	./string_helpers/ft_strjoin.c ./string_helpers/ft_strlen.c ./string_helpers/ft_strstr.c \
 	./string_helpers/ft_strnstr.c ./string_helpers/ft_strncmp.c ./string_helpers/ft_strcmp.c \
 	./string_helpers/ft_substr.c ./string_helpers/ft_strchr.c \
-	./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
+	./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c \
+	./linked_lists/ft_lstadd_back_alt.c ./linked_lists/ft_lstnew_alt.c ./linked_lists/ft_lstlast_alt.c
 
 OBJS = ${SRC:.c=.o}
 

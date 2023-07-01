@@ -45,15 +45,16 @@ t_env	**get_env(char **ev)
 
 int	main(int ac, char **av, char **envp)
 {
-	int		*hdoc_pipe;
-	char	*line;
-	t_lexer	*lexer;
-	t_list	*lexer_list;
+	int			*hdoc_pipe;
+	char		*line;
+	t_lexer		*lexer;
+	t_list		*lex_list;
+	t_parser	*p_list;
 	// t_list	*node;
 
 	(void)ac;
 	(void)av;
-	lexer_list = NULL;
+	lex_list = NULL;
 	line = readline("minishell-1.0$ ");
 	while (line)
 	{
@@ -64,18 +65,27 @@ int	main(int ac, char **av, char **envp)
 		lexer = init_lexer(line, envp);
 		if (lexer)
 		{
-			ft_lexer(lexer, &lexer_list);
-			// ft_parser(lexer_list, hdoc_pipe);
+			ft_lexer(lexer, &lex_list);
+			p_list = ft_parser(lex_list, hdoc_pipe);
 		}
-		// while (lexer_list)
+		// int i;
+		// while (p_list)
 		// {
-		// 	printf("WORD :  %s\nType :  %d\n", lexer_list->token->value, lexer_list->token->type);
-		// 	lexer_list = lexer_list->next;
+		// 	i = -1;
+		// 	while (p_list->command->cmds[++i])
+		// 		printf("%s\n", p_list->command->cmds[i]);
+		// 	printf("%d\n", p_list->command->append);
+		// 	printf("%d\n", *(p_list->command->heredoc));
+		// 	printf("%d\n", p_list->command->pipe);
+		// 	printf("%d\n", p_list->command->red_in);
+		// 	printf("%d\n", p_list->command->red_out);
+			// printf("WORD :  %s\nType :  %d\n\n", p_list->command, p_list->command);
+		// 	p_list = p_list->next;
 		// }
 		// printf("\n");
 		free_lexer(lexer);
-		free(lexer_list);
-		lexer_list = NULL;
+		free(lex_list);
+		lex_list = NULL;
 		add_history(line);
 		free(line);
 		line = readline("minishell-1.0$ ");

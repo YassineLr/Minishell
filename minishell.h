@@ -38,11 +38,6 @@ typedef struct s_lexer
 	t_env	**env;
 }	t_lexer;
 
-// typedef struct s_heredoc
-// {
-// 	int	
-// }	t_heredoc;
-
 typedef struct s_token
 {
 	enum
@@ -76,7 +71,7 @@ typedef struct s_cmd
 
 typedef struct s_parser
 {
-	t_command		*command;
+	t_cmd			*command;
 	struct s_parser	*next;
 }	t_parser;
 
@@ -116,7 +111,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
-int		not_special(char c);
+int		is_special(char c);
 int		count_env(char **str);
 
 // String helpers
@@ -145,5 +140,11 @@ char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 int		*here_doc(char *line);
 int		heredoc_count(char *input);
+
+t_parser	*ft_parser(t_list *list, int *hdc_pipe);
+
+int	open_append(char *filename);
+int	open_redout(char *filename);
+int	open_redin(char *filename);
 
 #endif

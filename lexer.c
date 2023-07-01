@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+int	is_special(char c)
+{
+	if (c == '\'' || c == '"' || ft_is_whitespace(c)
+		|| c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
+}
+
 char	*get_word(t_lexer *lexer)
 {
 	int		len;
@@ -20,7 +28,7 @@ char	*get_word(t_lexer *lexer)
 
 	len = 0;
 	start = lexer->i;
-	while (lexer->c && not_special(lexer->c))
+	while (lexer->c && !is_special(lexer->c))
 	{
 		len++;
 		lexer_advance(lexer);
@@ -125,8 +133,12 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 		}
 		else if (ft_is_whitespace(lexer->c))
 		{
-			ft_lstadd_back(list, ft_lstnew(init_token(WHITESPACE, lexer_char_to_string(lexer->c))));
-			lexer_advance(lexer);
+			if (!check_end(&lexer->content[lexer->i]))
+				break;
+			while (ft_is_whitespace(lexer->c))
+				lexer_advance(lexer);
+			if (lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
+				ft_lstadd_back(list, ft_lstnew(init_token(WHITESPACE, lexer_char_to_string(' '))));
 		}
 		else if (lexer->c == '<')
 		{
