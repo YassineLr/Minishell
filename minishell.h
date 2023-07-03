@@ -44,6 +44,7 @@ typedef struct s_token
 	{
 		WORD,
 		PIPE,
+		QUOTES,
 		RED_IN,
 		RED_OUT,
 		WHITESPACE,
@@ -76,7 +77,7 @@ typedef struct s_parser
 }	t_parser;
 
 // Error handling
-int		check_errors(char *input);
+int		check_errors(char *input, t_list *list);
 void	exit_error(char *message, int s);
 int		check_end(char *input);
 
@@ -123,7 +124,7 @@ int		ft_strlen(const char *str);
 char	*ft_strchr(char *buff, char c);
 int		ft_strstr(char *haystack, char *needle);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
-char	*get_quoted_string(t_lexer *lexer, char quotes);
+char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
@@ -138,8 +139,8 @@ char	*get_next_line(int fd);
 char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 
-int		*here_doc(char *line);
-int		heredoc_count(char *input);
+int		*here_doc(t_list *list);
+int		heredoc_count(t_list *list);
 
 t_parser	*ft_parser(t_list *list, int *hdc_pipe);
 

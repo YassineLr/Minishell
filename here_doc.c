@@ -6,106 +6,105 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/06/23 22:04:30 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/03 13:34:03 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc_count(char *input)
+int	heredoc_count(t_list *list)
 {
-	int		i;
-	int		valid_heredoc;
-	int		in_quotes;
-	char	prev_char;
+	int	count;
+	int	prev_type;
 
-	i = 0;
-	in_quotes = 0;
-	prev_char = '\0';
-	valid_heredoc = 0;
-	while (input[i])
+	count = 0;
+	prev_type = -1;
+	while (list)
 	{
-		if ((input[i] == '<' && prev_char == '>') || (input[i] == '>' && prev_char == '<'))
-			return (valid_heredoc);
-		if (input[i] == '\"' || input[i] == '\'')
-			in_quotes = !in_quotes;
-		if (input[i] == '<' && input[i + 1] == '<' && prev_char != '<' && !in_quotes)
+		if (list->token->type == WHITESPACE)
+			list = list->next;
+		if (list->token->type == HEREDOC)
 		{
-			i += 2;
-			if (!check_end(input + i))
-				return (valid_heredoc);
-			while (ft_is_whitespace(input[i]))
-				i++;
-			if (input[i] != '<' && input[i] != '>' && input[i] != '|')
-				valid_heredoc++;
+			if (prev_type == RED_IN || prev_type == RED_OUT
+				|| prev_type == APPEND || prev_type == QUOTES)
+				return (count);
+			if (list->next)
+			{
+				list = list->next;
+				if (list->token->type == WHITESPACE)
+					list = list->next;
+				if (list->next)
+				{
+					if (list->token->type == QUOTES)
+						list = list->next;
+				}
+				if (list->token->type != WORD)
+					return (count);
+			}
+			else
+				return (count);
+			count++;
 		}
-		prev_char = input[i];
-		i++;
+		else
+		{
+			if (list->token->type == PIPE && (prev_type == RED_IN
+				|| prev_type == RED_OUT || prev_type == PIPE || prev_type == APPEND))
+				return (count);
+			else if (list->token->type == RED_IN
+				&& (prev_type == RED_IN || prev_type == RED_OUT || prev_type == APPEND))
+				return (count);
+			else if (list->token->type == RED_OUT
+				&& (prev_type == RED_OUT || prev_type == RED_IN || prev_type == APPEND))
+				return (count);
+			else if (list->token->type == APPEND && (prev_type == RED_IN
+				|| prev_type == RED_OUT || prev_type == APPEND))
+				return (0);
+		}
+		prev_type = list->token->type;
+		list = list->next;
 	}
-	return (valid_heredoc);
+	return (count);
 }
 
-char	**get_delimiters(char *input, int count)
+char	**get_delimiters(t_list *list, int count)
 {
 	int		i;
-	int		j;
-	int		len;
-	int		start;
-	int		in_quotes;
-	char	prev_char;
 	char	**delimiters;
 
 	i = 0;
-	j = 0;
-	len = 0;
-	start = 0;
-	in_quotes = 0;
-	prev_char = '\0';
-	if (!count)
-		return (0);
 	delimiters = malloc(sizeof(char *) * (count + 1));
 	if (!delimiters)
 		return (0);
-	while (input[i])
+	while (list)
 	{
-		if ((input[i] == '<' && prev_char == '>') || (input[i] == '>' && prev_char == '<'))
+		if (list->token->type == HEREDOC && count > 0)
 		{
-			delimiters[j] = NULL;
-			return (delimiters);
-		}
-		if (input[i] == '\"' || input[i] == '\'')
-			in_quotes = !in_quotes;
-		if (input[i] == '<' && input[i + 1] == '<' && prev_char != '<' && !in_quotes)
-		{
-			i += 2;
-			if (!check_end(input + i))
+			list = list->next;
+			if (list->next)
 			{
-				delimiters[j] = NULL;
-				return (delimiters);
+				if (list->token->type == WHITESPACE)
+					list = list->next;
 			}
-			while (ft_is_whitespace(input[i]))
+			if (list->token->type == WORD)
+			{
+				delimiters[i] = ft_strdup(list->token->value);
 				i++;
-			if (input[i] != '<' && input[i] != '>' && input[i] != '|')
-			{
-				start = i;
-				len = 0;
-				while (input[i] && !ft_is_whitespace(input[i]) && input[i] != '<' && input[i] != '>' && input[i] != '|')
-				{
-					len++;
-					i++;
-				}
-				delimiters[j] = ft_substr(input, start, len);
-				j++;
 			}
+			else
+				return (0);
+			count--;
 		}
-		prev_char = input[i];
-		i++;
+		list = list->next;
 	}
-	delimiters[j] = NULL;
+	delimiters[i] = NULL;
+	// i = -1;
+	// while (delimiters[++i])
+	// 	printf("%s\n", delimiters[i]);
+	// exit(1);
 	return (delimiters);
 }
 
-int	*here_doc(char *line)
+int	*here_doc(t_list *list)
 {
 	int		i;
 	int		count;
@@ -114,12 +113,15 @@ int	*here_doc(char *line)
 	char	**delimiters;
 
 	i = 0;
-	delimiters = NULL;
-	count = heredoc_count(line);
+	count = heredoc_count(list);
+	printf("%d\n", count);
+	exit(1);
+	if (!count)
+		return (NULL);
 	end = malloc(sizeof(int) * 2);
 	if (!end)
 		return (0);
-	delimiters = get_delimiters(line, count);
+	delimiters = get_delimiters(list, count);
 	if (pipe(end) == -1)
 		return (0);
 	while (i < count)

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/01 09:19:52 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:13:57 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,3 @@ char	*expansion(t_lexer *lexer)
 
 	<< ee | <>
 */
-
-// move token inside t_list
-// change strjoin to substr

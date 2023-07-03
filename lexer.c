@@ -15,7 +15,7 @@
 int	is_special(char c)
 {
 	if (c == '\'' || c == '"' || ft_is_whitespace(c)
-		|| c == '>' || c == '<' || c == '|')
+		|| c == '>' || c == '<' || c == '|' || c == '$')
 		return (1);
 	return (0);
 }
@@ -23,11 +23,16 @@ int	is_special(char c)
 char	*get_word(t_lexer *lexer)
 {
 	int		len;
-	char	*word;
 	int		start;
+	char	*word;
 
 	len = 0;
 	start = lexer->i;
+	if (lexer->c == '$')
+	{
+		len++;
+		lexer_advance(lexer);
+	}
 	while (lexer->c && !is_special(lexer->c))
 	{
 		len++;
@@ -52,7 +57,7 @@ void	lexer_skip_whitespaces(t_lexer *lexer)
 		lexer_advance(lexer);
 }
 
-char	*get_quoted_string(t_lexer *lexer, char quotes)
+char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag)
 {
 	char	*str;
 	char	*tmp;
@@ -63,7 +68,7 @@ char	*get_quoted_string(t_lexer *lexer, char quotes)
 	if (!str)
 		return (0);
 	str[0] = '\0';
-	if (quotes == '"')
+	if (quotes == '"' && hc_flag == 0)
 		expand = 1;
 	lexer_advance(lexer);
 	while (lexer->c && lexer->c != quotes)
@@ -96,7 +101,9 @@ char	*lexer_char_to_string(char c)
 void	ft_lexer(t_lexer *lexer, t_list **list)
 {
 	int		len;
+	int		hc_flag;
 
+	hc_flag = 0;
 	len = ft_strlen(lexer->content);
 	if (ft_is_whitespace(lexer->c) || lexer->c == '\n')
 		lexer_skip_whitespaces(lexer);
@@ -114,16 +121,28 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 				lexer_advance(lexer);
 			}
 			else
-				ft_lstadd_back(list, ft_lstnew(init_token(WORD, expansion(lexer))));
+			{
+				if (hc_flag == 1)
+				{
+					ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_word(lexer))));
+					hc_flag = 0;
+				}
+				else
+					ft_lstadd_back(list, ft_lstnew(init_token(WORD, expansion(lexer))));
+			}
 		}
 		else if (lexer->c == '\'')
 		{
-			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '\''))));
+			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
+			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '\'', hc_flag))));
+			hc_flag = 0;
 			lexer_advance(lexer);
 		}
 		else if (lexer->c == '"')
 		{
-			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '"'))));
+			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
+			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '"', hc_flag))));
+			hc_flag = 0;
 			lexer_advance(lexer);
 		}
 		else if (lexer->c == '|')
@@ -137,8 +156,7 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 				break;
 			while (ft_is_whitespace(lexer->c))
 				lexer_advance(lexer);
-			if (lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
-				ft_lstadd_back(list, ft_lstnew(init_token(WHITESPACE, lexer_char_to_string(' '))));
+			ft_lstadd_back(list, ft_lstnew(init_token(WHITESPACE, lexer_char_to_string(' '))));
 		}
 		else if (lexer->c == '<')
 		{
@@ -146,6 +164,7 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 			{
 				lexer_advance(lexer);
 				ft_lstadd_back(list, ft_lstnew(init_token(HEREDOC, ft_strdup("<<"))));
+				hc_flag = 1;
 			}
 			else
 				ft_lstadd_back(list, ft_lstnew(init_token(RED_IN, lexer_char_to_string(lexer->c))));

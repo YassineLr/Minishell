@@ -45,11 +45,12 @@ t_env	**get_env(char **ev)
 
 int	main(int ac, char **av, char **envp)
 {
+	int			err;
 	int			*hdoc_pipe;
 	char		*line;
 	t_lexer		*lexer;
 	t_list		*lex_list;
-	t_parser	*p_list;
+	// t_parser	*p_list;
 	// t_list	*node;
 
 	(void)ac;
@@ -58,31 +59,17 @@ int	main(int ac, char **av, char **envp)
 	line = readline("minishell-1.0$ ");
 	while (line)
 	{
-		check_errors(line);
-		hdoc_pipe = here_doc(line);
-		if (hdoc_pipe == NULL)
-			return (0);
 		lexer = init_lexer(line, envp);
-		if (lexer)
+		ft_lexer(lexer, &lex_list);
+		hdoc_pipe = here_doc(lex_list);
+		err = check_errors(line, lex_list);
+		// p_list = ft_parser(lex_list, hdoc_pipe);
+		while (lex_list)
 		{
-			ft_lexer(lexer, &lex_list);
-			p_list = ft_parser(lex_list, hdoc_pipe);
+			printf("Value :  %s\nType  :  %d\n", lex_list->token->value, lex_list->token->type);
+			lex_list = lex_list->next;
 		}
-		// int i;
-		// while (p_list)
-		// {
-		// 	i = -1;
-		// 	while (p_list->command->cmds[++i])
-		// 		printf("%s\n", p_list->command->cmds[i]);
-		// 	printf("%d\n", p_list->command->append);
-		// 	printf("%d\n", *(p_list->command->heredoc));
-		// 	printf("%d\n", p_list->command->pipe);
-		// 	printf("%d\n", p_list->command->red_in);
-		// 	printf("%d\n", p_list->command->red_out);
-			// printf("WORD :  %s\nType :  %d\n\n", p_list->command, p_list->command);
-		// 	p_list = p_list->next;
-		// }
-		// printf("\n");
+		printf("\n");
 		free_lexer(lexer);
 		free(lex_list);
 		lex_list = NULL;
@@ -91,3 +78,18 @@ int	main(int ac, char **av, char **envp)
 		line = readline("minishell-1.0$ ");
 	}
 }
+
+
+		// int i;
+		// while (p_list)
+		// {
+		// 	i = -1;
+		// 	while (p_list->command->cmds[++i])
+		// 		printf("%s\n", p_list->command->cmds[i]);
+		// 	printf("%d\n", p_list->command->append);
+		// 	// printf("%d\n", *(p_list->command->heredoc));
+		// 	printf("%d\n", p_list->command->pipe);
+		// 	printf("%d\n", p_list->command->red_in);
+		// 	printf("%d\n", p_list->command->red_out);
+		// 	p_list = p_list->next;
+		// }

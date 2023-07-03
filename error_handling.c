@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/01 09:23:10 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:15:33 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,85 +24,62 @@ int	check_end(char *input)
 	return (1);
 }
 
-int	check_pipes(char *input)
+int	check_pipes(t_list *list)
 {
-	int	i;
-	int	valid_pipes;
-	int	in_quotes;
-	int	prev_pipe;
-
-	i = 0;
-	valid_pipes = 1;
-	in_quotes = 0;
-	prev_pipe = 0;
-	while (ft_is_whitespace(input[i]))
-		input++;
-	if (input[i] == '|')
+	if (list->token->type == PIPE)
 		return (0);
-	while (input[i])
+	while (list)
 	{
-		if (input[i] == '|')
+		if (list->token->type == PIPE)
 		{
-			if (!check_end(input + i))
+			if (list->next)
+			{
+				if (list->next->token->type == PIPE)
+					return (0);
+			}
+			else
 				return (0);
 		}
-		if (input[i] == '\"' || input[i] == '\'')
-			in_quotes = !in_quotes;
-		else if (input[i] == '|' && !in_quotes)
-		{
-			if (prev_pipe)
-			{
-				valid_pipes = 0;
-				break;
-			}
-			prev_pipe = 1;
-		}
-		else
-			prev_pipe = 0;
-		i++;
+		list = list->next;
 	}
-	return (valid_pipes);
+	return (1);
 }
 
-int	check_redirections(char *input)
+int	redirections(t_list *list, int red_type)
 {
-	int		i;
-	int		valid_red;
-	int		in_quotes;
-	int		prev_red;
-	char	prev_char;
-
-	i = 0;
-	valid_red = 1;
-	in_quotes = 0;
-	prev_red = 0;
-	prev_char = '\0';
-	while (input[i])
+	while (list)
 	{
-		if (input[i] == '>' || input[i] == '<')
+		if ((int)list->token->type == red_type)
 		{
-			if (!check_end(input + i))
-				return (0);
-		}	
-		if (input[i] == '\"' || input[i] == '\'')
-			in_quotes = !in_quotes;
-		if ((input[i] == '>' || input[i] == '<') & !in_quotes)
-		{
-			if ((input[i] == '<' && prev_char == '>') || (input[i] == '>' && prev_char == '<'))
-				return (0);
-			if (prev_red > 1)
+			if (list->next)
 			{
-				valid_red = 0;
-				break;
+				list = list->next;
+				if (list->token->type == WHITESPACE)
+				{
+					list = list->next;
+					if (list->token->type != WORD)
+						return (0);
+				}
 			}
-			prev_red++;
+			else
+				return (0);
 		}
-		else
-			prev_red = 0;
-		prev_char = input[i];
-		i++;
+		list = list->next;
 	}
-	return (valid_red);
+	return (1);
+}
+
+int	check_redirections(t_list *list)
+{
+	if (!redirections(list, RED_IN))
+		return (0);
+	if (!redirections(list, RED_OUT))
+		return (0);
+	if (!redirections(list, APPEND))
+		return (0);
+	if (!redirections(list, HEREDOC))
+		return (0);
+	return (1);
 }
 
 int	check_quotes(char *input)
@@ -126,22 +103,24 @@ int	check_quotes(char *input)
 	return (!in_single_quotes && !in_double_quotes);
 }
 
-int	check_errors(char *input)
+int	check_errors(char *input, t_list *list)
 {
 	int	i;
 
 	i = 0;
+	if (!input || !list)
+		return (0);
 	if (!check_quotes(input))
 	{	
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
 	}
-	if (!check_pipes(input))
+	if (!check_pipes(list))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
 	}
-	if (!check_redirections(input))
+	if (!check_redirections(list))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
