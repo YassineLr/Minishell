@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/02 17:15:33 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:03:13 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	redirections(t_list *list, int red_type)
 				if (list->token->type == WHITESPACE)
 				{
 					list = list->next;
-					if (list->token->type != WORD)
+					if (list->token->type != WORD && (list->token->type == QUOTES && !list->next))
 						return (0);
 				}
 			}
@@ -113,7 +113,7 @@ int	check_errors(char *input, t_list *list)
 	if (!check_quotes(input))
 	{	
 		ft_putstr_fd("minishell: syntax error\n", 2);
-		return (0);
+		return (-1);
 	}
 	if (!check_pipes(list))
 	{

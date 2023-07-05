@@ -113,6 +113,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		is_special(char c);
+t_env	**get_env(char **ev);
 int		count_env(char **str);
 
 // String helpers
@@ -131,7 +132,9 @@ char	*ft_substr(char const *s, int start, int len);
 
 // Expansion
 char	*expansion(t_lexer *lexer);
-t_env	**get_env(char **ev);
+int		heredoc_count(t_list *list);
+void	expansion_v2(t_lexer *lexer, char *str, int fd);
+int		*here_doc(t_lexer *lexer, t_list *list);
 
 // get_next_line
 char	*fill_buff(int fd);
@@ -139,11 +142,10 @@ char	*get_next_line(int fd);
 char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 
-int		*here_doc(t_list *list);
-int		heredoc_count(t_list *list);
-
+// Parser
 t_parser	*ft_parser(t_list *list, int *hdc_pipe);
 
+// File control
 int	open_append(char *filename);
 int	open_redout(char *filename);
 int	open_redin(char *filename);

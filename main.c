@@ -61,12 +61,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		lexer = init_lexer(line, envp);
 		ft_lexer(lexer, &lex_list);
-		hdoc_pipe = here_doc(lex_list);
 		err = check_errors(line, lex_list);
-		// p_list = ft_parser(lex_list, hdoc_pipe);
+		if (err != -1)
+		{
+			hdoc_pipe = here_doc(lexer, lex_list);
+			// p_list = ft_parser(lex_list, hdoc_pipe);
+		}
 		while (lex_list)
 		{
-			printf("Value :  %s\nType  :  %d\n", lex_list->token->value, lex_list->token->type);
+			printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
 			lex_list = lex_list->next;
 		}
 		printf("\n");

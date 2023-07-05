@@ -70,7 +70,6 @@ char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag)
 	str[0] = '\0';
 	if (quotes == '"' && hc_flag == 0)
 		expand = 1;
-	lexer_advance(lexer);
 	while (lexer->c && lexer->c != quotes)
 	{
 		if (lexer->c == '$' && !ft_is_whitespace(lexer->content[lexer->i + 1]) && expand == 1)
@@ -83,6 +82,8 @@ char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag)
 			lexer_advance(lexer);
 		}
 	}
+	if (lexer->c == quotes)
+		lexer_advance(lexer);
 	return (str);
 }
 
@@ -113,8 +114,14 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 		{
 			// if (lexer->content[lexer->i + 1] == '?')
 			// 	exit_status();
-			if (lexer->c && (lexer->content[lexer->i + 1] == '\'' || lexer->content[lexer->i + 1] == '"'))
+			if (lexer->content[lexer->i + 1] == '\'' || lexer->content[lexer->i + 1] == '"')
 				lexer_advance(lexer);
+			else if (lexer->content[lexer->i + 1] == '$')
+			{
+				lexer_advance(lexer);
+				lexer_advance(lexer);
+				ft_lstadd_back(list, ft_lstnew(init_token(WORD, ft_strdup("$$"))));
+			}
 			else if (lexer->c && (ft_is_whitespace(lexer->content[lexer->i + 1]) || lexer->content[lexer->i + 1] == '\0'))
 			{
 				ft_lstadd_back(list, ft_lstnew(init_token(WORD, lexer_char_to_string(lexer->c))));
@@ -134,16 +141,18 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 		else if (lexer->c == '\'')
 		{
 			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
-			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '\'', hc_flag))));
-			hc_flag = 0;
 			lexer_advance(lexer);
+			if (lexer->c)
+				ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '\'', hc_flag))));
+			hc_flag = 0;
 		}
 		else if (lexer->c == '"')
 		{
 			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
-			ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '"', hc_flag))));
-			hc_flag = 0;
 			lexer_advance(lexer);
+			if (lexer->c)
+				ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '"', hc_flag))));
+			hc_flag = 0;
 		}
 		else if (lexer->c == '|')
 		{
