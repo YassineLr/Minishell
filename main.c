@@ -43,14 +43,46 @@ t_env	**get_env(char **ev)
 	return (env);
 }
 
+void	remove_quotes(t_list **head)
+{
+	t_list *current;
+	t_list *prev;
+
+	current = *head;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (current->token->type == QUOTES)
+		{
+			if (prev == NULL)
+			{
+				*head = current->next;
+				ft_lstdelone(current, &free);
+				current = *head;
+			}
+			else
+			{
+				prev->next = current->next;
+				ft_lstdelone(current, &free);
+				current = prev->next;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
-	int			*hdoc_pipe;
+	int			*hdoc_input;
 	char		*line;
 	t_lexer		*lexer;
 	t_list		*lex_list;
-	// t_parser	*p_list;
+	t_parser	*p_list;
 	// t_list	*node;
 
 	(void)ac;
@@ -64,8 +96,9 @@ int	main(int ac, char **av, char **envp)
 		err = check_errors(line, lex_list);
 		if (err != -1)
 		{
-			hdoc_pipe = here_doc(lexer, lex_list);
-			// p_list = ft_parser(lex_list, hdoc_pipe);
+			hdoc_input = here_doc(lexer, lex_list);
+			remove_quotes(&lex_list);
+			p_list = ft_parser(lex_list, hdoc_input);
 		}
 		while (lex_list)
 		{

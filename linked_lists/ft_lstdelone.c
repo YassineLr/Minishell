@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:52:46 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/06/02 19:07:21 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/05 22:09:56 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (!lst || !del)
 		return ;
+	del(lst->token->value);
 	del(lst->token);
-	free(lst);
+	del(lst);
 }
