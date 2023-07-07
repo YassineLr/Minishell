@@ -3,26 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/07/05 16:09:19 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/07/07 04:12:23 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c file_opening.c lexer.c parser.c initialization.c error_handling.c expansion.c \
-	 here_doc.c ./helpers/ft_atoi.c ./helpers/ft_is_whitespace.c ./helpers/ft_isalnum.c \
-	./helpers/ft_isalpha.c ./helpers/ft_isdigit.c ./helpers/ft_putchar_fd.c ./helpers/ft_putnbr_fd.c \
-	./helpers/ft_putstr_fd.c ./helpers/ft_exit_error.c ./helpers/ft_putendl.c ./linked_lists/ft_lstadd_back.c \
-	./linked_lists/ft_lstclear.c ./linked_lists/ft_lstdelone.c ./linked_lists/ft_lstlast.c \
-	./linked_lists/ft_lstnew.c ./linked_lists/ft_lstsize.c ./string_helpers/ft_free_strs.c \
-	./string_helpers/ft_split.c ./string_helpers/ft_strdup.c ./string_helpers/ft_strjoin.c \
-	./string_helpers/ft_strlen.c ./string_helpers/ft_strstr.c ./string_helpers/ft_strnstr.c \
-	./string_helpers/ft_strncmp.c ./string_helpers/ft_strcmp.c ./string_helpers/ft_substr.c \
-	./string_helpers/ft_strchr.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c \
-	./linked_lists/ft_lstadd_back_alt.c ./linked_lists/ft_lstnew_alt.c ./linked_lists/ft_lstlast_alt.c
+SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src/parsing/parser.c \
+	./src/parsing/initialization.c ./src/parsing/error_handling.c ./src/parsing/expansion.c \
+	./src/parsing/here_doc.c ./includes/helpers/ft_atoi.c ./includes/helpers/ft_is_whitespace.c ./includes/helpers/ft_isalnum.c \
+	./includes/helpers/ft_isalpha.c ./includes/helpers/ft_isdigit.c ./includes/helpers/ft_putchar_fd.c ./includes/helpers/ft_putnbr_fd.c \
+	./includes/helpers/ft_putstr_fd.c ./includes/helpers/ft_exit_error.c ./includes/helpers/ft_putendl.c ./includes/linked_lists/ft_lstadd_back.c \
+	./includes/linked_lists/ft_lstclear.c ./includes/linked_lists/ft_lstdelone.c ./includes/linked_lists/ft_lstlast.c \
+	./includes/linked_lists/ft_lstnew.c ./includes/linked_lists/ft_lstsize.c ./includes/string_helpers/ft_free_strs.c \
+	./includes/string_helpers/ft_split.c ./includes/string_helpers/ft_strdup.c ./includes/string_helpers/ft_strjoin.c \
+	./includes/string_helpers/ft_strlen.c ./includes/string_helpers/ft_strstr.c ./includes/string_helpers/ft_strnstr.c \
+	./includes/string_helpers/ft_strncmp.c ./includes/string_helpers/ft_strcmp.c ./includes/string_helpers/ft_substr.c \
+	./includes/string_helpers/ft_strchr.c ./includes/get_next_line/get_next_line.c ./includes/get_next_line/get_next_line_utils.c \
+	./includes/linked_lists/ft_lstadd_back_alt.c ./includes/linked_lists/ft_lstnew_alt.c ./includes/linked_lists/ft_lstlast_alt.c
 
 OBJS = ${SRC:.c=.o}
 
@@ -40,11 +41,7 @@ $(NAME) : $(OBJS)
 	@echo "\033[1;32m- minishell compiled!\033[0m"
 
 clean :
-	@rm -rf *.o
-	@rm -rf helpers/*.o
-	@rm -rf linked_lists/*.o
-	@rm -rf get_next_line/*.o
-	@rm -rf string_helpers/*.o
+	@rm -rf $(OBJS)
 	@echo "\033[1;33m- Object files removed!\033[0m"
 
 fclean : clean
