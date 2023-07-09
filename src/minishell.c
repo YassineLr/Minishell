@@ -39,6 +39,13 @@ t_env	**get_env(char **ev)
 		ft_free_strs(str);
 		i++;
 	}
+	// printf("weld lhaj env\n");
+	// i  = 0;
+	// while (ev[i])
+	// {
+	// 	printf("key : %s --> value : %s\n",env[i]->key,env[i]->value);
+	// 	i++;
+	// }
 	env[i] = NULL;
 	return (env);
 }
@@ -80,9 +87,12 @@ int	main(int ac, char **av, char **envp)
 	int			err;
 	int			*hdoc_input;
 	char		*line;
+	// char		*pwd=NULL;
 	t_lexer		*lexer;
 	t_list		*lex_list;
 	t_parser	*p_list;
+	t_env		*env;
+	t_env		*courant;
 	// t_list	*node;
 
 	(void)ac;
@@ -100,12 +110,30 @@ int	main(int ac, char **av, char **envp)
 			remove_quotes(&lex_list);
 			p_list = ft_parser(lex_list, hdoc_input);
 		}
-		while (lex_list)
+		env = execc_get_env(envp);
+		export(p_list, env);
+		courant = env;
+		while (courant)
 		{
-			printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-			lex_list = lex_list->next;
+			printf("%s  =  %s\n", courant->key,courant->value);
+			courant = courant->next;
 		}
-		printf("\n");
+		
+		// printf("%d\n", index_at("yassine", '='));
+		// cd(p_list, env);
+		// while (lex_list)
+		// {
+		// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
+		// 	lex_list = lex_list->next;
+		// }
+		// printf("%s", p_list->command->cmds[0]);
+		// printf("%s", p_list->command->cmds[1]);
+		// int i =0;
+
+		// printf("\n");
+			// int i = -1;
+			// while (p_list->command->cmds[++i])
+			// 	printf("%s\n", p_list->command->cmds[i]);
 		free_lexer(lexer);
 		free(lex_list);
 		lex_list = NULL;
@@ -113,15 +141,11 @@ int	main(int ac, char **av, char **envp)
 		free(line);
 		line = readline("minishell-1.0$ ");
 	}
-}
 
 
 		// int i;
 		// while (p_list)
 		// {
-		// 	i = -1;
-		// 	while (p_list->command->cmds[++i])
-		// 		printf("%s\n", p_list->command->cmds[i]);
 		// 	printf("%d\n", p_list->command->append);
 		// 	// printf("%d\n", *(p_list->command->heredoc));
 		// 	printf("%d\n", p_list->command->pipe);
@@ -129,3 +153,4 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("%d\n", p_list->command->red_out);
 		// 	p_list = p_list->next;
 		// }
+}

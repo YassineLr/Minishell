@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstnew_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 04:37:20 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/07/07 15:49:48 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/07/09 21:04:26 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_pwd()
+t_env	*ft_lstnew_env(char **enviroment)
 {
-    char *pwd = NULL;
+	t_env	*env;
 
-    pwd = getcwd(pwd, 0);
-    if(pwd)
-        printf("%s\n", pwd);
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (0);
+    if(!enviroment[0] || !enviroment[1])
+        return (NULL);
+    env->key = enviroment[0];
+    env->value = enviroment[1];
+	env->next = NULL;
+	return (env);
 }

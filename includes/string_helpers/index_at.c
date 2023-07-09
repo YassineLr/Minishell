@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   index_at.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 04:37:20 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/07/09 20:10:33 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/07/09 20:28:30 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-
-void ft_pwd()
+int	index_at(char *str, char c)
 {
-    char *pwd = NULL;
+	int i;
 
-    pwd = getcwd(pwd, 0);
-    if(pwd)
-        printf("%s\n", pwd);
+	i = 0;
+	while (str[i])
+	{
+		if(str[i] == c)
+			return (i);
+		i++;
+	}
+	return(-1);
 }

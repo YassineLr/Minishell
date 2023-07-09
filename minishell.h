@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -28,6 +29,7 @@ typedef struct s_env
 {
 	char	*key;
 	char	*value;
+	struct s_env *next;
 }	t_env;
 
 typedef struct s_lexer
@@ -92,6 +94,9 @@ void		free_list(t_list *list);
 t_parser	*ft_lstnew_alt(t_cmd *cmd);
 void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
+t_env		*ft_lstnew_env(char **enviroment);
+void		ft_lstadd_back_env(t_env **lst, t_env *new);
+t_env   	*ft_last_env(t_env *lst);
 
 // Lexer
 t_lexer	*init_lexer(char *content, char **envp);
@@ -115,9 +120,11 @@ void	ft_putendl_fd(char *s, int fd);
 int		is_special(char c);
 t_env	**get_env(char **ev);
 int		count_env(char **str);
+t_env	*search_in_env(t_env *env, char *key);
 
 // String helpers
 void	ft_free_strs(char **str);
+int		index_at(char *str, char c);
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char *s1, char const *s2);
@@ -149,5 +156,14 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe);
 int	open_append(char *filename);
 int	open_redout(char *filename);
 int	open_redin(char *filename);
+
+//builtins
+
+void go_home(t_env *env);
+void cd(t_parser *parse ,t_env *env);
+void    export(t_parser *parse, t_env *env);
+
+
+t_env	*execc_get_env(char **envp);
 
 #endif

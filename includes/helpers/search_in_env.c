@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   search_in_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 04:37:20 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/07/09 01:32:26 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/07/09 02:55:28 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_pwd()
+t_env *search_in_env(t_env *env, char *key)
 {
-    char *pwd = NULL;
+    t_env   *courant;
 
-    pwd = getcwd(pwd, 0);
-    if(pwd)
-        printf("%s\n", pwd);
+    courant = env;
+    while (courant)
+    {
+        if(!ft_strcmp(key, courant->key))
+            return (courant);
+        courant = courant->next;
+    }
+    return(NULL);
 }

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 04:37:20 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/07/09 23:08:09 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_pwd()
+t_env	*execc_get_env(char **envp)
 {
-    char *pwd = NULL;
+	int     i;
+    char    **key_val;
+    t_env   *env = NULL;
 
-    pwd = getcwd(pwd, 0);
-    if(pwd)
-        printf("%s\n", pwd);
+    key_val = malloc(2*sizeof(char*));
+    i = 0;
+    
+    while(envp[i])
+    {
+        key_val[0] = ft_strdup(ft_substr(envp[i], 0, index_at(envp[i],'=')));
+        key_val[1] = ft_strdup(ft_strchr(envp[i],'=')+1);
+        ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+        i++;
+    }
+    return (env);
 }
