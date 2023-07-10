@@ -62,13 +62,17 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_reds
+{
+	int				fd;
+	int				type;
+	struct s_reds	*next;
+}
+
 typedef struct s_cmd
 {
 	char	**cmds;
 	int		pipe;
-	int		red_out;
-	int		red_in;
-	int		append;
 	int		*heredoc;
 }	t_cmd;
 
@@ -162,9 +166,9 @@ int	open_redin(char *filename);
 
 //builtins
 
-void go_home(t_env *env);
-void cd(t_parser *parse ,t_env *env);
-void    export(t_parser *parse, t_env *env);
+void	go_home(t_env *env);
+void	cd(t_parser *parse ,t_env *env);
+void	export(t_parser *parse, t_env *env);
 
 
 t_env	*execc_get_env(char **envp);

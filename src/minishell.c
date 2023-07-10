@@ -22,6 +22,38 @@ int	count_env(char **str)
 	return (i);
 }
 
+void	remove_spaces(t_list **head)
+{
+	t_list *current;
+	t_list *prev;
+
+	current = *head;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (current->token->type == WHITESPACE && current->next->token->type != WORD)
+		{
+			if (prev == NULL)
+			{
+				*head = current->next;
+				ft_lstdelone(current, &free);
+				current = *head;
+			}
+			else
+			{
+				prev->next = current->next;
+				ft_lstdelone(current, &free);
+				current = prev->next;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+
 void	remove_quotes(t_list **head)
 {
 	t_list *current;
@@ -62,7 +94,7 @@ int	main(int ac, char **av, char **envp)
 	// char		*pwd=NULL;
 	t_lexer		*lexer;
 	t_list		*lex_list;
-	// t_parser	*p_list;
+	t_parser	*p_list;
 	// t_env		*env;
 	// t_env		*courant;
 	// t_list	*node;
@@ -80,8 +112,23 @@ int	main(int ac, char **av, char **envp)
 		{
 			hdoc_input = here_doc(lexer, lex_list);
 			remove_quotes(&lex_list);
-			// p_list = ft_parser(lex_list, hdoc_input);
+			// while (lex_list)
+			// {
+			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
+			// 	lex_list = lex_list->next;
+			// }
+			remove_spaces(&lex_list);
+			// while (lex_list)
+			// {
+			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
+			// 	lex_list = lex_list->next;
+			// }
+			p_list = ft_parser(lex_list, hdoc_input);
 		}
+		// int i = -1;
+		// while (p_list->command->cmds[++i])
+		// 	printf("%s\n", p_list->command->cmds[i]);
+		// int jk = 0;
 		// env = execc_get_env(envp);
 		// export(p_list, env);
 		// courant = env;
@@ -93,19 +140,11 @@ int	main(int ac, char **av, char **envp)
 		
 		// printf("%d\n", index_at("yassine", '='));
 		// cd(p_list, env);
-		// while (lex_list)
-		// {
-		// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-		// 	lex_list = lex_list->next;
-		// }
 		// printf("%s", p_list->command->cmds[0]);
 		// printf("%s", p_list->command->cmds[1]);
 		// int i =0;
 
 		// printf("\n");
-			// int i = -1;
-			// while (p_list->command->cmds[++i])
-			// 	printf("%s\n", p_list->command->cmds[i]);
 		add_history(line);
 		free_lexer(lexer);
 		// free(line);

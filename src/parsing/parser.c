@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/07 04:03:32 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/10 22:56:50 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,8 @@ t_cmd	*init_cmd(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (0);
-	cmd->pipe = 0;
-	cmd->red_in = 0;
-	cmd->red_out = 0;
-	cmd->append = 0;
-	cmd->heredoc = 0;
 	cmd->cmds = 0;
+	cmd->pipe = 0;
 	return (cmd);
 }
 
@@ -63,9 +59,22 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 		cmd->cmds = malloc(sizeof(char *) * (count + 1));
 		while (list && (list->token->type == WORD || list->token->type == WHITESPACE))
 		{
-			cmd->cmds[i] = ft_strdup(list->token->value);
-			list = list->next;
-			i++;
+			if (list->next)
+			{
+				if (list->token->type == WHITESPACE && list->next->token->type == WORD)
+				{
+					cmd->cmds[i] = ft_strdup(list->token->value);
+					i++;
+				}
+				else
+					list = list->next;
+			}
+			else
+			{
+				cmd->cmds[i] = ft_strdup(list->token->value);
+				list = list->next;
+				i++;
+			}
 		}
 		cmd->cmds[i] = NULL;
 		if (list)

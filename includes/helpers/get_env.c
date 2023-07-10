@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 23:53:45 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:46:28 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ t_env	*execc_get_env(char **envp)
 {
 	int		i;
 	char	**key_val;
-	t_env	*env = NULL;
+	t_env	*env;
 
-	key_val = malloc(2*sizeof(char*));
 	i = 0;
-	
-	while(envp[i])
+	env = NULL;
+	key_val = malloc(sizeof(char *) * 2);
+	while (envp[i])
 	{
 		key_val[0] = ft_strdup(ft_substr(envp[i], 0, index_at(envp[i], '=')));
 		key_val[1] = ft_strdup(ft_strchr(envp[i],'=') + 1);
