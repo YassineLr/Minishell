@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
+#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/07/09 22:52:53 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/07/10 02:32:39 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,13 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/string_helpers/ft_strchr.c ./includes/string_helpers/index_at.c ./includes/get_next_line/get_next_line.c ./includes/get_next_line/get_next_line_utils.c \
 	./includes/linked_lists/ft_lstadd_back_alt.c ./includes/linked_lists/ft_last_env.c ./includes/linked_lists/ft_lstnew_alt.c ./includes/linked_lists/ft_lstlast_alt.c \
 	./includes/helpers/get_env.c ./includes/helpers/search_in_env.c ./includes/linked_lists/ft_lstadd_back_env.c ./includes/linked_lists/ft_lstnew_env.c \
-	./src/builtins/cd.c ./src/builtins/pwd.c ./src/builtins/echo.c ./src/builtins/export.c
+	./src/builtins/cd.c ./src/builtins/pwd.c ./src/builtins/echo.c ./src/builtins/export.c ./includes/linked_lists/ft_lstclear_env.c ./includes/linked_lists/ft_lstdelone_env.c
 
 OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

@@ -22,34 +22,6 @@ int	count_env(char **str)
 	return (i);
 }
 
-t_env	**get_env(char **ev)
-{
-	int		i;
-	char	**str;
-	t_env	**env;
-
-	i = 0;
-	env = malloc(sizeof(t_env *) * (count_env(ev) + 1));
-	while (ev[i])
-	{
-		env[i] = malloc(sizeof(t_env));
-		str = ft_split(ev[i], '=');
-		env[i]->key = ft_strdup(str[0]);
-		env[i]->value = ft_strdup(str[1]);
-		ft_free_strs(str);
-		i++;
-	}
-	// printf("weld lhaj env\n");
-	// i  = 0;
-	// while (ev[i])
-	// {
-	// 	printf("key : %s --> value : %s\n",env[i]->key,env[i]->value);
-	// 	i++;
-	// }
-	env[i] = NULL;
-	return (env);
-}
-
 void	remove_quotes(t_list **head)
 {
 	t_list *current;
@@ -90,9 +62,9 @@ int	main(int ac, char **av, char **envp)
 	// char		*pwd=NULL;
 	t_lexer		*lexer;
 	t_list		*lex_list;
-	t_parser	*p_list;
-	t_env		*env;
-	t_env		*courant;
+	// t_parser	*p_list;
+	// t_env		*env;
+	// t_env		*courant;
 	// t_list	*node;
 
 	(void)ac;
@@ -108,16 +80,16 @@ int	main(int ac, char **av, char **envp)
 		{
 			hdoc_input = here_doc(lexer, lex_list);
 			remove_quotes(&lex_list);
-			p_list = ft_parser(lex_list, hdoc_input);
+			// p_list = ft_parser(lex_list, hdoc_input);
 		}
-		env = execc_get_env(envp);
-		export(p_list, env);
-		courant = env;
-		while (courant)
-		{
-			printf("%s  =  %s\n", courant->key,courant->value);
-			courant = courant->next;
-		}
+		// env = execc_get_env(envp);
+		// export(p_list, env);
+		// courant = env;
+		// while (courant)
+		// {
+		// 	printf("%s  =  %s\n", courant->key,courant->value);
+		// 	courant = courant->next;
+		// }
 		
 		// printf("%d\n", index_at("yassine", '='));
 		// cd(p_list, env);
@@ -134,15 +106,11 @@ int	main(int ac, char **av, char **envp)
 			// int i = -1;
 			// while (p_list->command->cmds[++i])
 			// 	printf("%s\n", p_list->command->cmds[i]);
-		free_lexer(lexer);
-		free(lex_list);
-		lex_list = NULL;
 		add_history(line);
-		free(line);
+		free_lexer(lexer);
+		// free(line);
 		line = readline("minishell-1.0$ ");
 	}
-
-
 		// int i;
 		// while (p_list)
 		// {

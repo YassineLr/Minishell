@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/07 04:03:14 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/10 02:38:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	redirections(t_list *list, int red_type)
 				if (list->token->type == WHITESPACE)
 				{
 					list = list->next;
-					if (list->token->type != WORD && (list->token->type == QUOTES && !list->next))
+					if (list->token->type != WORD || (list->token->type == QUOTES && !list->next))
 						return (0);
 				}
 			}

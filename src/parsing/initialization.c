@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/07 04:03:27 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/10 02:31:31 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,19 @@
 void	free_lexer(t_lexer *lexer)
 {
 	int	i;
-	
+
 	i = -1;
 	if (!lexer)
 		return;
-	while (lexer->env[++i])
-	{
-		free(lexer->env[i]->key);
-		free(lexer->env[i]->value);
-		free(lexer->env[i]);
-	}
-	free(lexer->env);
+	ft_lstclear_env(&lexer->env, &free);
+	free(lexer->content);
 	free(lexer);
+	lexer = NULL;
 }
 
 void	free_list(t_list *list)
 {
-	if (!list)
-		return;
-	while (list)
-	{
-		if (list->token)
-		{
-			if (list->token->value)
-				free(list->token->value);
-			free(list->token);
-		}
-		list = list->next;
-	}
-	free(list);
+	ft_lstclear(&list, &free);
 }
 
 t_lexer	*init_lexer(char *content, char **envp)
@@ -56,7 +40,7 @@ t_lexer	*init_lexer(char *content, char **envp)
 	lexer->content = content;
 	lexer->i = 0;
 	lexer->c = content[lexer->i];
-	lexer->env = get_env(envp);
+	lexer->env = execc_get_env(envp);
 	return (lexer);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/07 04:03:19 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/09 23:57:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 char	*expansion(t_lexer *lexer)
 {
-	int		i;
 	int		start;
 	int		len;
 	char	*str;
 
-	i = 0;
 	len = 0;
 	lexer_advance(lexer);
 	start = lexer->i;
@@ -29,12 +27,15 @@ char	*expansion(t_lexer *lexer)
 		lexer_advance(lexer);
 	}
 	str = ft_substr(lexer->content, start, len);
-	while (lexer->env[i] && ft_strcmp(str, lexer->env[i]->key) != 0)
-		i++;
-	if (lexer->env[i])
+	while (lexer->env)
+	{
+		while (ft_strcmp(str, lexer->env->key) != 0)
+			lexer->env = lexer->env->next;
+	}
+	if (lexer->env)
 	{
 		free(str);
-		return (lexer->env[i]->value);
+		return (lexer->env->value);
 	}
 	free(str);
 	return (ft_strdup(""));

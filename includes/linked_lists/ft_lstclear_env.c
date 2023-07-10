@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   ft_lstclear_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 23:53:45 by oubelhaj         ###   ########.fr       */
+/*   Created: 2023/07/10 01:44:21 by oubelhaj          #+#    #+#             */
+/*   Updated: 2023/07/10 01:46:55 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_env	*execc_get_env(char **envp)
+void	ft_lstclear_env(t_env **lst, void (*del)(void*))
 {
-	int		i;
-	char	**key_val;
-	t_env	*env = NULL;
+	t_env	*tmp;
 
-	key_val = malloc(2*sizeof(char*));
-	i = 0;
-	
-	while(envp[i])
+	if (!lst || !del)
+		return ;
+	while (*lst)
 	{
-		key_val[0] = ft_strdup(ft_substr(envp[i], 0, index_at(envp[i], '=')));
-		key_val[1] = ft_strdup(ft_strchr(envp[i],'=') + 1);
-		ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
-		i++;
+		tmp = (*lst)->next;
+		ft_lstdelone_env(*lst, del);
+		*lst = tmp;
 	}
-	return (env);
+	*lst = NULL;
 }

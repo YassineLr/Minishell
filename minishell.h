@@ -37,7 +37,7 @@ typedef struct s_lexer
 	int		i;
 	char	c;
 	char	*content;
-	t_env	**env;
+	t_env	*env;
 }	t_lexer;
 
 typedef struct s_token
@@ -96,7 +96,9 @@ void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
 t_env		*ft_lstnew_env(char **enviroment);
 void		ft_lstadd_back_env(t_env **lst, t_env *new);
-t_env   	*ft_last_env(t_env *lst);
+t_env		*ft_last_env(t_env *lst);
+void		ft_lstclear_env(t_env **lst, void (*del)(void*));
+void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
 
 // Lexer
 t_lexer	*init_lexer(char *content, char **envp);
@@ -121,6 +123,7 @@ int		is_special(char c);
 t_env	**get_env(char **ev);
 int		count_env(char **str);
 t_env	*search_in_env(t_env *env, char *key);
+
 
 // String helpers
 void	ft_free_strs(char **str);

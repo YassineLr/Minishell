@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/07 04:03:24 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/10 00:12:17 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,15 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd)
 					len++;
 				}
 				tmp = ft_substr(str, start, len);
-				while (lexer->env[j] && ft_strcmp(tmp, lexer->env[j]->key) != 0)
-					j++;
-				if (lexer->env[j])
+				while (lexer->env)
 				{
-					final_str = ft_strjoin(final_str, lexer->env[j]->value);
+					if	(ft_strcmp(tmp, lexer->env->key) == 0)
+						break;
+					lexer->env = lexer->env->next;
+				}
+				if (lexer->env)
+				{
+					final_str = ft_strjoin(final_str, lexer->env->value);
 					// if (tmp)
 					// 	free(tmp);
 				}
@@ -188,7 +192,7 @@ int *here_doc(t_lexer *lexer, t_list *list)
 		list = list->next;
 	}
 	close(end[1]);
-	// printf("%s", get_next_line(end[0]));
+	printf("%s", get_next_line(end[0]));
 	// printf("%s", get_next_line(end[0]));
 	// printf("%s", get_next_line(end[0]));
 	return (end);
