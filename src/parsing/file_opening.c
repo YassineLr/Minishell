@@ -29,7 +29,7 @@ int	open_redout(char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_WRONLY | O_CREAT, 0644);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		perror("");
