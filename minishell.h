@@ -62,17 +62,19 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_reds
+typedef struct s_pipe
 {
-	int				fd;
-	int				type;
-	struct s_reds	*next;
-}
+	int in;
+	int out;
+}	t_pipe;
 
 typedef struct s_cmd
 {
 	char	**cmds;
-	int		pipe;
+	bool 	pipe;
+	t_pipe		pipe_fd;
+	int		red_in;
+	int		red_out;
 	int		*heredoc;
 }	t_cmd;
 
