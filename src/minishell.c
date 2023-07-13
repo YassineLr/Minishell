@@ -31,7 +31,8 @@ void	remove_spaces(t_list **head)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if (current->token->type == WHITESPACE && current->next->token->type != WORD)
+		if ((current->token->type == WHITESPACE && current->next->token->type != WORD)
+			|| (current->token->type == WHITESPACE && prev->token->type != WORD))
 		{
 			if (prev == NULL)
 			{

@@ -68,14 +68,20 @@ typedef struct s_pipe
 	int out;
 }	t_pipe;
 
+typedef struct s_reds
+{
+	int				fd;
+	struct s_reds	*next;
+}	t_reds;
+
 typedef struct s_cmd
 {
-	char	**cmds;
-	bool 	pipe;
+	char		**cmds;
+	int			pipe;
 	t_pipe		pipe_fd;
-	int		red_in;
-	int		red_out;
-	int		*heredoc;
+	int			red_in;
+	int			red_out;
+	int			*heredoc;
 }	t_cmd;
 
 typedef struct s_parser
@@ -105,6 +111,9 @@ void		ft_lstadd_back_env(t_env **lst, t_env *new);
 t_env		*ft_last_env(t_env *lst);
 void		ft_lstclear_env(t_env **lst, void (*del)(void*));
 void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
+t_reds		*ft_lstlast_reds(t_reds *lst);
+t_reds		*ft_lstnew_reds(int fd);
+void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 
 // Lexer
 t_lexer	*init_lexer(char *content, char **envp);

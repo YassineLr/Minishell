@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/10 22:56:50 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/13 00:42:37 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,96 +41,44 @@ t_cmd	*init_cmd(void)
 
 t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 {
-	int			i;
-	// int		hdc;
-	int			count;
-	t_cmd		*cmd;
+	t_list		*node;
 	t_parser	*p_list;
+	t_reds		*red_in = NULL;
+	t_reds		*red_out = NULL;
+	/*  while redirection is found open the file and save fds to close later,
+		except for the last redirection. then save only the last fd of red_in
+		and last of red_out in the parser list, along with the command */
 
+	node = list;
+	while (node && node->token->type != PIPE)
+	{
+		if (node->token->type == RED_IN)
+		{
+			node = node->next;
+			if (node->token->type == WHITESPACE)
+				node = node->next;
+			ft_lstadd_back_reds(&red_in, ft_lstnew_reds(open_redin(node->token->value)));
+		}
+		else if (node->token->type == RED_OUT || node->token->type == APPEND)
+		{
+			node = node->next;
+			if (node->token->type == WHITESPACE)
+				node = node->next;
+			if (node->token->type == RED_OUT)
+				ft_lstadd_back_reds(&red_out, ft_lstnew_reds(open_redout(node->token->value)));
+			else
+				ft_lstadd_back_reds(&red_out, ft_lstnew_reds(open_append(node->token->value)));
+		}
+		node = node->next;
+	}
+	// when pipe is found finish the t_parser node and proceed to the next one, inside a big loop.
+	while (red_in)
+	{
+		printf("%d\n", red_in->fd);
+		red_in = red_in->next;
+	}
+	exit(1);
 	p_list = NULL;
 	(void)hdc_pipe;
-	while (list)
-	{
-		i = 0;
-		cmd = init_cmd();
-		if (!cmd)
-			return (0);
-		count = count_words(list);
-		cmd->cmds = malloc(sizeof(char *) * (count + 1));
-		while (list && (list->token->type == WORD || list->token->type == WHITESPACE))
-		{
-			if (list->next)
-			{
-				if (list->token->type == WHITESPACE && list->next->token->type == WORD)
-				{
-					cmd->cmds[i] = ft_strdup(list->token->value);
-					i++;
-				}
-				else
-					list = list->next;
-			}
-			else
-			{
-				cmd->cmds[i] = ft_strdup(list->token->value);
-				list = list->next;
-				i++;
-			}
-		}
-		cmd->cmds[i] = NULL;
-		if (list)
-		{
-			if (list->token->type == WHITESPACE)
-				list = list->next;
-			if (list->token->type == PIPE)
-			{
-				cmd->pipe = 1;
-				if (list->next->token->type == WHITESPACE)
-					list = list->next;
-			}
-			else if (list->token->type == RED_IN)
-			{
-				list = list->next;
-				if (list->token->type == WHITESPACE)
-					list = list->next;
-				cmd->red_in = open_redin(list->token->value);
-			}
-			else if (list->token->type == RED_OUT)
-			{
-				list = list->next;
-				if (list->token->type == WHITESPACE)
-					list = list->next;
-				cmd->red_out = open_redout(list->token->value);
-			}
-			else if (list->token->type == APPEND)
-			{
-				list = list->next;
-				if (list->token->type == WHITESPACE)
-					list = list->next;
-				cmd->red_in = open_append(list->token->value);
-			}
-			list = list->next;
-		}
-		ft_lstadd_back_alt(&p_list, ft_lstnew_alt(cmd));
-		// if (cmd->cmds)
-		// 	ft_free_strs(cmd->cmds);
-		// if (cmd)
-		// {
-		// 	free(cmd);
-		// 	cmd = NULL;
-		// }
-	}
-	// while (p_list)
-	// {
-	// 	i = -1;
-	// 	printf("-----------------------\n");
-	// 	while (p_list->command->cmds[++i])
-	// 		printf("%s\n", p_list->command->cmds[i]);
-	// 	printf("%d\n", p_list->command->append);
-	// 	printf("%d\n", p_list->command->heredoc);
-	// 	printf("%d\n", p_list->command->pipe);
-	// 	printf("%d\n", p_list->command->red_in);
-	// 	printf("%d\n", p_list->command->red_out);
-	// 	p_list = p_list->next;
-	// }
 	return (p_list);
 }

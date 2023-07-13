@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back_reds.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 18:52:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/12 00:40:04 by oubelhaj         ###   ########.fr       */
+/*   Created: 2023/07/12 00:32:40 by oubelhaj          #+#    #+#             */
+/*   Updated: 2023/07/12 00:33:33 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_lstadd_back_reds(t_reds **lst, t_reds *new)
 {
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+	if (*lst)
+		ft_lstlast_reds(*lst)->next = new;
+	else
+		*lst = new;
 }
