@@ -78,7 +78,7 @@ typedef struct s_cmd
 {
 	char		**cmds;
 	int			pipe;
-	t_pipe		pipe_fd;
+	t_pipe		*pipe_fd;
 	int			red_in;
 	int			red_out;
 	int			*heredoc;
@@ -102,7 +102,7 @@ void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 int			ft_lstsize(t_list *lst);
 void		ft_lstclear(t_list **lst, void (*del)(void*));
-void		free_list(t_list *list);
+void		free_list(t_list **list);
 t_parser	*ft_lstnew_alt(t_cmd *cmd);
 void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
@@ -114,6 +114,7 @@ void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
 t_reds		*ft_lstlast_reds(t_reds *lst);
 t_reds		*ft_lstnew_reds(int fd);
 void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
+void		ft_lstclear_reds(t_reds **lst);
 
 // Lexer
 t_lexer	*init_lexer(char *content, char **envp);

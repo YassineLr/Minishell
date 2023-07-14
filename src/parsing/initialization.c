@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/10 19:24:19 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/14 08:21:20 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	free_lexer(t_lexer *lexer)
 	lexer = NULL;
 }
 
-void	free_list(t_list *list)
+void	free_list(t_list **list)
 {
-	ft_lstclear(&list, &free);
+	ft_lstclear(list, &free);
+	list = NULL;
 }
 
 t_lexer	*init_lexer(char *content, char **envp)

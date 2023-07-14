@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/09 23:57:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/14 08:23:11 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ char	*expansion(t_lexer *lexer)
 	str = ft_substr(lexer->content, start, len);
 	while (lexer->env)
 	{
-		while (ft_strcmp(str, lexer->env->key) != 0)
-			lexer->env = lexer->env->next;
+		if (!ft_strcmp(str, lexer->env->key))
+			break;
+		lexer->env = lexer->env->next;
 	}
 	if (lexer->env)
 	{
 		free(str);
-		return (lexer->env->value);
+		return (ft_strdup(lexer->env->value));
 	}
 	free(str);
 	return (ft_strdup(""));

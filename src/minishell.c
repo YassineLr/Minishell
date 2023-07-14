@@ -95,7 +95,7 @@ int	main(int ac, char **av, char **envp)
 	// char		*pwd=NULL;
 	t_lexer		*lexer;
 	t_list		*lex_list;
-	t_parser	*p_list;
+	// t_parser	*p_list;
 	// t_env		*env;
 	// t_env		*courant;
 	// t_list	*node;
@@ -113,18 +113,13 @@ int	main(int ac, char **av, char **envp)
 		{
 			hdoc_input = here_doc(lexer, lex_list);
 			remove_quotes(&lex_list);
-			// while (lex_list)
-			// {
-			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-			// 	lex_list = lex_list->next;
-			// }
 			remove_spaces(&lex_list);
 			// while (lex_list)
 			// {
 			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
 			// 	lex_list = lex_list->next;
 			// }
-			p_list = ft_parser(lex_list, hdoc_input);
+			// p_list = ft_parser(lex_list, hdoc_input);
 		}
 		// int i = -1;
 		// while (p_list->command->cmds[++i])
@@ -138,17 +133,10 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("%s  =  %s\n", courant->key,courant->value);
 		// 	courant = courant->next;
 		// }
-		
-		// printf("%d\n", index_at("yassine", '='));
-		// cd(p_list, env);
-		// printf("%s", p_list->command->cmds[0]);
-		// printf("%s", p_list->command->cmds[1]);
-		// int i =0;
-
 		// printf("\n");
 		add_history(line);
 		free_lexer(lexer);
-		// free(line);
+		free_list(&lex_list);
 		line = readline("minishell-1.0$ ");
 	}
 		// int i;

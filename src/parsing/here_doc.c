@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/10 21:03:51 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:05:55 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd)
 				tmp = ft_substr(str, start, len);
 				while (lexer->env)
 				{
-					if	(ft_strcmp(tmp, lexer->env->key) == 0)
+					if (ft_strcmp(tmp, lexer->env->key) == 0)
 						break;
 					lexer->env = lexer->env->next;
 				}
@@ -172,8 +172,13 @@ int *here_doc(t_lexer *lexer, t_list *list)
 				list = list->next;
 			}
 			hdoc_line = readline("> ");
+			// printf("--%s--\n", hdoc_line);
+			// printf("--%s--\n", list->token->value);
+			// exit(1);
+			printf("%d\n", count);
 			while (ft_strcmp(hdoc_line, list->token->value))
 			{
+				// printf("dkhl\n");
 				if (i == count - 1)
 				{
 					if (expand == 0)
@@ -188,8 +193,11 @@ int *here_doc(t_lexer *lexer, t_list *list)
 			if (hdoc_line)
 				free(hdoc_line);
 			count--;
+			if (!count)
+				break;
 		}
-		list = list->next;
+		else
+			list = list->next;
 	}
 	close(end[1]);
 	// printf("%s", get_next_line(end[0]));

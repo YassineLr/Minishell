@@ -2,4 +2,11 @@
 // parser
 // remove spaces after operations
 // < ok cat
-// loop in lex_list and save redirections in the reds list, then save the last fd (in and out), and close other fds
+
+// << "<"
+
+// "f"ls""
+
+// "ec"ho l's'$"$USER"
+
+// "ec"ho l's'$"$USER| >> <"
