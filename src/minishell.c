@@ -113,12 +113,12 @@ int	main(int ac, char **av, char **envp)
 		{
 			hdoc_input = here_doc(lexer, lex_list);
 			remove_quotes(&lex_list);
-			remove_spaces(&lex_list);
-			// while (lex_list)
-			// {
-			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-			// 	lex_list = lex_list->next;
-			// }
+			// remove_spaces(&lex_list);
+			while (lex_list)
+			{
+				printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
+				lex_list = lex_list->next;
+			}
 			// p_list = ft_parser(lex_list, hdoc_input);
 		}
 		// int i = -1;

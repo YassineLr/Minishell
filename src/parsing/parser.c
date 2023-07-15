@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/14 09:13:54 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/15 03:06:20 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,42 +113,41 @@ int	get_redin(t_list *list)
 	return (last_red);
 }
 
-t_parser	*ft_parser(t_list *list, int *hdc_pipe)
-{
-	t_parser	*p_list;
-	t_cmd		*cmd;
-	t_reds		*red_in = NULL;
-	t_reds		*red_out = NULL;
-	/*  while redirection is found open the file and save fds to close later,
-		except for the last redirection. then save only the last fd of red_in
-		and last of red_out in the parser list, along with the command */
+// char	**get_cmds(t_list *list)
+// {
+// 	char	**cmds;
 
-	while (1)
-	{
-		cmd = init_cmd();
-		while (list && list->token->type != PIPE)
-		{
-			// cmd->cmds = get_cmds(list);
-			cmd->red_in = get_redin(list);
-			cmd->red_out = get_redout(list);
-			printf("%d\n", cmd->red_out);
-			exit(1);
-			list = list->next;
-		}
-		if (!list)
-			break;
-		// else
-			// set pipe to 1 and advance in list
-		// init a t_parser node here and initialize it with its values;
-	}
+	
+// 	return (cmds);
+// }
 
-	while (red_in)
-	{
-		printf("%d\n", red_in->fd);
-		red_in = red_in->next;
-	}
-	exit(1);
-	p_list = NULL;
-	(void)hdc_pipe;
-	return (p_list);
-}
+// t_parser	*ft_parser(t_list *list, int *hdc_pipe)
+// {
+// 	t_parser	*p_list;
+// 	t_cmd		*cmd;
+// 	/*  while redirection is found open the file and save fds to close later,
+// 		except for the last redirection. then save only the last fd of red_in
+// 		and last of red_out in the parser list, along with the command */
+
+// 	while (1)
+// 	{
+// 		if (!list)
+// 			break;
+// 		cmd = init_cmd();
+// 		while (list && list->token->type != PIPE)
+// 		{
+// 			cmd->cmds = get_cmds(list);
+// 			cmd->red_in = get_redin(list);
+// 			cmd->red_out = get_redout(list);
+// 			printf("%d\n", cmd->red_out);
+// 			exit(1);
+// 			list = list->next;
+// 		}
+// 		// else
+// 			// set pipe to 1 and advance in list
+// 		// init a t_parser node here and initialize it with its values;
+// 	}
+// 	p_list = NULL;
+// 	(void)hdc_pipe;
+// 	return (p_list);
+// }
