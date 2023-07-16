@@ -6,11 +6,25 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/15 03:06:20 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:10:42 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	count_cmds(t_list *list)
+{
+	int	count;
+
+	count = 0;
+	while (list)
+	{
+		if (list->token && list->token->type == PIPE)
+			count++;
+		list = list->next;
+	}
+	return (count + 1);
+}
 
 int	count_words(t_list *list)
 {
@@ -19,10 +33,14 @@ int	count_words(t_list *list)
 	count = 0;
 	while (list)
 	{
-		if (list->token->type != WORD && list->token->type != WHITESPACE)
+		if (list->token->type == RED_IN || list->token->type == RED_OUT || list->token->type == APPEND
+			|| list->token->type == HEREDOC)
+			list = list->next;
+		else if (list->token->type == PIPE)
 			break;
+		else
+			count++;
 		list = list->next;
-		count++;
 	}
 	return (count);
 }
@@ -113,41 +131,59 @@ int	get_redin(t_list *list)
 	return (last_red);
 }
 
-// char	**get_cmds(t_list *list)
-// {
-// 	char	**cmds;
+char	**get_cmds(t_list *list)
+{
+	int		i;
+	char	**cmds;
 
-	
-// 	return (cmds);
-// }
+	i = 0;
+	cmds = malloc(sizeof(char *) * (count_words(list) + 1));
+	while (list)
+	{
+		if (list->token->type == RED_IN || list->token->type == RED_OUT || list->token->type == APPEND
+			|| list->token->type == HEREDOC)
+			list = list->next;
+		else if (list->token->type == PIPE)
+			break;
+		else if (list->token->type == WORD)
+		{
+			cmds[i] = ft_strdup(list->token->value);
+			i++;
+		}
+		list = list->next;
+	}
+	cmds[i] = NULL;
+	return (cmds);
+}
 
-// t_parser	*ft_parser(t_list *list, int *hdc_pipe)
-// {
-// 	t_parser	*p_list;
-// 	t_cmd		*cmd;
-// 	/*  while redirection is found open the file and save fds to close later,
-// 		except for the last redirection. then save only the last fd of red_in
-// 		and last of red_out in the parser list, along with the command */
+t_parser	*ft_parser(t_list *list, int *hdc_pipe)
+{
+	t_parser	*p_list;
+	t_cmd		**cmd;
+	int			i;
 
-// 	while (1)
-// 	{
-// 		if (!list)
-// 			break;
-// 		cmd = init_cmd();
-// 		while (list && list->token->type != PIPE)
-// 		{
-// 			cmd->cmds = get_cmds(list);
-// 			cmd->red_in = get_redin(list);
-// 			cmd->red_out = get_redout(list);
-// 			printf("%d\n", cmd->red_out);
-// 			exit(1);
-// 			list = list->next;
-// 		}
-// 		// else
-// 			// set pipe to 1 and advance in list
-// 		// init a t_parser node here and initialize it with its values;
-// 	}
-// 	p_list = NULL;
-// 	(void)hdc_pipe;
-// 	return (p_list);
-// }
+	(void)hdc_pipe;
+	i = 0;
+	p_list = NULL;
+	cmd = malloc(sizeof(char *) * (count_cmds(list) + 1));
+	while (1)
+	{
+		if (!list)
+			break;
+		cmd[i] = init_cmd();
+		cmd[i]->cmds = get_cmds(list);
+		cmd[i]->red_in = get_redin(list);
+		cmd[i]->red_out = get_redout(list);
+		while (list && list->token && list->token->type != PIPE)
+			list = list->next;
+		if (list && list->token && list->token->type == PIPE)
+		{
+			cmd[i]->pipe = 1;
+			list = list->next;
+		}
+		ft_lstadd_back_alt(&p_list, ft_lstnew_alt(cmd[i]));
+		i++;
+	}
+	cmd[i] = NULL;
+	return (p_list);
+}

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/10 02:38:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/16 20:03:52 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ int	check_pipes(t_list *list)
 	{
 		if (list->token->type == PIPE)
 		{
+			if (!list->next)
+				return (0);
+			list = list->next;
 			if (list->next)
 			{
-				if (list->next->token->type == PIPE)
+				if (list->token->type == WHITESPACE)
+					list = list->next;
+				if (list->token->type == PIPE)
 					return (0);
 			}
 			else
@@ -51,15 +56,15 @@ int	redirections(t_list *list, int red_type)
 	{
 		if ((int)list->token->type == red_type)
 		{
+			if (!list->next)
+				return (0);
+			list = list->next;
 			if (list->next)
 			{
-				list = list->next;
 				if (list->token->type == WHITESPACE)
-				{
 					list = list->next;
-					if (list->token->type != WORD || (list->token->type == QUOTES && !list->next))
-						return (0);
-				}
+				if (list->token->type != WORD && list->token->type != QUOTES)
+					return (0);
 			}
 			else
 				return (0);

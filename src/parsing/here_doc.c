@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/14 09:05:55 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/16 11:22:21 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ int *here_doc(t_lexer *lexer, t_list *list)
 			// printf("--%s--\n", hdoc_line);
 			// printf("--%s--\n", list->token->value);
 			// exit(1);
-			printf("%d\n", count);
 			while (ft_strcmp(hdoc_line, list->token->value))
 			{
 				// printf("dkhl\n");
@@ -200,8 +199,8 @@ int *here_doc(t_lexer *lexer, t_list *list)
 			list = list->next;
 	}
 	close(end[1]);
-	// printf("%s", get_next_line(end[0]));
-	// printf("%s", get_next_line(end[0]));
+	printf("%s", get_next_line(end[0]));
+	printf("%s", get_next_line(end[0]));
 	// printf("%s", get_next_line(end[0]));
 	return (end);
 }
