@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/16 19:10:42 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:33:24 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,11 @@ int	get_redin(t_list *list)
 		list = list->next;
 	}
 	if (red_ins)
+	{
+		while (red_ins->next)
+			red_ins = red_ins->next;
 		last_red = red_ins->fd;
+	}
 	ft_lstclear_reds(&red_ins);
 	return (last_red);
 }
