@@ -101,14 +101,15 @@ int	main(int ac, char **av, char **envp)
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
-	// t_env		*env;
-	// t_env		*courant;
+	t_env		*env;
+	t_env		*courant;
 	// t_list	*node;
 
 	(void)ac;
 	(void)av;
 	tmp_list = NULL;
 	lex_list = NULL;
+	env = execc_get_env(envp);
 	line = readline("minishell-1.0$ ");
 	while (line)
 	{
@@ -134,9 +135,16 @@ int	main(int ac, char **av, char **envp)
 		// while (p_list->command->cmds[++i])
 		// 	printf("%s\n", p_list->command->cmds[i]);
 		// int jk = 0;
-		// env = execc_get_env(envp);
-		// export(p_list, env);
+		// printf("===== before =====\n");
 		// courant = env;
+		// while (courant)
+		// {
+		// 	printf("%s  =  %s\n", courant->key,courant->value);
+		// 	courant = courant->next;
+		// }
+		export(p_list,&env);
+		courant = env;
+		// printf("===== after =====\n");
 		// while (courant)
 		// {
 		// 	printf("%s  =  %s\n", courant->key,courant->value);
