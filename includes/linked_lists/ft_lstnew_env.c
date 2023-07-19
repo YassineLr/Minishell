@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:48 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 10:13:01 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:14:11 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*ft_lstnew_env(char **enviroment)
 	if (enviroment[1])
 		env->value = enviroment[1];
 	else
-		env->value = "";
+		env->value = NULL;
 	env->next = NULL;
 	return (env);
 }

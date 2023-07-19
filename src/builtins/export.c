@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 10:11:55 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:15:45 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ void    export_no_args(t_env *env)
     courant = env;
     while (courant)
     {
-        printf("%s=%s\n", courant->key, courant->value);
+        if(courant->value)
+            printf("%s=%s\n", courant->key, courant->value);
+        else
+            printf("%s\n", courant->key);
         courant = courant->next;
     }
 }
@@ -102,10 +105,7 @@ void    export(t_parser *parse, t_env **env)
             if(!invalid_identifier(key_val[0]))
                 ft_putstr_fd("invalid identifier\n",2);
             if(last_char(key_val[0]) == '+')
-            {
-                printf("concate\n");
                 concate_val(*env, key_val);
-            }
             else
             {
                 if (key_exist(*env, key_val))
@@ -114,6 +114,8 @@ void    export(t_parser *parse, t_env **env)
                     ft_lstadd_back_env(env,ft_lstnew_env(key_val));
             }
         }
+        else if (index_at(parse->command->cmds[i],'=') == -1)
+            ft_lstadd_back_env(env,ft_lstnew_env(ft_split(parse->command->cmds[1], '=')));
         i++;
     }
 }
