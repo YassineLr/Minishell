@@ -142,7 +142,8 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("%s  =  %s\n", courant->key,courant->value);
 		// 	courant = courant->next;
 		// }
-		export(p_list,&env);
+		if(!strcmp(p_list->command->cmds[0],"export"))
+			export(p_list,&env);
 		courant = env;
 		// printf("===== after =====\n");
 		// while (courant)
@@ -151,6 +152,8 @@ int	main(int ac, char **av, char **envp)
 		// 	courant = courant->next;
 		// }
 		// printf("\n");
+		if(!strcmp(p_list->command->cmds[0],"env"))
+			ft_env(env);
 		add_history(line);
 		free_lexer(lexer);
 		free_list(&tmp_list);

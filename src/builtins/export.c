@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 14:15:45 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:00:31 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,17 @@ int invalid_identifier(char *str)
 void concate_val(t_env *env, char **key_val)
 {
     t_env   *to_concate;
-    char    *new_identifier;
+    // char    *new_identifier;
     // char    *new_value;
     
-    new_identifier = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
-    // printf("id = %s\t , val : %s\n", new_identifier, key_val[1]);
-    // exit(1);
-    to_concate = search_in_env(env,new_identifier);
-    printf("key => %s\t value => %s\n", to_concate->key, to_concate->value);
+    key_val[0] = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
+    to_concate = search_in_env(env,key_val[0]);
+
+    printf("key => %s, val => %s\n", key_val[0], key_val[1]);
     if(to_concate)
-    {
-        // printf("this is the concat value : ==> %s",to_concate);
-        if (index_at(key_val[0], '+') == ft_strlen(key_val[0])-1)
-        {
-            to_concate->key = new_identifier;
             to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
-        }
-    }
+    else
+        ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
 }
 
 char last_char(char *str)
@@ -95,15 +89,20 @@ void    export(t_parser *parse, t_env **env)
         export_no_args(*env);
         return ;
     }    
+    printf("=>   %s dd\n", parse->command->cmds[1]);
     while (parse->command->cmds[i])
     {
+            // printf("hhhh\n");
         if(index_at(parse->command->cmds[i],'=') != -1 && index_at(parse->command->cmds[i],'='))
         {
             key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
             key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
             // printf("%c %c\n", key_val[0][0],key_val[0][1]);
-            if(!invalid_identifier(key_val[0]))
+            if(invalid_identifier(key_val[0]))
+            {
                 ft_putstr_fd("invalid identifier\n",2);
+                return ;
+            }
             if(last_char(key_val[0]) == '+')
                 concate_val(*env, key_val);
             else
