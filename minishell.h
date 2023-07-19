@@ -64,6 +64,7 @@ typedef struct s_list
 
 typedef struct s_pipe
 {
+	int to_close;
 	int in;
 	int out;
 }	t_pipe;
