@@ -144,6 +144,8 @@ int	main(int ac, char **av, char **envp)
 		// }
 		if(!strcmp(p_list->command->cmds[0],"export"))
 			export(p_list,&env);
+		if(!strcmp(p_list->command->cmds[0],"unset"))
+			unset(p_list,env);
 		courant = env;
 		// printf("===== after =====\n");
 		// while (courant)
