@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/09 03:13:45 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:28:15 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ void cd(t_parser *parse ,t_env *env)
 {
 	char *pwd=NULL;
 	char *oldpwd= NULL;
-	// char *usr;
-	// int i;
-	
+
 	oldpwd = getcwd(oldpwd,0);
-	if(!parse->command->cmds[1])
+	if(parse->command->cmds[1] || ft_strcmp(parse->command->cmds[1], "~"))
 	{	
 		go_home(env);
 		pwd = search_in_env(env, "HOME")->value;
@@ -50,12 +48,11 @@ void cd(t_parser *parse ,t_env *env)
 			pwd = getcwd(pwd,0);
 		else
 		{
-			ft_putstr_fd("cd: No such file or directory",2);
+			ft_putstr_fd("cd: No such file or directory\n",2);
+			return ;
 		}
 	}
 	update_pwd(env, oldpwd, pwd);
-	printf("oldpwd : [%s] | pwd : [%s]\n", search_in_env(env,"OLDPWD")->value, search_in_env(env,"PWD")->value);
-	printf("in the end : %s\n", getcwd(pwd, 100));
 }
 // int		main(int ac, char **av)
 // {

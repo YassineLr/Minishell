@@ -146,6 +146,10 @@ int	main(int ac, char **av, char **envp)
 			export(p_list,&env);
 		if(!strcmp(p_list->command->cmds[0],"unset"))
 			unset(p_list,env);
+		if(!strcmp(p_list->command->cmds[0],"cd"))
+			cd(p_list,env);
+		if(!strcmp(p_list->command->cmds[0],"pwd"))
+			pwd();
 		courant = env;
 		// printf("===== after =====\n");
 		// while (courant)

@@ -184,7 +184,7 @@ void	cd(t_parser *parse ,t_env *env);
 void	export(t_parser *parse, t_env **env);
 void 	ft_env(t_env *env);
 void    unset(t_parser *parse, t_env *env);
-
+void 	pwd(void);
 
 t_env	*execc_get_env(char **envp);
 
