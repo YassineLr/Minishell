@@ -150,6 +150,8 @@ int	main(int ac, char **av, char **envp)
 			cd(p_list,env);
 		if(!strcmp(p_list->command->cmds[0],"pwd"))
 			pwd();
+		if(!strcmp(p_list->command->cmds[0],"echo"))
+			ft_echo(p_list);
 		courant = env;
 		// printf("===== after =====\n");
 		// while (courant)
