@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:31 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:01:49 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int key_exist(t_env *env, char **key_val)
 int invalid_identifier(char *str)
 {
     int i;
-    // int length;
 
     i = 0;
     while (str[i] && i < ft_strlen(str) - 1)
@@ -33,15 +32,11 @@ int invalid_identifier(char *str)
     }
     if(!(str[i] == '_' || ft_isalnum(str[i]) || str[i] == '+'))
             return(0);
-    // if(str[i] != '+')
-    //     return (0);
     return(1);
 }
 void concate_val(t_env *env, char **key_val)
 {
     t_env   *to_concate;
-    // char    *new_identifier;
-    // char    *new_value;
     
     key_val[0] = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
     to_concate = search_in_env(env,key_val[0]);
@@ -71,9 +66,9 @@ void    export_no_args(t_env *env)
     while (courant)
     {
         if(courant->value)
-            printf("%s=%s\n", courant->key, courant->value);
+            printf("declare -x %s=\"%s\"\n", courant->key, courant->value);
         else
-            printf("%s\n", courant->key);
+            printf("declare -x %s\n", courant->key);
         courant = courant->next;
     }
 }
@@ -83,27 +78,23 @@ void    export(t_parser *parse, t_env **env)
     char    **key_val;
     int     i = 1;
 
-    key_val = malloc(2*sizeof(char*));
     if (!parse->command->cmds[1])
     {
         export_no_args(*env);
         return ;
     }    
-    printf("=>   %s dd\n", parse->command->cmds[1]);
     while (parse->command->cmds[i])
     {
-            // printf("hhhh\n");
-        if(index_at(parse->command->cmds[i],'=') != -1 && index_at(parse->command->cmds[i],'='))
+        if(!(parse->command->cmds[i][0] == '_' || ft_isalnum(parse->command->cmds[i][0])))
+            ft_putstr_fd("invalid identifier haha\n",2);
+        else if(index_at(parse->command->cmds[i],'=') != -1)
         {
+            key_val = malloc(2*sizeof(char*));
             key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
             key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
-            // printf("%c %c\n", key_val[0][0],key_val[0][1]);
-            if(invalid_identifier(key_val[0]))
-            {
-                ft_putstr_fd("invalid identifier\n",2);
-                return ;
-            }
-            if(last_char(key_val[0]) == '+')
+            if(!invalid_identifier(key_val[0]))
+                ft_putstr_fd("invalid identifier 2\n",2);
+            else if(last_char(key_val[0]) == '+')
                 concate_val(*env, key_val);
             else
             {
@@ -114,14 +105,7 @@ void    export(t_parser *parse, t_env **env)
             }
         }
         else if (index_at(parse->command->cmds[i],'=') == -1)
-            ft_lstadd_back_env(env,ft_lstnew_env(ft_split(parse->command->cmds[1], '=')));
+            ft_lstadd_back_env(env,ft_lstnew_env(ft_split(parse->command->cmds[i], '=')));
         i++;
     }
 }
-
-// invalid identifier (alphanum + underscore)
-// +=
-// identifier (value is null && dont display in env but display in export)
-// identifier= (is equal to idenyifier="" display in both)
-// export j; exprt jj; export jjj
-// export jjj; export jj; export j
