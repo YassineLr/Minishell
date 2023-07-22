@@ -56,12 +56,14 @@ void	remove_type(t_list **head, int type)
 
 t_list **join_words(t_list **list, t_list *tmp_list)
 {
+	int		flag;
 	char	*tmp;
 
+	flag = 0;
 	// tmp = NULL;
 	while (tmp_list)
 	{
-		if (tmp_list->token->type != WORD)
+		if (tmp_list->token->type != WORD && tmp_list->token->type != QUOTES)
 			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->type, ft_strdup(tmp_list->token->value))));
 		else
 		{
@@ -75,10 +77,15 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 					tmp_list = tmp_list->next;
 				}
 				else if (tmp_list->token->type == QUOTES)
+				{
+					flag = 1;
 					tmp_list = tmp_list->next;
+				}
 				else
 					break;
 			}
+			if (flag == 1)
+				ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string('\''))));
 			ft_lstadd_back(list, ft_lstnew(init_token(WORD, ft_strdup(tmp))));
 			free(tmp);
 		}
@@ -122,14 +129,13 @@ int	main(int ac, char **av, char **envp)
 			remove_type(&lex_list, WHITESPACE);
 			hdoc_input = here_doc(lexer, lex_list);
 			remove_type(&lex_list, QUOTES);
-			// while (lex_list)
-			// {
-			// 	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-			// 	lex_list = lex_list->next;
-			// }
-			// exit(1);
-			if (err != 0)
-				p_list = ft_parser(lex_list, hdoc_input);
+			//while (lex_list)
+			//{
+			//	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
+			//	lex_list = lex_list->next;
+			//}
+			//if (err != 0)
+			//	p_list = ft_parser(lex_list, hdoc_input);
 		}
 		// int i = -1;
 		// while (p_list->command->cmds[++i])

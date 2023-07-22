@@ -143,7 +143,10 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
 			lexer_advance(lexer);
 			if (lexer->c)
+			{
 				ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '\'', hc_flag))));
+				ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string('\''))));
+			}
 			hc_flag = 0;
 		}
 		else if (lexer->c == '"')
@@ -151,7 +154,10 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 			ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string(lexer->c))));
 			lexer_advance(lexer);
 			if (lexer->c)
+			{
 				ft_lstadd_back(list, ft_lstnew(init_token(WORD, get_quoted_string(lexer, '"', hc_flag))));
+				ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string('"'))));
+			}
 			hc_flag = 0;
 		}
 		else if (lexer->c == '|')

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/17 11:33:24 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:11:51 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	get_redout(t_list *list)
 	t_reds	*red_outs;
 	int		last_red;
 
-	last_red = -1;
+	last_red = 1;
 	red_outs = NULL;
 	while (list)
 	{
@@ -107,7 +107,7 @@ int	get_redin(t_list *list)
 	t_reds	*red_ins;
 	int		last_red;
 
-	last_red = -1;
+	last_red = 0;
 	red_ins = NULL;
 	while (list)
 	{
