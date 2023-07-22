@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/22 17:39:41 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/22 22:28:29 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	heredoc_count(t_list *list)
 	return (count);
 }
 
-void	expansion_v2(t_lexer *lexer, char *str, int fd)
+void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env)
 {
 	int		i;
 	int		j;
@@ -104,15 +104,17 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd)
 					len++;
 				}
 				tmp = ft_substr(str, start, len);
-				while (lexer->env)
+				while (env)
 				{
-					if (ft_strcmp(tmp, lexer->env->key) == 0)
+					//printf("dkhl\n");
+					//exit(1);
+					if (ft_strcmp(tmp, env->key) == 0)
 						break;
-					lexer->env = lexer->env->next;
+					env = env->next;
 				}
-				if (lexer->env)
+				if (env)
 				{
-					final_str = ft_strjoin(final_str, lexer->env->value);
+					final_str = ft_strjoin(final_str, env->value);
 					// if (tmp)
 					// 	free(tmp);
 				}
@@ -139,7 +141,7 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd)
 		ft_putendl_fd(final_str, fd);
 }
 
-int *here_doc(t_lexer *lexer, t_list *list)
+int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 {
 	int		i;
 	int		expand;
@@ -183,7 +185,7 @@ int *here_doc(t_lexer *lexer, t_list *list)
 					if (expand == 0)
 						ft_putendl_fd(hdoc_line, end[1]);
 					else
-						expansion_v2(lexer, hdoc_line, end[1]);
+						expansion_v2(lexer, hdoc_line, end[1], env);
 				}
 				if (hdoc_line)
 					free(hdoc_line);

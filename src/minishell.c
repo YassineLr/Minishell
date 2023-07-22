@@ -116,26 +116,32 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	tmp_list = NULL;
 	lex_list = NULL;
-	env = execc_get_env(envp);
 	line = readline("minishell-1.0$ ");
+	env = execc_get_env(envp);
 	while (line)
 	{
-		lexer = init_lexer(line, envp);
-		ft_lexer(lexer, &tmp_list);
+		lexer = init_lexer(line);
+		ft_lexer(lexer, &tmp_list, env);
 		err = check_errors(line, tmp_list);
 		if (err != -1)
 		{
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
-			hdoc_input = here_doc(lexer, lex_list);
+			hdoc_input = here_doc(lexer, lex_list, env);
 			remove_type(&lex_list, QUOTES);
-			//while (lex_list)
+			if (err != 0)
+				p_list = ft_parser(lex_list, hdoc_input);
+			//int i;
+			//while (p_list)
 			//{
-			//	printf("Value :  %s\nType  :  %d\n\n", lex_list->token->value, lex_list->token->type);
-			//	lex_list = lex_list->next;
+			//	i = -1;
+			//	while (p_list->command->cmds[++i])
+			//		printf("cmd[%d] : %s\n", i, p_list->command->cmds[i]);
+			//	printf("pipe : %d\n", p_list->command->pipe);
+			//	printf("red_in : %d\n", p_list->command->red_in);
+			//	printf("red_out : %d\n", p_list->command->red_out);
+			//	p_list = p_list->next;
 			//}
-			//if (err != 0)
-			//	p_list = ft_parser(lex_list, hdoc_input);
 		}
 		// int i = -1;
 		// while (p_list->command->cmds[++i])
@@ -148,7 +154,7 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("%s  =  %s\n", courant->key,courant->value);
 		// 	courant = courant->next;
 		// }
-		if(!strcmp(p_list->command->cmds[0],"export"))
+		/*if(!strcmp(p_list->command->cmds[0],"export"))
 			export(p_list,&env);
 		if(!strcmp(p_list->command->cmds[0],"unset"))
 			unset(p_list,env);
@@ -158,16 +164,16 @@ int	main(int ac, char **av, char **envp)
 			pwd();
 		if(!strcmp(p_list->command->cmds[0],"echo"))
 			ft_echo(p_list);
-		courant = env;
-		// printf("===== after =====\n");
+		courant = env;*/
+	//	// printf("===== after =====\n");
 		// while (courant)
 		// {
 		// 	printf("%s  =  %s\n", courant->key,courant->value);
 		// 	courant = courant->next;
 		// }
 		// printf("\n");
-		if(!strcmp(p_list->command->cmds[0],"env"))
-			ft_env(env);
+	//	if(!strcmp(p_list->command->cmds[0],"env"))
+	//		ft_env(env);
 		add_history(line);
 		free_lexer(lexer);
 		free_list(&tmp_list);

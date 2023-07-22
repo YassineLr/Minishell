@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/14 08:21:20 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:34:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	free_lexer(t_lexer *lexer)
 	i = -1;
 	if (!lexer)
 		return;
-	ft_lstclear_env(&lexer->env, &free);
 	free(lexer->content);
 	free(lexer);
 	lexer = NULL;
@@ -31,7 +30,7 @@ void	free_list(t_list **list)
 	list = NULL;
 }
 
-t_lexer	*init_lexer(char *content, char **envp)
+t_lexer	*init_lexer(char *content)
 {
 	t_lexer	*lexer;
 
@@ -41,7 +40,6 @@ t_lexer	*init_lexer(char *content, char **envp)
 	lexer->content = content;
 	lexer->i = 0;
 	lexer->c = content[lexer->i];
-	lexer->env = execc_get_env(envp);
 	return (lexer);
 }
 

@@ -6,13 +6,13 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/14 08:23:11 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:16:12 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*expansion(t_lexer *lexer)
+char	*expansion(t_lexer *lexer, t_env *env)
 {
 	int		start;
 	int		len;
@@ -27,16 +27,16 @@ char	*expansion(t_lexer *lexer)
 		lexer_advance(lexer);
 	}
 	str = ft_substr(lexer->content, start, len);
-	while (lexer->env)
+	while (env)
 	{
-		if (!ft_strcmp(str, lexer->env->key))
+		if (!ft_strcmp(str, env->key))
 			break;
-		lexer->env = lexer->env->next;
+		env = env->next;
 	}
-	if (lexer->env)
+	if (env)
 	{
 		free(str);
-		return (ft_strdup(lexer->env->value));
+		return (ft_strdup(env->value));
 	}
 	free(str);
 	return (ft_strdup(""));

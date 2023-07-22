@@ -37,7 +37,6 @@ typedef struct s_lexer
 	int		i;
 	char	c;
 	char	*content;
-	t_env	*env;
 }	t_lexer;
 
 typedef struct s_token
@@ -118,8 +117,8 @@ void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
 // Lexer
-t_lexer	*init_lexer(char *content, char **envp);
-void	ft_lexer(t_lexer *lexer, t_list **list);
+t_lexer	*init_lexer(char *content);
+void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespaces(t_lexer *lexer);
 char	*lexer_char_to_string(char c);
@@ -137,7 +136,6 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		is_special(char c);
-t_env	**get_env(char **ev);
 int		count_env(char **str);
 t_env	*search_in_env(t_env *env, char *key);
 
@@ -152,16 +150,16 @@ int		ft_strlen(const char *str);
 char	*ft_strchr(char *buff, char c);
 int		ft_strstr(char *haystack, char *needle);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
-char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag);
+char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag, t_env *env);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
 
 // Expansion
-char	*expansion(t_lexer *lexer);
+char	*expansion(t_lexer *lexer, t_env *env);
 int		heredoc_count(t_list *list);
-void	expansion_v2(t_lexer *lexer, char *str, int fd);
-int		*here_doc(t_lexer *lexer, t_list *list);
+void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
+int		*here_doc(t_lexer *lexer, t_list *list, t_env *env);
 
 // get_next_line
 char	*fill_buff(int fd);
