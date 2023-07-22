@@ -131,17 +131,17 @@ int	main(int ac, char **av, char **envp)
 			remove_type(&lex_list, QUOTES);
 			if (err != 0)
 				p_list = ft_parser(lex_list, hdoc_input);
-			//int i;
-			//while (p_list)
-			//{
-			//	i = -1;
-			//	while (p_list->command->cmds[++i])
-			//		printf("cmd[%d] : %s\n", i, p_list->command->cmds[i]);
-			//	printf("pipe : %d\n", p_list->command->pipe);
-			//	printf("red_in : %d\n", p_list->command->red_in);
-			//	printf("red_out : %d\n", p_list->command->red_out);
-			//	p_list = p_list->next;
-			//}
+			int i;
+			while (p_list)
+			{
+				i = -1;
+				while (p_list->command->cmds[++i])
+					printf("cmd[%d] : %s\n", i, p_list->command->cmds[i]);
+				printf("pipe : %d\n", p_list->command->pipe);
+				printf("red_in : %d\n", p_list->command->red_in);
+				printf("red_out : %d\n", p_list->command->red_out);
+				p_list = p_list->next;
+			}
 		}
 		// int i = -1;
 		// while (p_list->command->cmds[++i])

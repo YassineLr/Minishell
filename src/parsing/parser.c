@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/22 17:11:51 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/23 00:34:48 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,12 @@ int	get_redout(t_list *list)
 		if (list->token->type == RED_OUT)
 		{
 			list = list->next;
-			if (list && list->token && list->token->type == WHITESPACE)
-				list = list->next;
 			if (list && list->token)
 				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_redout(list->token->value)));
 		}
 		else if (list->token->type == APPEND)
 		{
 			list = list->next;
-			if (list && list->token && list->token->type == WHITESPACE)
-				list = list->next;
 			if (list && list->token)
 				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_append(list->token->value)));
 		}
@@ -95,11 +91,25 @@ int	get_redout(t_list *list)
 	if (red_outs)
 	{
 		while (red_outs->next)
+		{
+			close(red_outs->fd);
 			red_outs = red_outs->next;
+		}
 		last_red = red_outs->fd;
 	}
 	ft_lstclear_reds(&red_outs);
 	return (last_red);
+}
+
+int	is_last_hc(t_list *list)
+{
+	while (list && list->token)
+	{
+		if (list->token->type == HEREDOC)
+			return (0);
+		list = list->next;
+	}
+	return (1);
 }
 
 int	get_redin(t_list *list)
@@ -118,20 +128,37 @@ int	get_redin(t_list *list)
 		if (list->token->type == RED_IN)
 		{
 			list = list->next;
-			if (list && list->token && list->token->type == WHITESPACE)
-				list = list->next;
 			if (list && list->token)
 				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list->token->value)));
+		}
+		else if (list->token->type == HEREDOC)
+		{
+			list = list->next;
+			if (list && list->token)
+				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(-2));
 		}
 		list = list->next;
 	}
 	if (red_ins)
 	{
 		while (red_ins->next)
+		{
+			close(red_ins->fd);
 			red_ins = red_ins->next;
-		last_red = red_ins->fd;
+		}
+		if (red_ins->fd == -2)
+		{
+			if (is_last_hc(list))
+			{
+				ft_lstclear_reds(&red_ins);
+				last_red = -2;
+			}
+			else
+				last_red = -1;
+		}
+		else
+			last_red = red_ins->fd;
 	}
-	ft_lstclear_reds(&red_ins);
 	return (last_red);
 }
 
@@ -176,8 +203,10 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 			break;
 		cmd[i] = init_cmd();
 		cmd[i]->cmds = get_cmds(list);
-		cmd[i]->red_in = get_redin(list);
 		cmd[i]->red_out = get_redout(list);
+		cmd[i]->red_in = get_redin(list);
+		if (cmd[i]->red_in == -2)
+			cmd[i]->red_in = hdc_pipe[0];
 		while (list && list->token && list->token->type != PIPE)
 			list = list->next;
 		if (list && list->token && list->token->type == PIPE)
