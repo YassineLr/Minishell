@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 11:47:22 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:02:28 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,44 @@ char    *ft_path(t_parser *parse, t_env *env)
 
 void    ft_dup(t_parser *parse)
 {
-    t_parser *courant;
 
-    courant = parse;
-    while (courant)
-    {
-        if (courant->command->pipe)
-        {
-            dup2(courant->command->pipe_fd.write, STDOUT_FILENO);
-        }
-        else if(courant->command->red_out != -1)
-        {
-            dup2(courant->command->red_out, STDOUT_FILENO);
-        }
-        else if(courant->command->red_in != -1 || courant->command->red_in != -1)
-        {
-            dup2(courant->command->red_in, STDIN_FILENO);
-        }
-    }
+    if (parse->command->pipe)
+        dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
+    if(parse->command->red_out != -1)
+        dup2(parse->command->red_out, STDOUT_FILENO);
+    if(parse->command->red_in != -1 || parse->command->red_in != -1)
+        dup2(parse->command->red_in, STDIN_FILENO);
+    if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
+        close(parse->command->pipe_fd.to_close);
 }
 
+char **env_in_tab(t_env *env)
+{
+    char    **envp;
+    int     count;
+    t_env   *cur;
+    int     i;
+    
+    i = 0;
+    count = 0;
+    cur = env;
+    while (cur)
+    {
+        count++;
+        cur = cur->next;
+    }
+    // exit(100);
+    envp = (char **) malloc((count+1)*sizeof(char *));
+    while (env)
+    {
+        envp[i] = ft_strjoin(env->key,"=");
+        envp[i] = ft_strjoin(envp[i],env->value);
+        env=env->next;
+        i++;
+    }
+    envp[count] = NULL;
+    return(envp);
+}
 void set_pipes(t_parser *parse)
 {
     t_parser     *courant;
@@ -92,6 +110,7 @@ void set_pipes(t_parser *parse)
         {
             pipe(T);
             courant->command->pipe_fd.write = T[1];
+            courant->next->command->pipe_fd.to_close = T[1];
             courant->next->command->pipe_fd.read = T[0];
         }
         courant = courant->next;
@@ -117,4 +136,3 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
         exit(1);
     }
 }
-

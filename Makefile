@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/07/22 15:31:02 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/07/23 19:07:37 by ylr              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/linked_lists/ft_lstadd_back_alt.c ./includes/linked_lists/ft_last_env.c ./includes/linked_lists/ft_lstnew_alt.c ./includes/linked_lists/ft_lstlast_alt.c \
 	./includes/helpers/get_env.c ./includes/helpers/search_in_env.c ./includes/linked_lists/ft_lstadd_back_env.c ./includes/linked_lists/ft_lstnew_env.c \
 	./src/builtins/cd.c  ./src/builtins/unset.c ./src/builtins/pwd.c ./src/builtins/env.c ./src/builtins/echo.c ./src/builtins/export.c ./includes/linked_lists/ft_lstclear_env.c ./includes/linked_lists/ft_lstdelone_env.c \
-	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c
+	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c \
+	./src/execution/execute_cmd.c
 
 OBJS = ${SRC:.c=.o}
 

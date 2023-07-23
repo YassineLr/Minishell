@@ -185,5 +185,6 @@ void 	pwd(void);
 void    ft_echo(t_parser *parse);
 
 t_env	*execc_get_env(char **envp);
-
+void set_pipes(t_parser *parse);
+char **env_in_tab(t_env *env);
 #endif

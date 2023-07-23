@@ -108,8 +108,11 @@ int	main(int ac, char **av, char **envp)
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
+	t_parser	*current;
 	t_env		*env;
 	t_env		*courant;
+	char		**envvv;
+	int i = 0;
 	// t_list	*node;
 
 	(void)ac;
@@ -131,18 +134,34 @@ int	main(int ac, char **av, char **envp)
 			remove_type(&lex_list, QUOTES);
 			if (err != 0)
 				p_list = ft_parser(lex_list, hdoc_input);
-			int i;
-			while (p_list)
-			{
-				i = -1;
-				while (p_list->command->cmds[++i])
-					printf("cmd[%d] : %s\n", i, p_list->command->cmds[i]);
-				printf("pipe : %d\n", p_list->command->pipe);
-				printf("red_in : %d\n", p_list->command->red_in);
-				printf("red_out : %d\n", p_list->command->red_out);
-				p_list = p_list->next;
-			}
+			// int i;
+			// while (p_list)
+			// {
+			// 	i = -1;
+			// 	while (p_list->command->cmds[++i])
+			// 		printf("cmd[%d] : %s\n", i, p_list->command->cmds[i]);
+			// 	printf("pipe : %d\n", p_list->command->pipe);
+			// 	printf("red_in : %d\n", p_list->command->red_in);
+			// 	printf("red_out : %d\n", p_list->command->red_out);
+			// 	p_list = p_list->next;
+			// }
 		}
+		// set_pipes(p_list);
+		current = p_list;
+		while (current)
+		{
+			printf("read : %d\n", current->command->pipe_fd.read);
+			printf("to_close : %d\n", current->command->pipe_fd.to_close);
+			printf("write : %d\n", current->command->pipe_fd.write);
+			current = current->next;
+		}
+		envvv = env_in_tab(env);
+		while (envvv[i])
+		{
+			printf("%s\n",envvv[i]);
+			i++;
+		}
+		
 		// int i = -1;
 		// while (p_list->command->cmds[++i])
 		// 	printf("%s\n", p_list->command->cmds[i]);
@@ -180,14 +199,4 @@ int	main(int ac, char **av, char **envp)
 		free_list(&lex_list);
 		line = readline("minishell-1.0$ ");
 	}
-		// int i;
-		// while (p_list)
-		// {
-		// 	printf("%d\n", p_list->command->append);
-		// 	// printf("%d\n", *(p_list->command->heredoc));
-		// 	printf("%d\n", p_list->command->pipe);
-		// 	printf("%d\n", p_list->command->red_in);
-		// 	printf("%d\n", p_list->command->red_out);
-		// 	p_list = p_list->next;
-		// }
 }
