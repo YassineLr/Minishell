@@ -6,7 +6,7 @@
 /*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/23 19:31:11 by ylr              ###   ########.fr       */
+/*   Updated: 2023/07/23 19:53:21 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char    *ft_path(t_parser *parse, t_env *env)
         exit (127);
     }
     splited = ft_split(paths, ':');
+    // printf("it is splited\n");
     while (splited[i])
     {
         path = ft_strjoin(ft_strjoin(splited[i], "/"), parse->command->cmds[0]);
@@ -83,7 +84,7 @@ void    ft_dup(t_parser *parse)
     // if(parse->command->red_in != -1 || parse->command->red_in != -1)
     //     dup2(parse->command->red_in, STDIN_FILENO);
     if (parse->command->pipe_fd.write != 1)
-        dup2(parse->command->pipe_fd.read, STDIN_FILENO);
+        dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
     if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
         close(parse->command->pipe_fd.to_close);
 }

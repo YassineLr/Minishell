@@ -147,6 +147,7 @@ int	main(int ac, char **av, char **envp)
 			// 	p_list = p_list->next;
 			// }
 		}
+		printf("here 1\n");
 		init_fds(p_list);
 		// current = p_list;
 		// printf("======== after init\n");
@@ -157,7 +158,8 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("write : %d\n", current->command->pipe_fd.write);
 		// 	current = current->next;
 		// }
-		// set_pipes(p_list);
+		printf("here 2\n");
+		set_pipes(p_list);
 		// printf("======== setting pipes\n");
 
 		// current = p_list;
@@ -168,7 +170,15 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("write : %d\n", current->command->pipe_fd.write);
 		// 	current = current->next;
 		// }
-		execute_cmd(p_list, env , envp);
+		printf("here 3\n");
+
+		while (p_list)
+		{
+			execute_cmd(p_list, env , envp);
+			printf("haha\n");
+			p_list = p_list->next;
+		}
+		
 		// printf("here\n");
 		while (waitpid(-1, &status, 0) != -1);
 		
