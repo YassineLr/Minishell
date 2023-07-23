@@ -113,6 +113,7 @@ int	main(int ac, char **av, char **envp)
 	t_env		*courant;
 	char		**envvv;
 	int i = 0;
+	int status;
 	// t_list	*node;
 
 	(void)ac;
@@ -146,8 +147,19 @@ int	main(int ac, char **av, char **envp)
 			// 	p_list = p_list->next;
 			// }
 		}
-		set_pipes(p_list);
-		execute_cmd()
+		init_fds(p_list);
+		// current = p_list;
+		// printf("======== after init\n");
+		// while (current)
+		// {
+		// 	printf("read : %d\n", current->command->pipe_fd.read);
+		// 	printf("to_close : %d\n", current->command->pipe_fd.to_close);
+		// 	printf("write : %d\n", current->command->pipe_fd.write);
+		// 	current = current->next;
+		// }
+		// set_pipes(p_list);
+		// printf("======== setting pipes\n");
+
 		// current = p_list;
 		// while (current)
 		// {
@@ -156,6 +168,10 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("write : %d\n", current->command->pipe_fd.write);
 		// 	current = current->next;
 		// }
+		execute_cmd(p_list, env , envp);
+		// printf("here\n");
+		while (waitpid(-1, &status, 0) != -1);
+		
 		// envvv = env_in_tab(env);
 		// while (envvv[i])
 		// {
