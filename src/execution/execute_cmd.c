@@ -6,7 +6,7 @@
 /*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/23 19:02:28 by ylr              ###   ########.fr       */
+/*   Updated: 2023/07/23 19:14:02 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
     char *path;
     
     id = fork();
+    ft_dup(parse);
     if(!id)
     {
         path = ft_path(parse, env);

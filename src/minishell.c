@@ -146,21 +146,22 @@ int	main(int ac, char **av, char **envp)
 			// 	p_list = p_list->next;
 			// }
 		}
-		// set_pipes(p_list);
-		current = p_list;
-		while (current)
-		{
-			printf("read : %d\n", current->command->pipe_fd.read);
-			printf("to_close : %d\n", current->command->pipe_fd.to_close);
-			printf("write : %d\n", current->command->pipe_fd.write);
-			current = current->next;
-		}
-		envvv = env_in_tab(env);
-		while (envvv[i])
-		{
-			printf("%s\n",envvv[i]);
-			i++;
-		}
+		set_pipes(p_list);
+		execute_cmd()
+		// current = p_list;
+		// while (current)
+		// {
+		// 	printf("read : %d\n", current->command->pipe_fd.read);
+		// 	printf("to_close : %d\n", current->command->pipe_fd.to_close);
+		// 	printf("write : %d\n", current->command->pipe_fd.write);
+		// 	current = current->next;
+		// }
+		// envvv = env_in_tab(env);
+		// while (envvv[i])
+		// {
+		// 	printf("%s\n",envvv[i]);
+		// 	i++;
+		// }
 		
 		// int i = -1;
 		// while (p_list->command->cmds[++i])
