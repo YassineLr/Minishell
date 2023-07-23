@@ -64,8 +64,8 @@ typedef struct s_list
 typedef struct s_pipe
 {
 	int to_close;
-	int in;
-	int out;
+	int write;
+	int read;
 }	t_pipe;
 
 typedef struct s_reds
@@ -78,10 +78,9 @@ typedef struct s_cmd
 {
 	char		**cmds;
 	int			pipe;
-	t_pipe		*pipe_fd;
+	t_pipe		pipe_fd;
 	int			red_in;
 	int			red_out;
-	int			*heredoc;
 }	t_cmd;
 
 typedef struct s_parser

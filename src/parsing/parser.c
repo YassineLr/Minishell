@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/23 00:34:48 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:42:51 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ t_cmd	*init_cmd(void)
 		return (0);
 	cmd->cmds = 0;
 	cmd->pipe = 0;
-	cmd->pipe_fd = 0;
 	cmd->red_in = 0;
 	cmd->red_out = 0;
-	cmd->heredoc = 0;
 	return (cmd);
 }
 
