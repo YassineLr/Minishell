@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/24 00:45:00 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/24 18:47:10 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,15 @@ void set_pipes(t_parser *parse)
         }
         courant = courant->next;
     }
+}
+
+void	exit_status(int status)
+{
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		exit(WTERMSIG(status) + 128);
+	exit(0);
 }
 
 void   execute_cmd(t_parser *parse, t_env *env, char **envp, int id)

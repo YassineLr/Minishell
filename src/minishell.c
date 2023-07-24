@@ -183,15 +183,22 @@ int	main(int ac, char **av, char **envp)
 			p_list = p_list->next;
 		}
 
-	while (cureent)
-	{
-		if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-			close(cureent->command->pipe_fd.to_close);
-		cureent =cureent->next;
-	}
+		// while (cureent)
+		// {
+		// 	printf("red in :%d\t red out : %d\n", cureent->command->red_in, cureent->command->red_out);
+		// 	cureent = cureent->next;
+		// }
+		
+		// while (cureent)
+		// {
+		// 	if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
+		// 		close(cureent->command->pipe_fd.to_close);
+		// 	cureent =cureent->next;
+		// }
 	
 		// printf("here\n");
 		while (waitpid(-1, &status, 0) != -1);
+		// exit_status(status);
 		
 
 		// envvv = env_in_tab(env);
