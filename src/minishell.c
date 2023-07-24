@@ -122,6 +122,11 @@ int	main(int ac, char **av, char **envp)
 	lex_list = NULL;
 	line = readline("minishell-1.0$ ");
 	env = execc_get_env(envp);
+	// while (env)
+	// {
+	// 	printf("key : %s\nvalue : %s\n", env->key, env->value);
+	// 	env = env->next;
+	// }
 	while (line)
 	{
 		lexer = init_lexer(line);
@@ -147,7 +152,7 @@ int	main(int ac, char **av, char **envp)
 			// 	p_list = p_list->next;
 			// }
 		}
-		printf("here 1\n");
+		// printf("here 1\n");
 		init_fds(p_list);
 		// current = p_list;
 		// printf("======== after init\n");
@@ -158,7 +163,7 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("write : %d\n", current->command->pipe_fd.write);
 		// 	current = current->next;
 		// }
-		printf("here 2\n");
+		// printf("here 2\n");
 		set_pipes(p_list);
 		// printf("======== setting pipes\n");
 
@@ -170,17 +175,19 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("write : %d\n", current->command->pipe_fd.write);
 		// 	current = current->next;
 		// }
-		printf("here 3\n");
+		// // printf("here 3\n");
 
-		while (p_list)
-		{
-			execute_cmd(p_list, env , envp);
-			printf("haha\n");
-			p_list = p_list->next;
-		}
+		// int pid = fork();
+		// if (!pid)
+		// 	while (p_list)
+		// 	{
+		// 		execute_cmd(p_list, env , envp);
+		// 		// printf("haha\n");
+		// 		p_list = p_list->next;
+		// 	}
 		
-		// printf("here\n");
-		while (waitpid(-1, &status, 0) != -1);
+		// // printf("here\n");
+		// while (waitpid(-1, &status, 0) != -1);
 		
 		// envvv = env_in_tab(env);
 		// while (envvv[i])
@@ -224,6 +231,7 @@ int	main(int ac, char **av, char **envp)
 		free_lexer(lexer);
 		free_list(&tmp_list);
 		free_list(&lex_list);
+		// free_plist(&p_list);
 		line = readline("minishell-1.0$ ");
 	}
 }
