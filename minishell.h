@@ -102,7 +102,6 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 int			ft_lstsize(t_list *lst);
 void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		free_list(t_list **list);
-void		free_plist(t_parser **list);
 t_parser	*ft_lstnew_alt(t_cmd *cmd);
 void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
@@ -185,7 +184,7 @@ void    unset(t_parser *parse, t_env *env);
 void 	pwd(void);
 void    ft_echo(t_parser *parse);
 
-void   	execute_cmd(t_parser *parse, t_env *env, char **envp);
+void   	execute_cmd(t_parser *parse, t_env *env, char **envp, int id);
 void 	init_fds(t_parser *parse);
 t_env	*execc_get_env(char **envp);
 void 	set_pipes(t_parser *parse);

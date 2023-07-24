@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 # include "../../minishell.h"
 
 char    *ft_path(t_parser *parse, t_env *env)
@@ -76,15 +75,21 @@ void init_fds(t_parser *parse)
 
 void    ft_dup(t_parser *parse)
 {
+
     if (parse->command->pipe_fd.read)
         dup2(parse->command->pipe_fd.read, STDIN_FILENO);
-    // if(parse->command->pipe)
-    // {
+    // if(parse->command->red_out != -1)
+    //     dup2(parse->command->red_out, STDOUT_FILENO);
+    // if(parse->command->red_in != -1 || parse->command->red_in != -1)
+    //     dup2(parse->command->red_in, STDIN_FILENO);
+    if (parse->command->pipe_fd.write != 1)
+        dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
+    if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
+        close(parse->command->pipe_fd.to_close);
+    if(!parse->next)
         if (parse->command->pipe_fd.write != 1)
-            dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
-        // if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
-        //     close(parse->command->pipe_fd.to_close);
-    // }
+            close(parse->command->pipe_fd.write);
+        
 }
 
 char **env_in_tab(t_env *env)
@@ -114,6 +119,7 @@ char **env_in_tab(t_env *env)
     envp[count] = NULL;
     return(envp);
 }
+
 void set_pipes(t_parser *parse)
 {
     t_parser     *courant;
@@ -134,14 +140,12 @@ void set_pipes(t_parser *parse)
     }
 }
 
-void   execute_cmd(t_parser *parse, t_env *env, char **envp)
+void   execute_cmd(t_parser *parse, t_env *env, char **envp, int id)
 {
-    int id;
+    // int id;
     char *path;
     
-    id = fork();
     ft_dup(parse);
-    // printf("here\n");
     if(!id)
     {
         path = ft_path(parse, env);
@@ -155,3 +159,4 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
         exit(1);
     }
 }
+
