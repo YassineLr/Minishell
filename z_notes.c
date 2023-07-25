@@ -5,10 +5,4 @@
 
 // leaks :
 
-// echo "$USER"
-
-// heredoc input is leaked
-
-// in parser
-
-// in expansion and v2
+// 8 bytes in get_cmds, in parser

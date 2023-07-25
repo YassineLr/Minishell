@@ -73,7 +73,11 @@ char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag, t_env *env)
 	while (lexer->c && lexer->c != quotes)
 	{
 		if (lexer->c == '$' && !ft_is_whitespace(lexer->content[lexer->i + 1]) && expand == 1)
-			str = ft_strjoin(str, expansion(lexer, env));
+		{
+			tmp = expansion(lexer, env);
+			str = ft_strjoin(str, tmp);
+			free(tmp);
+		}
 		else
 		{
 			tmp = lexer_char_to_string(lexer->c);
