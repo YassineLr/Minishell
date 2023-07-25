@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/24 01:46:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/25 04:03:27 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,11 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 	t_cmd		**cmd;
 	int			i;
 
-	(void)hdc_pipe;
 	i = 0;
 	p_list = NULL;
 	cmd = malloc(sizeof(char *) * (count_cmds(list) + 1));
+	if (!cmd)
+		return (NULL);
 	while (1)
 	{
 		if (!list)
@@ -213,8 +214,13 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 			list = list->next;
 		}
 		ft_lstadd_back_alt(&p_list, ft_lstnew_alt(cmd[i]));
+		ft_free_strs(cmd[i]->cmds);
 		i++;
 	}
 	cmd[i] = NULL;
+	i = -1;
+	while (cmd[++i])
+		free(cmd[i]);
+	free(cmd);
 	return (p_list);
 }

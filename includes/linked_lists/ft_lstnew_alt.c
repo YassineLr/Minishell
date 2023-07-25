@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 05:34:59 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/13 22:34:43 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/25 04:09:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 t_parser	*ft_lstnew_alt(t_cmd *cmd)
 {
+	int			i;
 	t_parser	*node;
 
+	i = -1;
 	node = malloc(sizeof(t_parser));
 	if (!node)
 		return (0);
-	node->command = cmd;
+	node->command = init_cmd();
+	node->command->cmds = malloc(sizeof(char *) * (ft_count_strs(cmd->cmds) + 1));
+	while (cmd->cmds[++i])
+		node->command->cmds[i] = ft_strdup(cmd->cmds[i]);
+	node->command->cmds[i] = NULL;
+	node->command->pipe = cmd->pipe;
+	node->command->red_in = cmd->red_in;
+	node->command->red_out = cmd->red_out;
 	node->next = NULL;
 	return (node);
 }

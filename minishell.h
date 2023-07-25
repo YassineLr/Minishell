@@ -102,6 +102,7 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 int			ft_lstsize(t_list *lst);
 void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		free_list(t_list **list);
+void		free_plist(t_parser **list);
 t_parser	*ft_lstnew_alt(t_cmd *cmd);
 void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
@@ -153,6 +154,7 @@ char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag, t_env *env);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
+int		ft_count_strs(char **str);
 
 // Expansion
 char	*expansion(t_lexer *lexer, t_env *env);
@@ -168,6 +170,7 @@ char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 // Parser
 t_parser	*ft_parser(t_list *list, int *hdc_pipe);
+t_cmd		*init_cmd(void);
 
 // File control
 int	open_append(char *filename);

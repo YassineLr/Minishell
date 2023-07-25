@@ -149,7 +149,7 @@ int	main(int ac, char **av, char **envp)
 			// }
 		}
 		// printf("here 1\n");
-		init_fds(p_list);
+	//	init_fds(p_list);
 		// current = p_list;
 		// printf("======== after init\n");
 		// while (current)
@@ -160,7 +160,7 @@ int	main(int ac, char **av, char **envp)
 		// 	current = current->next;
 		// }
 		// printf("here 2\n");
-		set_pipes(p_list);
+	//	set_pipes(p_list);
 		// printf("======== setting pipes\n");
 
 		// current = p_list;
@@ -172,16 +172,16 @@ int	main(int ac, char **av, char **envp)
 		// 	current = current->next;
 		// }
 		// printf("here 3\n");
-		int pid = 0;
+	//	int pid = 0;
 	    
-		t_parser *cureent = p_list;
-		while (p_list)
-		{
-			pid = fork();
-			if(!pid)
-				execute_cmd(p_list, env , envp, pid);
-			p_list = p_list->next;
-		}
+		//t_parser *cureent = p_list;
+		//while (p_list)
+		//{
+		//	pid = fork();
+		//	if(!pid)
+		//		execute_cmd(p_list, env , envp, pid);
+		//	p_list = p_list->next;
+		//}
 
 		// while (cureent)
 		// {
@@ -189,15 +189,15 @@ int	main(int ac, char **av, char **envp)
 		// 	cureent = cureent->next;
 		// }
 		
-		while (cureent)
-		{
-			if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-				close(cureent->command->pipe_fd.to_close);
-			cureent =cureent->next;
-		}
+		//while (cureent)
+		//{
+		//	if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
+		//		close(cureent->command->pipe_fd.to_close);
+		//	cureent =cureent->next;
+		//}
 	
 		// printf("here\n");
-		while (waitpid(-1, &status, 0) != -1);
+		//while (waitpid(-1, &status, 0) != -1);
 		// exit_status(status);
 
 		// envvv = env_in_tab(env);
@@ -242,6 +242,7 @@ int	main(int ac, char **av, char **envp)
 		free_lexer(lexer);
 		free_list(&tmp_list);
 		free_list(&lex_list);
+		free_plist(&p_list);
 		line = readline("minishell-1.0$ ");
 	}
 }

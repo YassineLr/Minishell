@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/24 01:58:48 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/25 03:58:26 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,18 @@ void	free_lexer(t_lexer *lexer)
 
 void	free_plist(t_parser **list)
 {
+	int			i = 0;
 	t_parser	*tmp;
 
+	tmp = NULL;
 	while (*list)
 	{
-		ft_free_strs((*list)->command->cmds);
+		i = -1;
+		while ((*list)->command->cmds[++i])
+			free((*list)->command->cmds[i]);
+		free((*list)->command->cmds[i]);
+		free((*list)->command->cmds);
+		free((*list)->command);
 		tmp = (*list)->next;
 		free(*list);
 		*list = tmp;

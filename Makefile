@@ -6,7 +6,7 @@
 #    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/07/24 02:02:36 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/07/25 04:11:10 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/helpers/get_env.c ./includes/helpers/search_in_env.c ./includes/linked_lists/ft_lstadd_back_env.c ./includes/linked_lists/ft_lstnew_env.c \
 	./src/builtins/cd.c  ./src/builtins/unset.c ./src/builtins/pwd.c ./src/builtins/env.c ./src/builtins/echo.c ./src/builtins/export.c ./includes/linked_lists/ft_lstclear_env.c ./includes/linked_lists/ft_lstdelone_env.c \
 	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c \
-	./src/execution/execute_cmd.c
+	./src/execution/execute_cmd.c ./includes/string_helpers/ft_count_strs.c
 
 OBJS = ${SRC:.c=.o}
 
