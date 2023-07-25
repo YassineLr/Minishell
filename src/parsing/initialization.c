@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/25 03:58:26 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/25 04:34:35 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	free_plist(t_parser **list)
 	t_parser	*tmp;
 
 	tmp = NULL;
+	if (!list)
+		return ;
 	while (*list)
 	{
 		i = -1;

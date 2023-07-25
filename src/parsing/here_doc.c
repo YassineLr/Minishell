@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/23 00:35:55 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/25 04:27:08 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,16 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env)
 				tmp = ft_substr(str, start, len);
 				while (env)
 				{
-					//printf("dkhl\n");
-					//exit(1);
 					if (ft_strcmp(tmp, env->key) == 0)
 						break;
 					env = env->next;
 				}
 				if (env)
-				{
 					final_str = ft_strjoin(final_str, env->value);
-					// if (tmp)
-					// 	free(tmp);
+				if (tmp)
+				{
+					free(tmp);
+					tmp = NULL;
 				}
 			}
 		}
@@ -130,15 +129,18 @@ void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env)
 			}
 			tmp = ft_substr(str, start, len);
 			final_str = ft_strjoin(final_str, tmp);
+			if (tmp)
+			{
+				free(tmp);
+				tmp = NULL;
+			}
 		}
-		// if (tmp)
-		// {
-		// 	free(tmp);
-		// 	tmp = NULL;
-		// }
 	}
 	if (final_str)
+	{
 		ft_putendl_fd(final_str, fd);
+		free(final_str);
+	}
 }
 
 int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
