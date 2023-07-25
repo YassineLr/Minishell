@@ -149,7 +149,6 @@ int	main(int ac, char **av, char **envp)
 			// }
 		}
 		// printf("here 1\n");
-	//	init_fds(p_list);
 		// current = p_list;
 		// printf("======== after init\n");
 		// while (current)
@@ -160,7 +159,6 @@ int	main(int ac, char **av, char **envp)
 		// 	current = current->next;
 		// }
 		// printf("here 2\n");
-	//	set_pipes(p_list);
 		// printf("======== setting pipes\n");
 
 		// current = p_list;
@@ -172,32 +170,37 @@ int	main(int ac, char **av, char **envp)
 		// 	current = current->next;
 		// }
 		// printf("here 3\n");
-	//	int pid = 0;
+		int pid = 0;
 	    
-		//t_parser *cureent = p_list;
-		//while (p_list)
-		//{
-		//	pid = fork();
-		//	if(!pid)
-		//		execute_cmd(p_list, env , envp, pid);
-		//	p_list = p_list->next;
-		//}
+		init_fds(p_list);
+		set_pipes(p_list);
+		t_parser *cureent = p_list;
+		while (p_list)
+		{
+			pid = fork();
+			if(!pid)
+				execute_cmd(p_list, env , envp, pid);
+			else
+				if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
+					close(p_list->command->pipe_fd.to_close);
+			p_list = p_list->next;
+		}
+		while (cureent)
+		{
+			if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
+				close(cureent->command->pipe_fd.to_close);
+			cureent =cureent->next;
+		}
 
+		while (waitpid(-1, &status, 0) != -1);
 		// while (cureent)
 		// {
 		// 	printf("red in :%d\t red out : %d\n", cureent->command->red_in, cureent->command->red_out);
 		// 	cureent = cureent->next;
 		// }
 		
-		//while (cureent)
-		//{
-		//	if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-		//		close(cureent->command->pipe_fd.to_close);
-		//	cureent =cureent->next;
-		//}
 	
 		// printf("here\n");
-		//while (waitpid(-1, &status, 0) != -1);
 		// exit_status(status);
 
 		// envvv = env_in_tab(env);
