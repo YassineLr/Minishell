@@ -189,6 +189,10 @@ int	main(int ac, char **av, char **envp)
 		{
 			if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
 				close(cureent->command->pipe_fd.to_close);
+			if(cureent->command->pipe_fd.write !=1 )
+				close(cureent->command->pipe_fd.write);
+			if(cureent->command->pipe_fd.read != 0 )
+				close(cureent->command->pipe_fd.read);
 			cureent =cureent->next;
 		}
 
