@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/25 04:57:05 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:19:34 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,13 @@ int	is_last_hc(t_list *list)
 
 int	get_redin(t_list *list)
 {
+	t_reds	*tmp;
 	t_reds	*red_ins;
 	int		last_red;
 
 	last_red = 0;
 	red_ins = NULL;
+	tmp = NULL;
 	while (list)
 	{
 		if (!list->token)
@@ -139,23 +141,25 @@ int	get_redin(t_list *list)
 	}
 	if (red_ins)
 	{
-		while (red_ins->next)
+		tmp = red_ins;
+		while (tmp->next)
 		{
-			close(red_ins->fd);
-			red_ins = red_ins->next;
+			close(tmp->fd);
+			tmp = tmp->next;
 		}
-		if (red_ins->fd == -2)
+		if (tmp->fd == -2)
 		{
 			if (is_last_hc(list))
-			{
-				ft_lstclear_reds(&red_ins);
 				last_red = -2;
-			}
 			else
 				last_red = -1;
+			ft_lstclear_reds(&red_ins);
 		}
 		else
+		{
 			last_red = red_ins->fd;
+			ft_lstclear_reds(&red_ins);
+		}
 	}
 	return (last_red);
 }
@@ -163,10 +167,14 @@ int	get_redin(t_list *list)
 char	**get_cmds(t_list *list)
 {
 	int		i;
+	int		count;
 	char	**cmds;
 
 	i = 0;
-	cmds = malloc(sizeof(char *) * (count_words(list) + 1));
+	count = count_words(list);
+	if (count == 0)
+		return (NULL);
+	cmds = malloc(sizeof(char *) * (count + 1));
 	while (list)
 	{
 		if (list->token->type == RED_IN || list->token->type == RED_OUT || list->token->type == APPEND
@@ -196,10 +204,8 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 	cmd = malloc(sizeof(char *) * (count_cmds(list) + 1));
 	if (!cmd)
 		return (NULL);
-	while (1)
+	while (list)
 	{
-		if (!list)
-			break;
 		cmd[i] = init_cmd();
 		cmd[i]->cmds = get_cmds(list);
 		cmd[i]->red_out = get_redout(list);
@@ -215,12 +221,17 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 		}
 		ft_lstadd_back_alt(&p_list, ft_lstnew_alt(cmd[i]));
 		ft_free_strs(cmd[i]->cmds);
+		cmd[i]->cmds = NULL;
 		i++;
 	}
 	cmd[i] = NULL;
 	i = -1;
 	while (cmd[++i])
+	{
 		free(cmd[i]);
+		cmd[i] = NULL;
+	}
 	free(cmd);
+	cmd = NULL;
 	return (p_list);
 }
