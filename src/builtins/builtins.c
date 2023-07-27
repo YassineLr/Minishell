@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 02:36:30 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/27 03:50:59 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void builtins(t_parser *parse, t_env *env)
         ft_env(env);
     else if(!ft_strcmp(parse->command->cmds[0], "unset"))
         unset(parse, env);
+    exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/20 12:28:15 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/27 02:43:29 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void cd(t_parser *parse ,t_env *env)
 	char *oldpwd= NULL;
 
 	oldpwd = getcwd(oldpwd,0);
-	if(parse->command->cmds[1] || ft_strcmp(parse->command->cmds[1], "~"))
+	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{	
 		go_home(env);
 		pwd = search_in_env(env, "HOME")->value;

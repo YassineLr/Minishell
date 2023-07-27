@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 02:35:25 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/27 03:53:34 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,24 +151,18 @@ void	exit_status(int status)
 
 void   execute_cmd(t_parser *parse, t_env *env, char **envp, int id)
 {
-    // int id;
     char *path;
     
     ft_dup(parse);
     if(!id)
     {
-        if (in_builtins(parse))
-            builtins(parse, env);
-        else
+        path = ft_path(parse, env);
+        if (!path)
+            exit(127);
+        if (execve(path, parse->command->cmds, envp) == -1)
         {
-            path = ft_path(parse, env);
-            if (!path)
-                exit(127);
-            if (execve(path, parse->command->cmds, envp) == -1)
-            {
-                write(2, "could not execve", 17);
-                exit(127);
-            }
+            write(2, "could not execve", 17);
+            exit(127);
         }
         exit(1);
     }

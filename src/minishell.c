@@ -178,12 +178,17 @@ int	main(int ac, char **av, char **envp)
 		t_parser *cureent = p_list;
 		while (p_list)
 		{
-			pid = fork();
-			if(!pid)
-				execute_cmd(p_list, env , envp, pid);
+			if (in_builtins(p_list))
+				builtins(p_list, env);
 			else
-				if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
-					close(p_list->command->pipe_fd.to_close);
+			{
+				pid = fork();
+				if(!pid)
+					execute_cmd(p_list, env , envp, pid);
+				else
+					if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
+						close(p_list->command->pipe_fd.to_close);
+			}
 			p_list = p_list->next;
 		}
 		while (cureent)
