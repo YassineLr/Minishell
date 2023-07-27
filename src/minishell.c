@@ -176,33 +176,35 @@ int	main(int ac, char **av, char **envp)
 		init_fds(p_list);
 		set_pipes(p_list);
 		t_parser *cureent = p_list;
-		while (p_list)
+		if (in_builtins(p_list) && !p_list->next)
+			builtins(p_list, env, 0);
+		else
 		{
-			if (in_builtins(p_list))
-				builtins(p_list, env);
-			else
+			while (p_list)
 			{
 				pid = fork();
 				if(!pid)
+				{
+					if (in_builtins(p_list))
+						builtins(p_list, env, 1);
 					execute_cmd(p_list, env , envp, pid);
-				else
-					if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
+				}
+				else if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
 						close(p_list->command->pipe_fd.to_close);
+				p_list = p_list->next;
 			}
-			p_list = p_list->next;
+			while (cureent)
+			{
+				if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
+					close(cureent->command->pipe_fd.to_close);
+				if(cureent->command->pipe_fd.write !=1 )
+					close(cureent->command->pipe_fd.write);
+				if(cureent->command->pipe_fd.read != 0 )
+					close(cureent->command->pipe_fd.read);
+				cureent =cureent->next;
+			}
+			while(waitpid(-1, &status, 0) != -1);
 		}
-		while (cureent)
-		{
-			if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-				close(cureent->command->pipe_fd.to_close);
-			if(cureent->command->pipe_fd.write !=1 )
-				close(cureent->command->pipe_fd.write);
-			if(cureent->command->pipe_fd.read != 0 )
-				close(cureent->command->pipe_fd.read);
-			cureent =cureent->next;
-		}
-
-		while(waitpid(-1, &status, 0) != -1);
 		// while (cureent)
 		// {
 		// 	printf("red in :%d\t red out : %d\n", cureent->command->red_in, cureent->command->red_out);

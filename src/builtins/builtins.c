@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 03:50:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:57:40 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int in_builtins(t_parser *parse)
     return 0;
 }
 
-void builtins(t_parser *parse, t_env *env)
+void builtins(t_parser *parse, t_env *env, int child)
 {
+    if(child)
+        ft_dup(parse);
     if(!ft_strcmp(parse->command->cmds[0], "echo"))
         ft_echo(parse);
     else if(!ft_strcmp(parse->command->cmds[0], "cd"))
@@ -43,5 +45,6 @@ void builtins(t_parser *parse, t_env *env)
         ft_env(env);
     else if(!ft_strcmp(parse->command->cmds[0], "unset"))
         unset(parse, env);
-    exit(0);
+    if(child)
+        exit(0);
 }
