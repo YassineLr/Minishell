@@ -186,6 +186,8 @@ void 	ft_env(t_env *env);
 void    unset(t_parser *parse, t_env *env);
 void 	pwd(void);
 void    ft_echo(t_parser *parse);
+int 	in_builtins(t_parser *parse);
+void 	builtins(t_parser *parse, t_env *env);
 
 void   	execute_cmd(t_parser *parse, t_env *env, char **envp, int id);
 void 	init_fds(t_parser *parse);
