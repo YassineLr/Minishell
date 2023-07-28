@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/22 18:16:12 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:10:06 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,3 @@ char	*expansion(t_lexer *lexer, t_env *env)
 	free(str);
 	return (ft_strdup(""));
 }
-
-/*
-	bash-3.2$	export a="a "
-	bash-3.2$	ls > $a
-
-	bash-3.2$	< $ssss
-	bash:		$ssss: ambiguous redirect
-
-	bash-3.2$	export a="a b d"
-	bash-3.2$	< $a
-	bash: $a:	ambiguous redirect
-	bash-3.2$	< "$a"
-	bash: a b d: No such file or directory
-	bash-3.2$
-
-	<< ee | <>
-*/

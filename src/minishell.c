@@ -130,134 +130,54 @@ int	main(int ac, char **av, char **envp)
 		err = check_errors(line, tmp_list);
 		if (err != -1)
 		{
-			// printf("dkhl\n");
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
 			hdoc_input = here_doc(lexer, lex_list, env);
 			remove_type(&lex_list, QUOTES);
 			if (err == 1)
+			{
 				p_list = ft_parser(lex_list, hdoc_input);
-			// int i;
-			// while (p_list)
-			// {
-			// 	i = -1;
-			// 	while (p_list->command->cmds[++i])
-			// 		printf("cmd[%d]    :     %s\n", i, p_list->command->cmds[i]);
-			// 	printf("pipe      :     %d\n", p_list->command->pipe);
-			// 	printf("red_in    :     %d\n", p_list->command->red_in);
-			// 	printf("red_out   :     %d\n", p_list->command->red_out);
-			// 	p_list = p_list->next;
-			// }
-		}
-		// printf("here 1\n");
-		// current = p_list;
-		// printf("======== after init\n");
-		// while (current)
-		// {
-		// 	printf("read : %d\n", current->command->pipe_fd.read);
-		// 	printf("to_close : %d\n", current->command->pipe_fd.to_close);
-		// 	printf("write : %d\n", current->command->pipe_fd.write);
-		// 	current = current->next;
-		// }
-		// printf("here 2\n");
-		// printf("======== setting pipes\n");
+				int pid = 0;
 
-		// current = p_list;
-		// while (current)
-		// {
-		// 	printf("read : %d\n", current->command->pipe_fd.read);
-		// 	printf("to_close : %d\n", current->command->pipe_fd.to_close);
-		// 	printf("write : %d\n", current->command->pipe_fd.write);
-		// 	current = current->next;
-		// }
-		// printf("here 3\n");
-		int pid = 0;
-	    
-		init_fds(p_list);
-		set_pipes(p_list);
-		t_parser *cureent = p_list;
-		if (in_builtins(p_list) && !p_list->next)
-			builtins(p_list, env, 0);
-		else
-		{
-			while (p_list)
-			{
-				pid = fork();
-				if(!pid)
+				init_fds(p_list);
+				set_pipes(p_list);
+				t_parser *cureent = p_list;
+				if (in_builtins(p_list) && !p_list->next)
+					builtins(p_list, env, 0);
+				else
 				{
-					if (in_builtins(p_list))
-						builtins(p_list, env, 1);
-					execute_cmd(p_list, env , envp, pid);
+					while (p_list)
+					{
+						pid = fork();
+						if(!pid)
+						{
+							if (in_builtins(p_list))
+								builtins(p_list, env, 1);
+							execute_cmd(p_list, env , envp, pid);
+						}
+						else if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
+								close(p_list->command->pipe_fd.to_close);
+						p_list = p_list->next;
+					}
+					while (cureent)
+					{
+						if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
+							close(cureent->command->pipe_fd.to_close);
+						if(cureent->command->pipe_fd.write !=1 )
+							close(cureent->command->pipe_fd.write);
+						if(cureent->command->pipe_fd.read != 0 )
+							close(cureent->command->pipe_fd.read);
+						cureent =cureent->next;
+					}
+					while(waitpid(-1, &status, 0) != -1);
 				}
-				else if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
-						close(p_list->command->pipe_fd.to_close);
-				p_list = p_list->next;
+				add_history(line);
+				free_plist(&p_list);
 			}
-			while (cureent)
-			{
-				if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-					close(cureent->command->pipe_fd.to_close);
-				if(cureent->command->pipe_fd.write !=1 )
-					close(cureent->command->pipe_fd.write);
-				if(cureent->command->pipe_fd.read != 0 )
-					close(cureent->command->pipe_fd.read);
-				cureent =cureent->next;
-			}
-			while(waitpid(-1, &status, 0) != -1);
 		}
-		// while (cureent)
-		// {
-		// 	printf("red in :%d\t red out : %d\n", cureent->command->red_in, cureent->command->red_out);
-		// 	cureent = cureent->next;
-		// }
-		
-	
-		// printf("here\n");
-		// exit_status(status);
-
-		// envvv = env_in_tab(env);
-		// while (envvv[i])
-		// {
-		// 	printf("%s\n",envvv[i]);
-		// 	i++;
-		// }
-		
-		// int i = -1;
-		// while (p_list->command->cmds[++i])
-		// 	printf("%s\n", p_list->command->cmds[i]);
-		// int jk = 0;
-		// printf("===== before =====\n");
-		// courant = env;
-		// while (courant)
-		// {
-		// 	printf("%s  =  %s\n", courant->key,courant->value);
-		// 	courant = courant->next;
-		// }
-		/*if(!strcmp(p_list->command->cmds[0],"export"))
-			export(p_list,&env);
-		if(!strcmp(p_list->command->cmds[0],"unset"))
-			unset(p_list,env);
-		if(!strcmp(p_list->command->cmds[0],"cd"))
-			cd(p_list,env);
-		if(!strcmp(p_list->command->cmds[0],"pwd"))
-			pwd();
-		if(!strcmp(p_list->command->cmds[0],"echo"))
-			ft_echo(p_list);
-		courant = env;*/
-	//	// printf("===== after =====\n");
-		// while (courant)
-		// {
-		// 	printf("%s  =  %s\n", courant->key,courant->value);
-		// 	courant = courant->next;
-		// }
-		// printf("\n");
-	//	if(!strcmp(p_list->command->cmds[0],"env"))
-	//		ft_env(env);
-		add_history(line);
-		free_lexer(lexer);
-		free_list(&tmp_list);
 		free_list(&lex_list);
-		free_plist(&p_list);
+		free_list(&tmp_list);
+		free_lexer(lexer);
 		if (hdoc_input)
 			free(hdoc_input);
 		line = readline("minishell-1.0$ ");

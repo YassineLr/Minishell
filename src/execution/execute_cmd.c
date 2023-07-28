@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 03:53:34 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:10:52 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void init_fds(t_parser *parse)
     cur = parse;
     while (cur)
     {
-        cur->command->red_in = 0;
-        cur->command->red_out = 1;
+        // cur->command->red_in = 0;
+        // cur->command->red_out = 1;
         cur->command->pipe_fd.read = 0;
         cur->command->pipe_fd.write = 1;
         cur->command->pipe_fd.to_close = 0;
@@ -78,15 +78,15 @@ void    ft_dup(t_parser *parse)
 
     if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
         close(parse->command->pipe_fd.to_close);
+    if(parse->command->red_out != 1)
+        dup2(parse->command->red_out, STDOUT_FILENO);
+    if(parse->command->red_in != 0)
+        dup2(parse->command->red_in, STDIN_FILENO);
     if(!parse->next)
         if (parse->command->pipe_fd.write != 1)
             close(parse->command->pipe_fd.write);
     if (parse->command->pipe_fd.read)
         dup2(parse->command->pipe_fd.read, STDIN_FILENO);
-    if(parse->command->red_out != 1)
-        dup2(parse->command->red_out, STDOUT_FILENO);
-    if(parse->command->red_in != 0)
-        dup2(parse->command->red_in, STDIN_FILENO);
     if (parse->command->pipe_fd.write != 1)
         dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
      
@@ -156,6 +156,7 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp, int id)
     ft_dup(parse);
     if(!id)
     {
+        execve(parse->command->cmds[0], parse->command->cmds, envp);
         path = ft_path(parse, env);
         if (!path)
             exit(127);
