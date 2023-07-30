@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/29 09:20:19 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/30 03:51:35 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,22 @@ void init_fds(t_parser *parse)
 
 void    ft_dup(t_parser *parse)
 {
-
-	if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
-		close(parse->command->pipe_fd.to_close);
-	if(parse->command->red_out != 1)
-		dup2(parse->command->red_out, STDOUT_FILENO);
-	if(parse->command->red_in != 0)
-		dup2(parse->command->red_in, STDIN_FILENO);
-	if(!parse->next)
-		if (parse->command->pipe_fd.write != 1)
-			close(parse->command->pipe_fd.write);
 	if (parse->command->pipe_fd.read)
 		dup2(parse->command->pipe_fd.read, STDIN_FILENO);
 	if (parse->command->pipe_fd.write != 1)
 		dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
-	 
+	if(parse->command->red_out != 1)
+	{
+			dup2(parse->command->red_out, STDOUT_FILENO);
+	}
+	if(parse->command->red_in != 0)
+	{
+			dup2(parse->command->red_in, STDIN_FILENO);
+	}
+	if (parse->command->pipe_fd.write != 1)
+		close(parse->command->pipe_fd.write);
+	if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
+		close(parse->command->pipe_fd.to_close);
 }
 
 char **env_in_tab(t_env *env)

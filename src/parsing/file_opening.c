@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_opening.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/29 09:24:05 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/30 03:22:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ int	open_append(char *filename)
 {
 	int	fd;
 
-	if (!check_filename(filename))
-	{
-	 	write(2, "minishell: ambiguous redirect\n", 31);
-		return (-1);
-	}
 	fd = open(filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
 	{

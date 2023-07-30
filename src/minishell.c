@@ -155,8 +155,15 @@ int	main(int ac, char **av, char **envp)
 								builtins(p_list, env, 1);
 							execute_cmd(p_list, env , envp, pid);
 						}
-						else if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close != 1)
+						else 
+						{
+							if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close !=1)
 								close(p_list->command->pipe_fd.to_close);
+							if(p_list->command->pipe_fd.write !=1 )
+								close(p_list->command->pipe_fd.write);
+							if(p_list->command->pipe_fd.read != 0 )
+								close(p_list->command->pipe_fd.read);
+						}
 						p_list = p_list->next;
 					}
 					while (cureent)
