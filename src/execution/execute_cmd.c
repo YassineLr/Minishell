@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/31 04:20:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/31 23:41:52 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char    *ft_path(t_parser *parse, t_env *env)
 	int        i;
 
 	i = 0;
-	paths = search_in_env(env, "PATH")->value;
+	paths = NULL;
+	if (search_in_env(env, "PATH"))
+		paths = search_in_env(env, "PATH")->value;
 	if (!paths)
 	{
-		write (2, "No such file or directory\n", 27);
+		printf("minishell: %s: No such file or directory\n", parse->command->cmds[0]);
 		exit (127);
 	}
 	splited = ft_split(paths, ':');
@@ -34,7 +36,9 @@ char    *ft_path(t_parser *parse, t_env *env)
 			return (path);
 		i++;
 	}
-	write(2, "command not found\n", 19);
+	// perror("");
+	printf("%s: ",parse->command->cmds[0]);
+	printf("command not found\n");
 	exit(127);
 	return (NULL);
 }
@@ -85,11 +89,12 @@ char **env_in_tab(t_env *env)
 		cur = cur->next;
 	}
 	envp = (char **) malloc((count+1)*sizeof(char *));
-	while (env)
+	cur = env;
+	while (cur)
 	{
-		envp[i] = ft_strjoin(env->key,"=");
-		envp[i] = ft_strjoin(envp[i],env->value);
-		env=env->next;
+		envp[i] = ft_strjoin(ft_strdup(cur->key),"=");
+		envp[i] = ft_strjoin(envp[i], ft_strdup(cur->value));
+		cur=cur->next;
 		i++;
 	}
 	envp[count] = NULL;
@@ -156,3 +161,50 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 	exit(1);
 }
 
+// void redirections(t_parser *parse)
+// {
+// 	if()
+// }
+// void close_files(t_parser *parse)
+// {
+// 	if(parse->command->red_in)
+// }
+
+void executor(t_parser *parse, t_env *env, char **envp)
+{
+	int 		pid;
+	int			status;
+	char 		**envt;
+	t_parser	*head;
+	
+	head = parse;
+	envt = env_in_tab(env);
+	if (in_builtins(parse) && !parse->next)
+		builtins(parse, env, 0);
+	else
+	{
+		while (parse)
+		{
+			pid = fork();
+			if(!pid)
+			{
+				if (in_builtins(parse))
+					builtins(parse, env, 1);
+				close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
+				if (parse->command->red_in)
+					dup2(parse->command->red_in, STDIN_FILENO);
+				if (parse->command->red_out)
+					dup2(parse->command->red_out, STDOUT_FILENO);
+				execute_cmd(parse ,env , envt);
+				if (parse->command->red_in)
+					close(parse->command->red_in);
+				if (parse->command->red_out != 1)
+					close(parse->command->red_out);
+			}
+			parse = parse->next;
+		}
+		close_pipes(head, 0, 1);
+		while(waitpid(-1, &status, 0) != -1);
+	}
+	// exit_status(status);
+}

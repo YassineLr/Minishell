@@ -157,28 +157,9 @@ int	main(int ac, char **av, char **envp)
 
 				init_fds(p_list);
 				set_pipes(p_list);
-				t_parser *cureent = p_list;
-				t_parser *curent = p_list;
-				
-				if (in_builtins(p_list) && !p_list->next)
-					builtins(p_list, env, 0);
-				else
-				{
-					while (p_list)
-					{
-						pid = fork();
-						if(!pid)
-						{
-							if (in_builtins(p_list))
-								builtins(p_list, env, 1);
-							close_pipes(curent,p_list->command->pipe_fd.read,p_list->command->pipe_fd.write);
-							execute_cmd(p_list ,env , envp);
-						}
-						p_list = p_list->next;
-					}
-					close_pipes(cureent, 0, 1);
-					while(waitpid(-1, &status, 0) != -1);
-				}
+				// t_parser *cureent = p_list;
+				// t_parser *curent = p_list;
+				executor(p_list, env, envp);
 				add_history(line);
 				free_plist(&p_list);
 			}
