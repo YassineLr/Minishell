@@ -126,7 +126,15 @@ void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespaces(t_lexer *lexer);
 char	*lexer_char_to_string(char c);
 t_token *init_token(int type, char *value);
+void	lexer_handle_dollar(t_lexer *lexer, t_list **list);
 void	free_lexer(t_lexer *lexer);
+char	*get_word(t_lexer *lexer);
+void	lexer_handle_single_quotes(t_lexer *lexer, t_list **list);
+void	lexer_handle_double_quotes(t_lexer *lexer, t_list **list);
+void	lexer_handle_input_redirection(t_lexer *lexer, t_list **list);
+void	lexer_handle_output_redirection(t_lexer *lexer, t_list **list);
+void	lexer_handle_pipe(t_lexer *lexer, t_list **list);
+void	lexer_handle_whitespace(t_lexer *lexer, t_list **list);
 
 // Helpers
 int		ft_is_whitespace(int c);

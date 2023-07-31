@@ -4,18 +4,27 @@
 // unset PATH
 
 /*
-	bash-3.2$	export a="a b d"
-	bash-3.2$	< $a
-	bash: $a:	ambiguous redirect
-	bash-3.2$	< "$a"
-	bash: a b d: No such file or directory
-	bash-3.2$
 
-	"ls -la other tkhrbiq"
+	signals and exit_status
 
-	export a="ls -la"
-	unset a
-	echo $a
+	add functions is_quotes and is_redirection
 
-	SEGFAULT
+*/
+
+
+
+
+
+/*
+	int x;
+	while (p_list)
+	{
+		x = -1;
+		while (p_list->command->cmds[++x])
+			printf("cmds[%d]  : %s\n", x, p_list->command->cmds[x]);
+		printf("pipe     : %d\n", p_list->command->pipe);
+		printf("red_in   : %d\n", p_list->command->red_in);
+		printf("red_out  : %d\n", p_list->command->red_out);
+		p_list = p_list->next;
+	}
 */

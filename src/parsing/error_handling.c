@@ -6,23 +6,11 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/30 05:33:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/31 12:18:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	check_end(char *input)
-{
-	int	i;
-
-	i = 1;
-	while (input[i] && ft_is_whitespace(input[i]))
-		i++;
-	if (input[i] == '\0')
-		return (0);
-	return (1);
-}
 
 int	check_pipes(t_list *list)
 {
@@ -63,7 +51,8 @@ int	redirections(t_list *list, int red_type)
 			{
 				if (list->token->type == WHITESPACE)
 					list = list->next;
-				if (list->token->type != WORD && list->token->type != S_QUOTES && list->token->type != D_QUOTES)
+				if (list->token->type != WORD && list->token->type != S_QUOTES
+					&& list->token->type != D_QUOTES)
 					return (0);
 			}
 			else
