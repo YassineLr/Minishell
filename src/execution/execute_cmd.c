@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/30 03:51:35 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/31 04:20:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char    *ft_path(t_parser *parse, t_env *env)
 		exit (127);
 	}
 	splited = ft_split(paths, ':');
-	// printf("it is splited\n");
 	while (splited[i])
 	{
 		path = ft_strjoin(ft_strjoin(splited[i], "/"), parse->command->cmds[0]);
@@ -40,23 +39,6 @@ char    *ft_path(t_parser *parse, t_env *env)
 	return (NULL);
 }
 
-// void open_pipes(t_parser *parse)
-// {
-//     t_parser *courant;
-//     int        T[2];
-	
-//     courant = parse;
-//     while (courant->next)
-//     {
-//         if (courant->command->pipe == 1)
-//         {
-//             pipe(T);
-//             courant->command->pipe_fd->write = T[0];
-//             courant->next->command->pipe_fd->read = T[1];
-//         }
-//     }
-// }
-
 void init_fds(t_parser *parse)
 {
 	t_parser    *cur;
@@ -64,33 +46,27 @@ void init_fds(t_parser *parse)
 	cur = parse;
 	while (cur)
 	{
-		// cur->command->red_in = 0;
-		// cur->command->red_out = 1;
 		cur->command->pipe_fd.read = 0;
 		cur->command->pipe_fd.write = 1;
-		cur->command->pipe_fd.to_close = 0;
 		cur = cur->next;
 	}
 }
 
 void    ft_dup(t_parser *parse)
 {
+	close_pipes(parse, parse->command->pipe_fd.read, parse->command->pipe_fd.write);
 	if (parse->command->pipe_fd.read)
 		dup2(parse->command->pipe_fd.read, STDIN_FILENO);
 	if (parse->command->pipe_fd.write != 1)
 		dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
-	if(parse->command->red_out != 1)
-	{
-			dup2(parse->command->red_out, STDOUT_FILENO);
-	}
-	if(parse->command->red_in != 0)
-	{
-			dup2(parse->command->red_in, STDIN_FILENO);
-	}
-	if (parse->command->pipe_fd.write != 1)
-		close(parse->command->pipe_fd.write);
-	if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
-		close(parse->command->pipe_fd.to_close);
+	// if(parse->command->red_out != 1)
+	// 		dup2(parse->command->red_out, STDOUT_FILENO);
+	// if(parse->command->red_in != 0)
+	// 		dup2(parse->command->red_in, STDIN_FILENO);
+	// if (parse->command->pipe_fd.write != 1)
+	// 	close(parse->command->pipe_fd.write);
+	// if (parse->command->pipe_fd.to_close && parse->command->pipe_fd.to_close != 1)
+	// 	close(parse->command->pipe_fd.to_close);
 }
 
 char **env_in_tab(t_env *env)
@@ -108,7 +84,6 @@ char **env_in_tab(t_env *env)
 		count++;
 		cur = cur->next;
 	}
-	// exit(100);
 	envp = (char **) malloc((count+1)*sizeof(char *));
 	while (env)
 	{
@@ -134,13 +109,27 @@ void set_pipes(t_parser *parse)
 		{
 			pipe(T);
 			courant->command->pipe_fd.write = T[1];
-			courant->next->command->pipe_fd.to_close = T[1];
 			courant->next->command->pipe_fd.read = T[0];
 		}
 		courant = courant->next;
 	}
 }
 
+void	close_pipes(t_parser *parse, int fread, int fwrite)
+{
+	t_parser	*cur;
+
+	cur = parse;
+	
+	while (cur)
+	{
+		if(cur->command->pipe_fd.write != fwrite && cur->command->pipe_fd.write != 1)
+			close(cur->command->pipe_fd.write);	
+		if(cur->command->pipe_fd.read != fread && cur->command->pipe_fd.read)
+				close(cur->command->pipe_fd.read);
+		cur = cur->next;
+	}
+}
 void	exit_status(int status)
 {
 	if (WIFEXITED(status))
@@ -150,23 +139,20 @@ void	exit_status(int status)
 	exit(0);
 }
 
-void   execute_cmd(t_parser *parse, t_env *env, char **envp, int id)
+void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 {
 	char *path;
 	
 	ft_dup(parse);
-	if(!id)
+	execve(parse->command->cmds[0], parse->command->cmds, envp);
+	path = ft_path(parse, env);
+	if (!path)
+		exit(127);
+	if (execve(path, parse->command->cmds, envp) == -1)
 	{
-		execve(parse->command->cmds[0], parse->command->cmds, envp);
-		path = ft_path(parse, env);
-		if (!path)
-			exit(127);
-		if (execve(path, parse->command->cmds, envp) == -1)
-		{
-			write(2, "could not execve\n", 18);
-			exit(127);
-		}
-		exit(1);
+		write(2, "could not execve\n", 18);
+		exit(127);
 	}
+	exit(1);
 }
 

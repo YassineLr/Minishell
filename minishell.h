@@ -63,7 +63,7 @@ typedef struct s_list
 
 typedef struct s_pipe
 {
-	int to_close;
+	// int to_close;
 	int write;
 	int read;
 }	t_pipe;
@@ -189,12 +189,13 @@ void    ft_echo(t_parser *parse);
 int 	in_builtins(t_parser *parse);
 void 	builtins(t_parser *parse, t_env *env, int child);
 
-void   	execute_cmd(t_parser *parse, t_env *env, char **envp, int id);
+void   	execute_cmd(t_parser *parse, t_env *env, char **envp);
 void 	init_fds(t_parser *parse);
 void    ft_dup(t_parser *parse);
 t_env	*execc_get_env(char **envp);
 void 	set_pipes(t_parser *parse);
 char 	**env_in_tab(t_env *env);
 void	exit_status(int status);
+void	close_pipes(t_parser *parse, int fread, int fwrite);
 
 #endif

@@ -108,7 +108,6 @@ int	main(int ac, char **av, char **envp)
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
-	t_parser	*current;
 	t_env		*env;
 	t_env		*courant;
 	char		**envvv;
@@ -142,6 +141,8 @@ int	main(int ac, char **av, char **envp)
 				init_fds(p_list);
 				set_pipes(p_list);
 				t_parser *cureent = p_list;
+				t_parser *curent = p_list;
+				
 				if (in_builtins(p_list) && !p_list->next)
 					builtins(p_list, env, 0);
 				else
@@ -153,29 +154,12 @@ int	main(int ac, char **av, char **envp)
 						{
 							if (in_builtins(p_list))
 								builtins(p_list, env, 1);
-							execute_cmd(p_list, env , envp, pid);
-						}
-						else 
-						{
-							if(p_list->command->pipe_fd.to_close && p_list->command->pipe_fd.to_close !=1)
-								close(p_list->command->pipe_fd.to_close);
-							if(p_list->command->pipe_fd.write !=1 )
-								close(p_list->command->pipe_fd.write);
-							if(p_list->command->pipe_fd.read != 0 )
-								close(p_list->command->pipe_fd.read);
+							close_pipes(curent,p_list->command->pipe_fd.read,p_list->command->pipe_fd.write);
+							execute_cmd(p_list ,env , envp);
 						}
 						p_list = p_list->next;
 					}
-					while (cureent)
-					{
-						if(cureent->command->pipe_fd.to_close && cureent->command->pipe_fd.to_close !=1)
-							close(cureent->command->pipe_fd.to_close);
-						if(cureent->command->pipe_fd.write !=1 )
-							close(cureent->command->pipe_fd.write);
-						if(cureent->command->pipe_fd.read != 0 )
-							close(cureent->command->pipe_fd.read);
-						cureent =cureent->next;
-					}
+					close_pipes(cureent, 0, 1);
 					while(waitpid(-1, &status, 0) != -1);
 				}
 				add_history(line);
