@@ -58,12 +58,18 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 {
 	int		flag;
 	char	*tmp;
+	int		expand;
+	t_token	*token;
+	int		in_quotes;
 
 	flag = 0;
+	in_quotes = 0;
+	expand = 0;
+	token = NULL;
 	// tmp = NULL;
 	while (tmp_list)
 	{
-		if (tmp_list->token->type != WORD && tmp_list->token->type != QUOTES)
+		if (tmp_list->token->type != WORD && tmp_list->token->type != S_QUOTES && tmp_list->token->type != D_QUOTES)
 			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->type, ft_strdup(tmp_list->token->value))));
 		else
 		{
@@ -74,9 +80,13 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 				if (tmp_list->token->type == WORD)
 				{
 					tmp = ft_strjoin(tmp, tmp_list->token->value);
+					if (tmp_list->token->expanded)
+						expand = 1;
+					if (tmp_list->token->in_quotes)
+						in_quotes = 1;
 					tmp_list = tmp_list->next;
 				}
-				else if (tmp_list->token->type == QUOTES)
+				else if (tmp_list->token->type == S_QUOTES || tmp_list->token->type == D_QUOTES)
 				{
 					flag = 1;
 					tmp_list = tmp_list->next;
@@ -85,8 +95,13 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 					break;
 			}
 			if (flag == 1)
-				ft_lstadd_back(list, ft_lstnew(init_token(QUOTES, lexer_char_to_string('\''))));
-			ft_lstadd_back(list, ft_lstnew(init_token(WORD, ft_strdup(tmp))));
+				ft_lstadd_back(list, ft_lstnew(init_token(S_QUOTES, lexer_char_to_string('\''))));
+			token = init_token(WORD, ft_strdup(tmp));
+			if (expand == 1)
+				token->expanded = 1;
+			if (in_quotes == 1)
+				token->in_quotes = 1;
+			ft_lstadd_back(list, ft_lstnew(token));
 			free(tmp);
 		}
 		if (!tmp_list)
@@ -126,13 +141,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list, env);
+		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
 		if (err != -1)
 		{
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
 			hdoc_input = here_doc(lexer, lex_list, env);
-			remove_type(&lex_list, QUOTES);
+			remove_type(&lex_list, S_QUOTES);
+			remove_type(&lex_list, D_QUOTES);
 			if (err == 1)
 			{
 				p_list = ft_parser(lex_list, hdoc_input);

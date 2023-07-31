@@ -45,7 +45,8 @@ typedef struct s_token
 	{
 		WORD,
 		PIPE,
-		QUOTES,
+		S_QUOTES,
+		D_QUOTES,
 		RED_IN,
 		RED_OUT,
 		WHITESPACE,
@@ -53,6 +54,8 @@ typedef struct s_token
 		HEREDOC,
 	}	type;
 	char	*value;
+	int		expanded;
+	int		in_quotes;
 }	t_token;
 
 typedef struct s_list
@@ -150,14 +153,14 @@ int		ft_strlen(const char *str);
 char	*ft_strchr(char *buff, char c);
 int		ft_strstr(char *haystack, char *needle);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
-char	*get_quoted_string(t_lexer *lexer, char quotes, int hc_flag, t_env *env);
+char	*get_quoted_string(t_lexer *lexer, char quotes);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
 int		ft_count_strs(char **str);
 
 // Expansion
-char	*expansion(t_lexer *lexer, t_env *env);
+void	expansion(t_list *list, t_env *env);
 int		heredoc_count(t_list *list);
 void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
 int		*here_doc(t_lexer *lexer, t_list *list, t_env *env);
@@ -173,9 +176,9 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe);
 t_cmd		*init_cmd(void);
 
 // File control
-int	open_append(char *filename);
-int	open_redout(char *filename);
-int	open_redin(char *filename);
+int	open_append(t_list *list);
+int	open_redout(t_list *list);
+int	open_redin(t_list *list);
 
 //builtins
 

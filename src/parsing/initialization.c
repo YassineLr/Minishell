@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/25 23:21:32 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/30 04:35:56 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ t_token *init_token(int type, char *value)
 		return (0);
 	token->type = type;
 	token->value = value;
+	token->expanded = 0;
+	token->in_quotes = 0;
 	return (token);
 }

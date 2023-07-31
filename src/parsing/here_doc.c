@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/25 22:35:30 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/30 04:52:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	heredoc_count(t_list *list)
 		if (list->token->type == HEREDOC)
 		{
 			if (prev_type == RED_IN || prev_type == RED_OUT
-				|| prev_type == APPEND || prev_type == QUOTES)
+				|| prev_type == APPEND || prev_type == S_QUOTES || prev_type == D_QUOTES)
 				return (count);
 			if (list->next)
 			{
@@ -35,7 +35,7 @@ int	heredoc_count(t_list *list)
 					list = list->next;
 				if (list->next)
 				{
-					if (list->token->type == QUOTES)
+					if (list->token->type == S_QUOTES || list->token->type == D_QUOTES)
 						list = list->next;
 				}
 				if (list->token->type != WORD)
@@ -170,7 +170,7 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 			list = list->next;
 			if (list->token->type == WHITESPACE)
 				list = list->next;
-			if (list->token->type == QUOTES)
+			if (list->token->type == S_QUOTES || list->token->type == D_QUOTES)
 			{
 				expand = 0;
 				list = list->next;

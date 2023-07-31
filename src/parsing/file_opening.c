@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_opening.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/30 03:22:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/07/31 05:49:56 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,132 @@
 
 int	check_filename(char *name)
 {
-	// still testing
-	int	i;
-	
+	int		i;
+	char	**str;
+
 	i = 0;
-	while (ft_is_whitespace(name[i]))
-		i++;
-	if (name[i] != '\0')
+	if (name[0] == '\0')
 		return (1);
+	str = ft_split(name, ' ');
+	if (ft_count_strs(str) != 1)
+		return (1);
+	ft_free_strs(str);
 	return (0);
 }
 
-int	open_redin(char *filename)
+int	open_redin(t_list *list)
 {
 	int	fd;
 
-	if (!check_filename(filename))
+	if (list->token->expanded == 1 && list->token->in_quotes == 0)
 	{
-	 	write(2, "minishell: ambiguous redirect\n", 31);
-		return (-1);
+		if (check_filename(list->token->value))
+		{
+			write(2, "minishell: ambiguous redirect\n", 31);
+			return (-1);
+		}
+		else
+		{
+			fd = open(list->token->value, O_RDONLY);
+			if (fd == -1)
+			{
+				write(2, "minishell: ", 12);
+				write(2, list->token->value, ft_strlen(list->token->value));
+				write(2, ": ", 2);
+				perror("");
+				return (-1);
+			}
+		}
 	}
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	else
 	{
-		perror("");
-		return (-1);
+		fd = open(list->token->value, O_RDONLY);
+		if (fd == -1)
+		{
+			write(2, "minishell: ", 12);
+			write(2, list->token->value, ft_strlen(list->token->value));
+			write(2, ": ", 2);
+			perror("");
+			return (-1);
+		}
 	}
 	return (fd);
 }
 
-int	open_redout(char *filename)
+int	open_redout(t_list *list)
 {
 	int	fd;
 
-	if (!check_filename(filename))
+	if (list->token->expanded == 1 && list->token->in_quotes == 0)
 	{
-	 	write(2, "minishell: ambiguous redirect\n", 31);
-		return (-1);
+		if (check_filename(list->token->value))
+		{
+			write(2, "minishell: ambiguous redirect\n", 31);
+			return (-1);
+		}
+		else
+		{
+			fd = open(list->token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				write(2, "minishell: ", 12);
+				write(2, list->token->value, ft_strlen(list->token->value));
+				write(2, ": ", 2);
+				perror("");
+				return (-1);
+			}
+		}
 	}
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	else
 	{
-		perror("");
-		return (-1);
+		fd = open(list->token->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+		{
+			write(2, "minishell: ", 12);
+			write(2, list->token->value, ft_strlen(list->token->value));
+			write(2, ": ", 2);
+			perror("");
+			return (-1);
+		}
 	}
 	return (fd);
 }
 
-int	open_append(char *filename)
+int	open_append(t_list *list)
 {
 	int	fd;
 
-	fd = open(filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
-	if (fd == -1)
+	if (list->token->expanded == 1 && list->token->in_quotes == 0)
 	{
-		perror("");
-		return (-1);
+		if (check_filename(list->token->value))
+		{
+			write(2, "minishell: ambiguous redirect\n", 31);
+			return (-1);
+		}
+		else
+		{
+			fd = open(list->token->value, O_APPEND | O_WRONLY | O_CREAT, 0644);
+			if (fd == -1)
+			{
+				write(2, "minishell: ", 12);
+				write(2, list->token->value, ft_strlen(list->token->value));
+				write(2, ": ", 2);
+				perror("");
+				return (-1);
+			}
+		}
+	}
+	else
+	{
+		fd = open(list->token->value, O_APPEND | O_WRONLY | O_CREAT, 0644);
+		if (fd == -1)
+		{
+			write(2, "minishell: ", 12);
+			write(2, list->token->value, ft_strlen(list->token->value));
+			write(2, ": ", 2);
+			perror("");
+			return (-1);
+		}
 	}
 	return (fd);
 }

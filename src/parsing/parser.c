@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/26 01:19:34 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/07/31 07:11:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,44 @@ int	count_cmds(t_list *list)
 	return (count + 1);
 }
 
+int	check_first_cmd(char *str)
+{
+	int		count;
+	char	**split;
+
+	split = ft_split(str, ' ');
+	count = ft_count_strs(split);
+	ft_free_strs(split);
+	if (count == 0)
+		return (1);
+	return (count);
+}
+
 int	count_words(t_list *list)
 {
+	int	first;
 	int	count;
 
+	first = 1;
 	count = 0;
 	while (list)
 	{
-		if (list->token->type == RED_IN || list->token->type == RED_OUT || list->token->type == APPEND
-			|| list->token->type == HEREDOC)
+		if (list->token->type == RED_IN || list->token->type == RED_OUT
+			|| list->token->type == APPEND || list->token->type == HEREDOC)
 			list = list->next;
 		else if (list->token->type == PIPE)
 			break;
 		else
-			count++;
+		{
+			if (first == 1 && list->token->expanded == 1)
+			{
+				count += check_first_cmd(list->token->value);
+				first = 0;
+			}
+			else
+				count++;
+			first = 0;
+		}
 		list = list->next;
 	}
 	return (count);
@@ -76,13 +100,13 @@ int	get_redout(t_list *list)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_redout(list->token->value)));
+				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_redout(list)));
 		}
 		else if (list->token->type == APPEND)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_append(list->token->value)));
+				ft_lstadd_back_reds(&red_outs, ft_lstnew_reds(open_append(list)));
 		}
 		list = list->next;
 	}
@@ -129,7 +153,7 @@ int	get_redin(t_list *list)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list->token->value)));
+				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list)));
 		}
 		else if (list->token->type == HEREDOC)
 		{
@@ -167,10 +191,16 @@ int	get_redin(t_list *list)
 char	**get_cmds(t_list *list)
 {
 	int		i;
+	int		j;
+	char	**split;
+	int		first;
 	int		count;
 	char	**cmds;
 
 	i = 0;
+	j = 0;
+	first = 1;
+	split = NULL;
 	count = count_words(list);
 	if (count == 0)
 		return (NULL);
@@ -184,8 +214,29 @@ char	**get_cmds(t_list *list)
 			break;
 		else if (list->token->type == WORD)
 		{
-			cmds[i] = ft_strdup(list->token->value);
-			i++;
+			if (list->token->value[0] == '\0')
+			{
+				cmds[i] = ft_strdup("");
+				i++;
+			}
+			if (first == 1 && list->token->expanded == 1)
+			{
+				j = 0;
+				split = ft_split(list->token->value, ' ');
+				while (split[j])
+				{
+					cmds[i] = ft_strdup(split[j]);
+					j++;
+					i++;
+				}
+				ft_free_strs(split);
+			}
+			else
+			{
+				cmds[i] = ft_strdup(list->token->value);
+				i++;
+			}
+			first = 0;
 		}
 		list = list->next;
 	}
