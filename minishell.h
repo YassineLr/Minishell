@@ -25,6 +25,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+int exitcode;
+
 typedef struct s_env
 {
 	char	*key;
