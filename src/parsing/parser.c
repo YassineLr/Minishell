@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/31 11:25:25 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/01 06:22:29 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ char	**get_cmds(t_list *list)
 				cmds[i] = ft_strdup("");
 				i++;
 			}
-			else if (first == 1 && list->token->expanded == 1)
+			else if (first == 1 && list->token->expanded == 1 && list->token->in_quotes == 0)
 			{
 				j = 0;
 				split = ft_split(list->token->value, ' ');
