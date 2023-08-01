@@ -6,7 +6,7 @@
 /*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/01 19:16:12 by ylr              ###   ########.fr       */
+/*   Updated: 2023/08/01 19:18:57 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ int	ft_exit_2(t_parser *parse)
 		else if (ft_atoi(parse->command->cmds[i]) && !parse->command->cmds[i + 1])
 		{
 			ext = ft_atoi(parse->command->cmds[i]);
+			printf("exit\n");
 			exit (ext);
 		}
 		else if (ft_atoi(parse->command->cmds[i]) && ft_atoi(parse->command->cmds[i + 1]))
 		{
-			ft_error("exit : too many arguments\n", 1);
+			printf("exit : too many arguments\n");
 			return (-1);
 		}
 	}
