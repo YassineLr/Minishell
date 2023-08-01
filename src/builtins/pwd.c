@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/20 12:28:54 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/01 02:27:33 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ void pwd(void)
     pwd = getcwd(pwd, 0);
     if(pwd)
         printf("%s\n", pwd);
+    free(pwd);
 }

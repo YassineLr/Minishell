@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/20 11:01:49 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/01 03:17:49 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ void concate_val(t_env *env, char **key_val)
     
     key_val[0] = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
     to_concate = search_in_env(env,key_val[0]);
-
-    printf("key => %s, val => %s\n", key_val[0], key_val[1]);
     if(to_concate)
             to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
     else
         ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+    // free(key_val[0]);
 }
 
 char last_char(char *str)
@@ -76,6 +75,7 @@ void    export_no_args(t_env *env)
 void    export(t_parser *parse, t_env **env)
 {
     char    **key_val;
+    char    *tmp;
     int     i = 1;
 
     if (!parse->command->cmds[1])
@@ -86,12 +86,16 @@ void    export(t_parser *parse, t_env **env)
     while (parse->command->cmds[i])
     {
         if(!(parse->command->cmds[i][0] == '_' || ft_isalnum(parse->command->cmds[i][0])))
-            ft_putstr_fd("invalid identifier haha\n",2);
+            ft_putstr_fd("invalid identifier\n",2);
         else if(index_at(parse->command->cmds[i],'=') != -1)
         {
             key_val = malloc(2*sizeof(char*));
-            key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
-            key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
+            tmp = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
+            key_val[0] = tmp;
+            free(tmp);
+            tmp = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
+            key_val[1] = tmp;
+            free(tmp);
             if(!invalid_identifier(key_val[0]))
                 ft_putstr_fd("invalid identifier 2\n",2);
             else if(last_char(key_val[0]) == '+')
@@ -105,7 +109,11 @@ void    export(t_parser *parse, t_env **env)
             }
         }
         else if (index_at(parse->command->cmds[i],'=') == -1)
-            ft_lstadd_back_env(env,ft_lstnew_env(ft_split(parse->command->cmds[i], '=')));
+        {
+            char **tmp = ft_split(parse->command->cmds[i], '=');
+            ft_lstadd_back_env(env,ft_lstnew_env(tmp));
+            ft_free_strs(tmp);
+        }
         i++;
     }
 }

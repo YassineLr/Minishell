@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/31 23:41:52 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/01 03:37:36 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char **env_in_tab(t_env *env)
 	while (cur)
 	{
 		envp[i] = ft_strjoin(ft_strdup(cur->key),"=");
-		envp[i] = ft_strjoin(envp[i], ft_strdup(cur->value));
+		envp[i] = ft_strjoin(envp[i], cur->value);
 		cur=cur->next;
 		i++;
 	}
@@ -135,6 +135,7 @@ void	close_pipes(t_parser *parse, int fread, int fwrite)
 		cur = cur->next;
 	}
 }
+
 void	exit_status(int status)
 {
 	if (WIFEXITED(status))
@@ -206,5 +207,6 @@ void executor(t_parser *parse, t_env *env, char **envp)
 		close_pipes(head, 0, 1);
 		while(waitpid(-1, &status, 0) != -1);
 	}
+	ft_free_strs(envt);
 	// exit_status(status);
 }
