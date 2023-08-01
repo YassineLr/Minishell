@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/31 12:18:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/01 10:02:51 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	redirections(t_list *list, int red_type)
 			{
 				if (list->token->type == WHITESPACE)
 					list = list->next;
-				if (list->token->type != WORD && list->token->type != S_QUOTES
-					&& list->token->type != D_QUOTES)
+				if (list->token->type != WORD
+					&& !is_quotes(list->token->type))
 					return (0);
 			}
 			else

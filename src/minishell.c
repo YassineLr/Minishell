@@ -70,7 +70,11 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 	while (tmp_list)
 	{
 		if (tmp_list->token->type != WORD && tmp_list->token->type != S_QUOTES && tmp_list->token->type != D_QUOTES)
+		{
+
 			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->type, ft_strdup(tmp_list->token->value))));
+			tmp_list = tmp_list->next;
+		}
 		else
 		{
 			tmp = malloc(sizeof(char));
@@ -106,7 +110,6 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 		}
 		if (!tmp_list)
 			break;
-		tmp_list = tmp_list->next;
 	}
 	// ft_lstclear(&tmp_list, &free);
 	return (list);

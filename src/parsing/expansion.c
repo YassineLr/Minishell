@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/31 05:52:37 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/01 10:04:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	expansion(t_list *list, t_env *env)
 			{
 				list->token->value = expand_(list->token->value, env);
 				list->token->expanded = 1;
-				if (prev == D_QUOTES || prev == S_QUOTES)
+				if (is_quotes(prev))
 					list->token->in_quotes = 1;
 			}
 			prev = list->token->type;

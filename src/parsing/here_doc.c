@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/31 09:32:14 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/01 12:00:43 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	heredoc_count(t_list *list)
 			list = list->next;
 		if (list->token->type == HEREDOC)
 		{
-			if (prev_type == RED_IN || prev_type == RED_OUT
-				|| prev_type == APPEND || prev_type == S_QUOTES || prev_type == D_QUOTES)
+			if (is_redir_2(prev_type) || is_quotes(prev_type))
 				return (count);
 			if (list->next)
 			{
@@ -35,7 +34,7 @@ int	heredoc_count(t_list *list)
 					list = list->next;
 				if (list->next)
 				{
-					if (list->token->type == S_QUOTES || list->token->type == D_QUOTES)
+					if (is_quotes(list->token->type))
 						list = list->next;
 				}
 				if (list->token->type != WORD)
@@ -47,18 +46,14 @@ int	heredoc_count(t_list *list)
 		}
 		else
 		{
-			if (list->token->type == PIPE && (prev_type == RED_IN
-				|| prev_type == RED_OUT || prev_type == PIPE || prev_type == APPEND))
+			if (list->token->type == PIPE && (is_redir(prev_type) || prev_type == PIPE))
 				return (count);
-			else if (list->token->type == RED_IN
-				&& (prev_type == RED_IN || prev_type == RED_OUT || prev_type == APPEND))
+			else if (list->token->type == RED_IN && is_redir_2(prev_type))
 				return (count);
-			else if (list->token->type == RED_OUT
-				&& (prev_type == RED_OUT || prev_type == RED_IN || prev_type == APPEND))
+			else if (list->token->type == RED_OUT && is_redir_2(prev_type))
 				return (count);
-			else if (list->token->type == APPEND && (prev_type == RED_IN
-				|| prev_type == RED_OUT || prev_type == APPEND))
-				return (0);
+			else if (list->token->type == APPEND && is_redir_2(prev_type))
+				return (count);
 		}
 		prev_type = list->token->type;
 		list = list->next;
@@ -170,7 +165,7 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 			list = list->next;
 			if (list->token->type == WHITESPACE)
 				list = list->next;
-			if (list->token->type == S_QUOTES || list->token->type == D_QUOTES)
+			if (is_quotes(list->token->type))
 			{
 				expand = 0;
 				list = list->next;

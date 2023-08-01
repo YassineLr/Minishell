@@ -7,8 +7,6 @@
 
 	signals and exit_status
 
-	add functions is_quotes and is_redirection
-
 
 	minishell-1.0$ < $a
 	minishell: ambiguous redirect

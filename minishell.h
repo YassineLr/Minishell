@@ -149,7 +149,9 @@ void	ft_putendl_fd(char *s, int fd);
 int		is_special(char c);
 int		count_env(char **str);
 t_env	*search_in_env(t_env *env, char *key);
-
+int		is_quotes(int type);
+int		is_redir(int type);
+int		is_redir_2(int type);
 
 // String helpers
 void	ft_free_strs(char **str);
