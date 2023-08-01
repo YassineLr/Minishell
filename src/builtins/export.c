@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/01 03:17:49 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/01 04:14:52 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void    export(t_parser *parse, t_env **env)
 {
     char    **key_val;
     char    *tmp;
+    char    *tmpp;
     int     i = 1;
 
     if (!parse->command->cmds[1])
@@ -92,10 +93,8 @@ void    export(t_parser *parse, t_env **env)
             key_val = malloc(2*sizeof(char*));
             tmp = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
             key_val[0] = tmp;
-            free(tmp);
-            tmp = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
-            key_val[1] = tmp;
-            free(tmp);
+            tmpp = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
+            key_val[1] = tmpp;
             if(!invalid_identifier(key_val[0]))
                 ft_putstr_fd("invalid identifier 2\n",2);
             else if(last_char(key_val[0]) == '+')
@@ -107,6 +106,8 @@ void    export(t_parser *parse, t_env **env)
                 else
                     ft_lstadd_back_env(env,ft_lstnew_env(key_val));
             }
+            free(tmp);
+            free(tmpp);
         }
         else if (index_at(parse->command->cmds[i],'=') == -1)
         {
