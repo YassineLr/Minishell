@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/02 05:02:37 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/02 08:18:33 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,6 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 		if (list->token->type == HEREDOC)
 		{
 			list = list->next;
-			if (list->token->type == WHITESPACE)
-				list = list->next;
 			if (is_quotes(list->token->type))
 			{
 				expand = 0;

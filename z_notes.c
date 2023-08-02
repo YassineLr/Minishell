@@ -53,4 +53,7 @@
 		printf("red_out  : %d\n", p_list->command->red_out);
 		p_list = p_list->next;
 	}
+
+	if cmd[0] == NULL dont print any error message
+	if cmd[0][0] == '\0' print command not found
 */
