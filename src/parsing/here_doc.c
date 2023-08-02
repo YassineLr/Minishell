@@ -6,11 +6,44 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/01 12:00:43 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/02 03:53:54 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	hc_handle_errors(int prev_type, int curr_type)
+{
+	if (curr_type == PIPE && (is_redir(prev_type) || prev_type == PIPE))
+		return (0);
+	else if (curr_type == RED_IN && is_redir_2(prev_type))
+		return (0);
+	else if (curr_type == RED_OUT && is_redir_2(prev_type))
+		return (0);
+	else if (curr_type == APPEND && is_redir_2(prev_type))
+		return (0);
+	return (1);
+}
+
+int	handle_heredoc(t_list **list, int prev_type)
+{
+	if (is_redir_2(prev_type) || is_quotes(prev_type))
+		return (0);
+	if ((*list)->next)
+	{
+		*list = (*list)->next;
+		if ((*list)->next)
+		{
+			if (is_quotes((*list)->token->type))
+				*list = (*list)->next;
+		}
+		if ((*list)->token->type != WORD)
+			return (0);
+	}
+	else
+		return (0);
+	return (1);
+}
 
 int	heredoc_count(t_list *list)
 {
@@ -21,38 +54,16 @@ int	heredoc_count(t_list *list)
 	prev_type = -1;
 	while (list)
 	{
-		if (list->token->type == WHITESPACE)
-			list = list->next;
 		if (list->token->type == HEREDOC)
 		{
-			if (is_redir_2(prev_type) || is_quotes(prev_type))
+			if (!handle_heredoc(&list, prev_type))
 				return (count);
-			if (list->next)
-			{
-				list = list->next;
-				if (list->token->type == WHITESPACE)
-					list = list->next;
-				if (list->next)
-				{
-					if (is_quotes(list->token->type))
-						list = list->next;
-				}
-				if (list->token->type != WORD)
-					return (count);
-			}
 			else
-				return (count);
-			count++;
+				count++;
 		}
 		else
 		{
-			if (list->token->type == PIPE && (is_redir(prev_type) || prev_type == PIPE))
-				return (count);
-			else if (list->token->type == RED_IN && is_redir_2(prev_type))
-				return (count);
-			else if (list->token->type == RED_OUT && is_redir_2(prev_type))
-				return (count);
-			else if (list->token->type == APPEND && is_redir_2(prev_type))
+			if (!hc_handle_errors(prev_type, list->token->type))
 				return (count);
 		}
 		prev_type = list->token->type;
