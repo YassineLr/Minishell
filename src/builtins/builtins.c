@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 23:57:40 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:23:30 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int in_builtins(t_parser *parse)
     else if(!ft_strcmp(parse->command->cmds[0], "env"))
         return 1;
     else if(!ft_strcmp(parse->command->cmds[0], "unset"))
+        return 1;
+    else if(!ft_strcmp(parse->command->cmds[0], "exit"))
         return 1;
     return 0;
 }
@@ -45,6 +47,8 @@ void builtins(t_parser *parse, t_env *env, int child)
         ft_env(env);
     else if(!ft_strcmp(parse->command->cmds[0], "unset"))
         unset(parse, env);
+    else if(!ft_strcmp(parse->command->cmds[0], "exit"))
+        ft_exit(parse);
     if(child)
         exit(0);
 }
