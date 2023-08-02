@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/01 08:59:05 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/02 05:50:39 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int	get_redin(t_list *list)
 			if (is_last_hc(list))
 				last_red = -2;
 			else
-				last_red = -1;
+				last_red = 0;
 			ft_lstclear_reds(&red_ins);
 		}
 		else

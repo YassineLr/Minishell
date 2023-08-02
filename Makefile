@@ -6,7 +6,7 @@
 #    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/02 01:22:05 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/02 05:44:31 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = #-fsanitize=address -g3
+CFLAGS = -fsanitize=address -g3
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

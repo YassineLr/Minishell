@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/02 03:53:54 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/02 05:02:37 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,6 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 			if (hdoc_line)
 				free(hdoc_line);
 			count--;
-			if (!count)
-				break;
 		}
 		else
 			list = list->next;

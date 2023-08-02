@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/01 03:37:36 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/02 05:42:50 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,13 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 	path = ft_path(parse, env);
 	if (!path)
 		exit(127);
-	if (execve(path, parse->command->cmds, envp) == -1)
-	{
-		write(2, "could not execve\n", 18);
-		exit(127);
-	}
+	if (!parse->command->cmds[0])
+		exit(1);
+		if (execve(path, parse->command->cmds, envp) == -1)
+		{
+			write(2, "could not execve\n", 18);
+			exit(127);
+		}
 	exit(1);
 }
 

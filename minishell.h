@@ -86,6 +86,7 @@ typedef struct s_cmd
 	t_pipe		pipe_fd;
 	int			red_in;
 	int			red_out;
+	int			heredoc;
 }	t_cmd;
 
 typedef struct s_parser

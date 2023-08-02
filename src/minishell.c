@@ -156,6 +156,20 @@ int	main(int ac, char **av, char **envp)
 			if (err == 1)
 			{
 				p_list = ft_parser(lex_list, hdoc_input);
+					int x;
+					t_parser *p;
+					p = p_list;
+				while (p)
+				{
+					x = -1;
+					while (p->command->cmds[++x])
+						printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
+					printf("pipe     : %d\n", p->command->pipe);
+					printf("red_in   : %d\n", p->command->red_in);
+					printf("red_out  : %d\n", p->command->red_out);
+					printf("heredoc  : %d\n", p->command->heredoc);
+					p = p->next;
+				}
 				int pid = 0;
 
 				init_fds(p_list);
