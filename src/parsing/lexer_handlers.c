@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:16:11 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 13:35:36 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:27:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	lexer_handle_dollar(t_lexer *lexer, t_list **list)
 		lexer_advance(lexer);
 		lexer_advance(lexer);
 	}
-	if (lexer->content[lexer->i + 1] == '\''
+	else if (lexer->content[lexer->i + 1] == '\''
 		|| lexer->content[lexer->i + 1] == '"')
 		lexer_advance(lexer);
 	else if (lexer->content[lexer->i + 1] == '$')

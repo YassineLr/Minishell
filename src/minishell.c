@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+int exitcode;
+
 int	count_env(char **str)
 {
 	int	i;

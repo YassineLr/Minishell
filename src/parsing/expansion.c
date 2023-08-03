@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 13:34:59 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:34:44 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,74 @@
 char	*expand_(char *str, t_env *env)
 {
 	int		i;
+	char	*tmp;
 	int		start;
 	int		len;
-	char	*tmp;
+	char	*final_str;
 
-	len = 0;
 	i = 0;
-	if (str[i] == '$' && str[i + 1] == '?')
-		return (ft_itoa(exitcode));
-	if (str[i] == '$')
+	final_str = malloc(sizeof(char));
+	if (!final_str)
+		return (NULL);
+	final_str[0] = '\0';
+	while (str[i])
 	{
-		len++;
-		i++;
+		len = 0;
+		if (str[i] == '$')
+		{
+			i++;
+			if (str[i] == '$')
+			{
+				final_str = ft_strjoin(final_str, "$$");
+				i++;
+			}
+			else if (str[i] == '?')
+			{
+				final_str = ft_strjoin(final_str, ft_itoa(exitcode));
+				i++;
+			}
+			else
+			{
+				start = i;
+				while (str[i] && str[i] != '$' && !ft_is_whitespace(str[i]))
+				{
+					i++;
+					len++;
+				}
+				tmp = ft_substr(str, start, len);
+				while (env)
+				{
+					if (ft_strcmp(tmp, env->key) == 0)
+						break;
+					env = env->next;
+				}
+				if (env)
+					final_str = ft_strjoin(final_str, env->value);
+				if (tmp)
+				{
+					free(tmp);
+					tmp = NULL;
+				}
+			}
+		}
+		else
+		{
+			start = i;
+			while (str[i] && str[i] != '$')
+			{
+				i++;
+				len++;
+			}
+			tmp = ft_substr(str, start, len);
+			final_str = ft_strjoin(final_str, tmp);
+			if (tmp)
+			{
+				free(tmp);
+				tmp = NULL;
+			}
+		}
 	}
-	start = i;
-	while (str[i] && !is_special(str[i]))
-	{
-		i++;
-		len++;
-	}
-	tmp = ft_substr(str, start, len);
-	free(str);
-	while (env)
-	{
-		if (!ft_strcmp(tmp, env->key))
-			break;
-		env = env->next;
-	}
-	if (env)
-	{
-		free(tmp);
-		return (ft_strdup(env->value));
-	}
-	free(tmp);
-	return (ft_strdup(""));
+	return (final_str);
 }
 
 int	must_expand(char *str)
