@@ -8,7 +8,7 @@
 
 // << a 	SEGV in executor (when no cmd)
 
-
+// should fix expand	:		echo "$USER$USER"
 
 
 /*
@@ -28,15 +28,7 @@
 
  /*
  NEW ERRORS
-export a="asdf asdf asdd fas"
-bash-3.2$ ls $a
-ls: asdd: No such file or directory
-ls: asdf: No such file or directory
-ls: asdf: No such file or directory
-ls: fas: No such file or directory
-*******
-syntax error should be added to history
-*******
+
 export a=asdfsadf
 export a
 declare -x a="a asdf sa fsd"

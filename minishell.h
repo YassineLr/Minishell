@@ -176,6 +176,7 @@ int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
 int		ft_count_strs(char **str);
+char	*ft_itoa(int n);
 
 // Expansion
 void	expansion(t_list *list, t_env *env);

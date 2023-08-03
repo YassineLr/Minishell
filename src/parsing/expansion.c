@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/01 10:04:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:34:59 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*expand_(char *str, t_env *env)
 
 	len = 0;
 	i = 0;
+	if (str[i] == '$' && str[i + 1] == '?')
+		return (ft_itoa(exitcode));
 	if (str[i] == '$')
 	{
 		len++;

@@ -6,7 +6,7 @@
 #    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/03 11:38:56 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/03 13:34:38 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c \
 	./includes/string_helpers/ft_count_strs.c ./src/builtins/builtins.c ./src/parsing/lexer_handlers.c ./src/parsing/lexer_handlers2.c ./src/parsing/lexer_utils.c \
 	./includes/helpers/is_quotes.c ./includes/helpers/is_redirection.c ./src/execution/error_handler.c ./src/execution/pipes_handler.c ./src/execution/executor.c ./src/parsing/heredoc_expand.c \
+	./includes/string_helpers/ft_itoa.c
 	
 
 OBJS = ${SRC:.c=.o}
