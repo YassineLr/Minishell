@@ -6,11 +6,49 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 03:06:42 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 04:08:55 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+// int	count_heredoc(t_list *list)
+// {
+// 	int	count;
+	
+// 	count = 0;
+// 	while (list)
+// 	{
+// 		while (list && list->token)
+// 	}
+// }
+
+
+// int	check_last(t_list *list)
+// {
+// 	if (list->next)
+// 		list = list->next;
+// 	while (list && list->token->type != PIPE)
+// 	{
+// 		// printf("%s\n", list->token->value);
+// 		if (list->token->type == HEREDOC)
+// 			return (0);
+// 		list = list->next;
+// 	}
+// 	return (1);
+// }
+
+int is_last_herdoc(t_list *list)
+{
+	while(list && list->token->type != PIPE)
+	{
+		if(list->token->type == HEREDOC)
+			if(check_last(list))
+				return 1;
+		list = list->next;
+	}
+	return 0;
+}
 
 int	hc_handle_errors(int prev_type, int curr_type)
 {
@@ -78,10 +116,12 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 	int		expand;
 	int		count;
 	int		*end;
+	int		count_hc;
 	char	*hdoc_line;
 
 	i = 0;
 	expand = 1;
+	// count_hc = count_heredoc(list);
 	count = heredoc_count(list);
 	if (!count)
 		return (0);

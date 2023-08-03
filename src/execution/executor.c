@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/03 03:04:02 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 03:33:24 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char    *ft_path(t_parser *parse, t_env *env)
 	else
 	{
 		if (search_in_env(env, "PATH"))
-		paths = search_in_env(env, "PATH")->value;
+			paths = search_in_env(env, "PATH")->value;
 		if (!paths)
 		{
 			no_path_err(parse);

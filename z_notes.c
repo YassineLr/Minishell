@@ -56,4 +56,5 @@
 					p = p->next;
 				}
 
+	send last heredoc of every command (before pipe), instead of last command line
 */
