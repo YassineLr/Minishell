@@ -1,8 +1,9 @@
 
 // cat | ls
+// SOLVED
 
 // unset PATH
-
+// SOLVED
 
 // cat << a << b << c | wc -l << a		:	wc -l reads from << c instead of << a
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/03 03:33:24 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 23:55:36 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char    *ft_path(t_parser *parse, t_env *env)
 	char    *path;
 	char    *paths;
 	char    **splited;
+	char 	*tmp;
 	int        i;
 
 	i = 0;
@@ -35,7 +36,8 @@ char    *ft_path(t_parser *parse, t_env *env)
 		splited = ft_split(paths, ':');
 		while (splited[i])
 		{
-			path = ft_strjoin(ft_strjoin(splited[i], "/"), parse->command->cmds[0]);
+			tmp = ft_strjoin(splited[i], "/");
+			path = ft_strjoin(tmp, parse->command->cmds[0]);
 			if (access(path, X_OK | F_OK) == 0)
 				return (path);
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/27 02:43:29 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/04 00:19:18 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,53 @@ void go_home(t_env *env)
 	char	*home_path;
 
 	home_path = search_in_env(env, "HOME")->value;
-	chdir(home_path);
+	if(home_path)
+		chdir(home_path);
+	else
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 }
 
+char *go_oldpwd(t_env *env)
+{
+	char *oldpwd;
+	
+	oldpwd = search_in_env(env, "OLDPWD");
+	if(!oldpwd)
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return ;
+	}
+	else
+		chdir(oldpwd);
+	return(oldpwd);
+}
 void cd(t_parser *parse ,t_env *env)
 {
 	char *pwd=NULL;
 	char *oldpwd= NULL;
+	char *dir;
 
+	dir = opendir(parse->command->cmds[0]);
 	oldpwd = getcwd(oldpwd,0);
+	if (!dir)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(dir, 2);
+		perror(" ");
+	}
+	else
+	{
 	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{	
 		go_home(env);
 		pwd = search_in_env(env, "HOME")->value;
 	}
+	else if(!ft_strcmp(parse->command->cmds[1], "-"))
+	{
+		pwd = go_oldpwd(env);
+		if (!pwd)
+			return ;
+	}	
 	else
 	{
 		if(chdir(parse->command->cmds[1]) == 0)
@@ -51,6 +84,7 @@ void cd(t_parser *parse ,t_env *env)
 			ft_putstr_fd("cd: No such file or directory\n",2);
 			return ;
 		}
+	}
 	}
 	update_pwd(env, oldpwd, pwd);
 }
