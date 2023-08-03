@@ -42,18 +42,18 @@
 
 
 /*
-	int x;
-	while (p_list)
-	{
-		x = -1;
-		while (p_list->command->cmds[++x])
-			printf("cmds[%d]  : %s\n", x, p_list->command->cmds[x]);
-		printf("pipe     : %d\n", p_list->command->pipe);
-		printf("red_in   : %d\n", p_list->command->red_in);
-		printf("red_out  : %d\n", p_list->command->red_out);
-		p_list = p_list->next;
-	}
+				int x;
+				t_parser *p;
+				p = p_list;
+				while (p)
+				{
+					x = -1;
+					while (p->command->cmds[++x])
+						printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
+					printf("pipe     : %d\n", p->command->pipe);
+					printf("red_in   : %d\n", p->command->red_in);
+					printf("red_out  : %d\n", p->command->red_out);
+					p = p->next;
+				}
 
-	if cmd[0] == NULL dont print any error message
-	if cmd[0][0] == '\0' print command not found
 */

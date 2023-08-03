@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/02 08:14:23 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 02:58:02 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_cmd	*init_cmd(void)
 	cmd->pipe = 0;
 	cmd->red_in = 0;
 	cmd->red_out = 0;
-	cmd->heredoc = 0;
 	return (cmd);
 }
 
@@ -264,10 +263,7 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 		cmd[i]->red_out = get_redout(list);
 		cmd[i]->red_in = get_redin(list);
 		if (cmd[i]->red_in == -2)
-		{
-			cmd[i]->heredoc = 1;
 			cmd[i]->red_in = hdc_pipe[0];
-		}
 		while (list && list->token && list->token->type != PIPE)
 			list = list->next;
 		if (list && list->token && list->token->type == PIPE)

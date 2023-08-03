@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 05:34:59 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/02 08:09:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 02:57:52 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_parser	*ft_lstnew_alt(t_cmd *cmd)
 	node->command->pipe = cmd->pipe;
 	node->command->red_in = cmd->red_in;
 	node->command->red_out = cmd->red_out;
-	node->command->heredoc = cmd->heredoc;
 	node->next = NULL;
 	return (node);
 }
