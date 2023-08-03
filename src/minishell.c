@@ -121,18 +121,16 @@ int	main(int ac, char **av, char **envp)
 	int			err;
 	int			*hdoc_input;
 	char		*line;
-	// char		*pwd=NULL;
 	t_lexer		*lexer;
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
 	t_env		*env;
-	t_env		*courant;
-	char		**envvv;
-	int i = 0;
-	int id;
-	int status;
-	// t_list	*node;
+	// t_env		*courant;
+	// char		**envvv;
+	// int i = 0;
+	// int id;
+	// int status;
 
 	(void)ac;
 	(void)av;
@@ -156,12 +154,8 @@ int	main(int ac, char **av, char **envp)
 			if (err == 1)
 			{
 				p_list = ft_parser(lex_list, hdoc_input);
-				int pid = 0;
-
 				init_fds(p_list);
 				set_pipes(p_list);
-				// t_parser *cureent = p_list;
-				// t_parser *curent = p_list;
 				executor(p_list, env, envp);
 				add_history(line);
 				free_plist(&p_list);

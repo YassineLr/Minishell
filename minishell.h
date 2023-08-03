@@ -216,4 +216,11 @@ void	close_pipes(t_parser *parse, int fread, int fwrite);
 void 	executor(t_parser *parse, t_env *env, char **envp);
 void	ft_exit(t_parser *parse);
 
+void	print_error(char *error);
+void 	command_nf_error(t_parser *parse);
+void	redirection(t_parser *parse);
+void	close_files(t_parser *parse);
+void 	no_path_err(t_parser *parse);
+
+
 #endif
