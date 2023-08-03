@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 02:58:02 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 09:06:48 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ int	check_first_cmd(char *str)
 
 int	count_words(t_list *list)
 {
-	int	first;
 	int	count;
 
-	first = 1;
 	count = 0;
 	while (list)
 	{
@@ -55,14 +53,10 @@ int	count_words(t_list *list)
 			break;
 		else
 		{
-			if (first == 1 && list->token->expanded == 1)
-			{
+			if (list->token->expanded == 1 && list->token->in_quotes == 0)
 				count += check_first_cmd(list->token->value);
-				first = 0;
-			}
 			else
 				count++;
-			first = 0;
 		}
 		list = list->next;
 	}
@@ -194,13 +188,11 @@ char	**get_cmds(t_list *list)
 	int		i;
 	int		j;
 	char	**split;
-	int		first;
 	int		count;
 	char	**cmds;
 
 	i = 0;
 	j = 0;
-	first = 1;
 	split = NULL;
 	count = count_words(list);
 	if (count == 0)
@@ -220,7 +212,7 @@ char	**get_cmds(t_list *list)
 				cmds[i] = ft_strdup("");
 				i++;
 			}
-			else if (first == 1 && list->token->expanded == 1 && list->token->in_quotes == 0)
+			else if (list->token->expanded == 1 && list->token->in_quotes == 0)
 			{
 				j = 0;
 				split = ft_split(list->token->value, ' ');
@@ -237,7 +229,6 @@ char	**get_cmds(t_list *list)
 				cmds[i] = ft_strdup(list->token->value);
 				i++;
 			}
-			first = 0;
 		}
 		list = list->next;
 	}

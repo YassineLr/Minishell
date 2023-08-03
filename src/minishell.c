@@ -140,6 +140,7 @@ int	main(int ac, char **av, char **envp)
 	env = execc_get_env(envp);
 	while (line)
 	{
+		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list, env);
 		expansion(tmp_list, env);
@@ -157,7 +158,6 @@ int	main(int ac, char **av, char **envp)
 				init_fds(p_list);
 				set_pipes(p_list);
 				executor(p_list, env, envp);
-				add_history(line);
 				free_plist(&p_list);
 			}
 		}

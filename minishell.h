@@ -173,9 +173,13 @@ int		ft_count_strs(char **str);
 
 // Expansion
 void	expansion(t_list *list, t_env *env);
-int		heredoc_count(t_list *list);
 void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
+
+// heredoc
 int		*here_doc(t_lexer *lexer, t_list *list, t_env *env);
+int		handle_heredoc(t_list **list, int prev_type);
+int		heredoc_count(t_list *list);
+int		hc_handle_errors(int prev_type, int curr_type);
 
 // get_next_line
 char	*fill_buff(int fd);

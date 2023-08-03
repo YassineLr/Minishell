@@ -6,48 +6,37 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 04:08:55 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 09:07:21 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// int	count_heredoc(t_list *list)
-// {
-// 	int	count;
-	
-// 	count = 0;
-// 	while (list)
-// 	{
-// 		while (list && list->token)
-// 	}
-// }
-
-
-// int	check_last(t_list *list)
-// {
-// 	if (list->next)
-// 		list = list->next;
-// 	while (list && list->token->type != PIPE)
-// 	{
-// 		// printf("%s\n", list->token->value);
-// 		if (list->token->type == HEREDOC)
-// 			return (0);
-// 		list = list->next;
-// 	}
-// 	return (1);
-// }
-
-int is_last_herdoc(t_list *list)
+int	heredoc_count2(t_list *list)
 {
-	while(list && list->token->type != PIPE)
+	int	count;
+	int	prev_type;
+
+	count = 0;
+	prev_type = -1;
+	while (list && list->token->type != PIPE)
 	{
-		if(list->token->type == HEREDOC)
-			if(check_last(list))
-				return 1;
+		if (list->token->type == HEREDOC)
+		{
+			if (!handle_heredoc(&list, prev_type))
+				return (count);
+			else
+				count++;
+		}
+		else
+		{
+			if (!hc_handle_errors(prev_type, list->token->type))
+				return (count);
+		}
+		prev_type = list->token->type;
 		list = list->next;
 	}
-	return 0;
+	return (count);
 }
 
 int	hc_handle_errors(int prev_type, int curr_type)
@@ -114,58 +103,79 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 {
 	int		i;
 	int		expand;
+	int		*hdc_fds;
+	int		count_hdcs;
 	int		count;
-	int		*end;
-	int		count_hc;
+	int		end[2];
 	char	*hdoc_line;
 
 	i = 0;
 	expand = 1;
-	// count_hc = count_heredoc(list);
-	count = heredoc_count(list);
-	if (!count)
+	count_hdcs = heredoc_count(list);
+	if (!count_hdcs)
 		return (0);
-	end = malloc(sizeof(int) * 2);
-	if (!end)
-		return (0);
-	if (pipe(end) == -1)
-		return (0);
-	while (list)
+	hdc_fds = malloc(sizeof(int) * count_hdcs);
+	while (list && count_hdcs > 0)
 	{
-		if (!count)
-			break;
-		if (list->token->type == HEREDOC)
+		count = heredoc_count2(list);
+		if (!count) // if no heredoc in current command skip to next command
 		{
-			list = list->next;
-			if (is_quotes(list->token->type))
-			{
-				expand = 0;
+			while (list && list->token->type != PIPE)
 				list = list->next;
-			}
-			hdoc_line = readline("> ");
-			while (ft_strcmp(hdoc_line, list->token->value))
-			{
-				if (i == count - 1)
-				{
-					if (expand == 0)
-						ft_putendl_fd(hdoc_line, end[1]);
-					else
-						expansion_v2(lexer, hdoc_line, end[1], env);
-				}
-				if (hdoc_line)
-					free(hdoc_line);
-				hdoc_line = readline("> ");
-			}
-			if (hdoc_line)
-				free(hdoc_line);
-			count--;
+			if (list)
+				list = list->next;
 		}
 		else
-			list = list->next;
+		{
+			while (list && list->token->type != PIPE && count_hdcs > 0)
+			{
+				if (list->token->type == HEREDOC)
+				{
+					if (count == 1) // if is last heredoc in current command, open pipe
+					{
+						if (pipe(end) == -1)
+							return (0);
+					}
+					list = list->next;
+					if (is_quotes(list->token->type))
+					{
+						expand = 0;
+						list = list->next;
+					}
+					hdoc_line = readline("> ");
+					while (ft_strcmp(hdoc_line, list->token->value)) // while line differs from delimiter
+					{
+						if (count == 1) // if last heredoc in current command, write in the previously opened pipe
+						{
+							if (expand == 0)
+								ft_putendl_fd(hdoc_line, end[1]);
+							else
+								expansion_v2(lexer, hdoc_line, end[1], env);
+						}
+						if (hdoc_line)
+							free(hdoc_line);
+						hdoc_line = readline("> ");
+					}
+					if (count == 1) // if is last heredoc in current command, close end[1] and save end[0] 
+					{
+						close(end[1]);
+						hdc_fds[i] = end[0];
+						i++;
+					}
+					if (hdoc_line)
+						free(hdoc_line);
+					count--;
+					count_hdcs--;
+				}
+				else
+					list = list->next;
+			}
+		}
 	}
-	close(end[1]);
-	// printf("%s", get_next_line(end[0]));
-	// printf("%s", get_next_line(end[0]));
-	// printf("%s", get_next_line(end[0]));
-	return (end);
+	// printf("%s", get_next_line(hdc_fds[0]));
+	// printf("%s", get_next_line(hdc_fds[0]));
+	// printf("%s", get_next_line(hdc_fds[1]));
+	// printf("%s", get_next_line(hdc_fds[2]));
+	// exit(1);
+	return (hdc_fds);
 }
