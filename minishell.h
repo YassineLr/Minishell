@@ -27,6 +27,12 @@
 
 int exitcode;
 
+typedef struct s_hdc
+{
+	int	*fds;
+	int	count;
+}	t_hdc;
+
 typedef struct s_env
 {
 	char	*key;
@@ -176,7 +182,7 @@ void	expansion(t_list *list, t_env *env);
 void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
 
 // heredoc
-int		*here_doc(t_lexer *lexer, t_list *list, t_env *env);
+t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
@@ -188,7 +194,7 @@ char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 
 // Parser
-t_parser	*ft_parser(t_list *list, int *hdc_pipe);
+t_parser	*ft_parser(t_list *list, t_hdc *hdc);
 t_cmd		*init_cmd(void);
 
 // File control

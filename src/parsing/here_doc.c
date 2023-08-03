@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 09:07:21 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:23:54 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,28 @@ int	heredoc_count(t_list *list)
 	return (count);
 }
 
-int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
+t_hdc	*init_hdc(int count)
+{
+	t_hdc	*hdc;
+
+	hdc = malloc(sizeof(t_hdc));
+	if (!hdc)
+		return (0);
+	hdc->count = count;
+	hdc->fds = malloc(sizeof(int) * count);
+	if (!hdc->fds)
+		return (0);
+	return (hdc);
+}
+
+t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env)
 {
 	int		i;
 	int		expand;
-	int		*hdc_fds;
 	int		count_hdcs;
 	int		count;
 	int		end[2];
+	t_hdc	*hdc;
 	char	*hdoc_line;
 
 	i = 0;
@@ -114,7 +128,9 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 	count_hdcs = heredoc_count(list);
 	if (!count_hdcs)
 		return (0);
-	hdc_fds = malloc(sizeof(int) * count_hdcs);
+	hdc = init_hdc(count_hdcs);
+	if (!hdc)
+		return (0);
 	while (list && count_hdcs > 0)
 	{
 		count = heredoc_count2(list);
@@ -127,7 +143,7 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 		}
 		else
 		{
-			while (list && list->token->type != PIPE && count_hdcs > 0)
+			while (list && list->token && list->token->type != PIPE && count_hdcs > 0)
 			{
 				if (list->token->type == HEREDOC)
 				{
@@ -159,7 +175,7 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 					if (count == 1) // if is last heredoc in current command, close end[1] and save end[0] 
 					{
 						close(end[1]);
-						hdc_fds[i] = end[0];
+						hdc->fds[i] = end[0];
 						i++;
 					}
 					if (hdoc_line)
@@ -172,10 +188,11 @@ int *here_doc(t_lexer *lexer, t_list *list, t_env *env)
 			}
 		}
 	}
-	// printf("%s", get_next_line(hdc_fds[0]));
-	// printf("%s", get_next_line(hdc_fds[0]));
-	// printf("%s", get_next_line(hdc_fds[1]));
-	// printf("%s", get_next_line(hdc_fds[2]));
+	// printf("%d\n", hdc->fds[1]);
+	// printf("%d\n", hdc->fds[2]);
+	// printf("%s", get_next_line(hdc->fds[0]));
+	// printf("%s", get_next_line(hdc->fds[1]));
+	// printf("%s", get_next_line(hdc->fds[2]));
 	// exit(1);
-	return (hdc_fds);
+	return (hdc);
 }

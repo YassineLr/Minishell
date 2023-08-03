@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 09:06:48 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:31:37 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,6 @@ int	get_redout(t_list *list)
 	return (last_red);
 }
 
-int	is_last_hc(t_list *list)
-{
-	while (list && list->token)
-	{
-		printf("%s\n", list->token->value);
-		if (list->token->type == HEREDOC)
-			return (0);
-		list = list->next;
-	}
-	return (1);
-}
-
 int	get_redin(t_list *list)
 {
 	t_reds	*tmp;
@@ -168,10 +156,7 @@ int	get_redin(t_list *list)
 		}
 		if (tmp->fd == -2)
 		{
-			if (is_last_hc(list))
-				last_red = -2;
-			else
-				last_red = 0;
+			last_red = -2;
 			ft_lstclear_reds(&red_ins);
 		}
 		else
@@ -236,13 +221,15 @@ char	**get_cmds(t_list *list)
 	return (cmds);
 }
 
-t_parser	*ft_parser(t_list *list, int *hdc_pipe)
+t_parser	*ft_parser(t_list *list, t_hdc *hdc)
 {
 	t_parser	*p_list;
 	t_cmd		**cmd;
 	int			i;
+	int			j;
 
 	i = 0;
+	j = 0;
 	p_list = NULL;
 	cmd = malloc(sizeof(char *) * (count_cmds(list) + 1));
 	if (!cmd)
@@ -254,7 +241,10 @@ t_parser	*ft_parser(t_list *list, int *hdc_pipe)
 		cmd[i]->red_out = get_redout(list);
 		cmd[i]->red_in = get_redin(list);
 		if (cmd[i]->red_in == -2)
-			cmd[i]->red_in = hdc_pipe[0];
+		{
+			cmd[i]->red_in = hdc->fds[j];
+			j++;
+		}
 		while (list && list->token && list->token->type != PIPE)
 			list = list->next;
 		if (list && list->token && list->token->type == PIPE)

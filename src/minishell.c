@@ -119,9 +119,9 @@ t_list **join_words(t_list **list, t_list *tmp_list)
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
-	int			*hdoc_input;
 	char		*line;
 	t_lexer		*lexer;
+	t_hdc		*hdc;
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
@@ -134,6 +134,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
 	line = readline("minishell-1.0$ ");
@@ -149,12 +150,26 @@ int	main(int ac, char **av, char **envp)
 		{
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
-			hdoc_input = here_doc(lexer, lex_list, env);
+			hdc = here_doc(lexer, lex_list, env);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);
 			if (err == 1)
 			{
-				p_list = ft_parser(lex_list, hdoc_input);
+				p_list = ft_parser(lex_list, hdc);
+				int x;
+				t_parser *p;
+				p = p_list;
+				while (p)
+				{
+					x = -1;
+					while (p->command->cmds[++x])
+						printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
+					printf("pipe     : %d\n", p->command->pipe);
+					printf("red_in   : %d\n", p->command->red_in);
+					printf("red_out  : %d\n", p->command->red_out);
+					p = p->next;
+					printf("\n");
+				}
 				init_fds(p_list);
 				set_pipes(p_list);
 				executor(p_list, env, envp);
@@ -164,8 +179,8 @@ int	main(int ac, char **av, char **envp)
 		free_list(&lex_list);
 		free_list(&tmp_list);
 		free_lexer(lexer);
-		if (hdoc_input)
-			free(hdoc_input);
+		if (hdc)
+			free(hdc);
 		line = readline("minishell-1.0$ ");
 	}
 	return (0);
