@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/01 06:53:20 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/04 06:19:21 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ void	export(t_parser *parse, t_env **env)
 		else if (index_at(parse->command->cmds[i],'=') == -1)
 		{
 			char **tmp = ft_split(parse->command->cmds[i], '=');
-			ft_lstadd_back_env(env,ft_lstnew_env(tmp));
+			if(search_in_env(*env, tmp[0]))
+				search_in_env(*env, tmp[0])->value = "";
+			else
+				ft_lstadd_back_env(env,ft_lstnew_env(tmp));
 			ft_free_strs(tmp);
 		}
 		i++;

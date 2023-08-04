@@ -1,15 +1,6 @@
 
-// cat | ls
-// SOLVED
-
-// unset PATH
-// SOLVED
-
 // cat << a << b << c | wc -l << a		:	wc -l reads from << c instead of << a
 
-// << a 	SEGV in executor (when no cmd)
-
-// should fix expand	:		echo "$USER$USER"
 
 
 /*
@@ -41,6 +32,7 @@ cd: No such file or directory
 minishell-1.0$ unset PWD
 minishell-1.0$ cd includes
 [1]    28861 segmentation fault  ./minishell
+--> fixed
 *********
 minishell-1.0$ cd includes
 minishell-1.0$ unset PWD

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/03 23:55:36 by ylr              ###   ########.fr       */
+/*   Updated: 2023/08/04 06:42:51 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,30 @@ char    *ft_path(t_parser *parse, t_env *env)
 
 	i = 0;
 	paths = NULL;
-	if(parse->command->cmds[0][0] == '\0')
-		command_nf_error(parse);
-	else
+	if(parse->command->cmds[0])
 	{
-		if (search_in_env(env, "PATH"))
-			paths = search_in_env(env, "PATH")->value;
-		if (!paths)
+		if(parse->command->cmds[0][0] == '\0')
+			command_nf_error(parse);
+		else
 		{
-			no_path_err(parse);
-			exit (exitcode);
+			if (search_in_env(env, "PATH"))
+				paths = search_in_env(env, "PATH")->value;
+			if (!paths)
+			{
+				no_path_err(parse);
+				exit (exitcode);
+			}
+			splited = ft_split(paths, ':');
+			while (splited[i])
+			{
+				tmp = ft_strjoin(splited[i], "/");
+				path = ft_strjoin(tmp, parse->command->cmds[0]);
+				if (access(path, X_OK | F_OK) == 0)
+					return (path);
+				i++;
+			}
+			command_nf_error(parse);
 		}
-		splited = ft_split(paths, ':');
-		while (splited[i])
-		{
-			tmp = ft_strjoin(splited[i], "/");
-			path = ft_strjoin(tmp, parse->command->cmds[0]);
-			if (access(path, X_OK | F_OK) == 0)
-				return (path);
-			i++;
-		}
-		command_nf_error(parse);
 	}
 	return (NULL);
 }
