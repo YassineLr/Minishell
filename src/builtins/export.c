@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 06:19:21 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:47:23 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ void	export(t_parser *parse, t_env **env)
 		else if (index_at(parse->command->cmds[i],'=') == -1)
 		{
 			char **tmp = ft_split(parse->command->cmds[i], '=');
-			if(search_in_env(*env, tmp[0]))
+			if(search_in_env(*env, tmp[0]) && !search_in_env(*env, tmp[0])->value)
 				search_in_env(*env, tmp[0])->value = "";
-			else
+			else if(!search_in_env(*env, tmp[0]))
 				ft_lstadd_back_env(env,ft_lstnew_env(tmp));
 			ft_free_strs(tmp);
 		}
