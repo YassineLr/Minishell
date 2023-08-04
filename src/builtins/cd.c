@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 00:19:18 by ylr              ###   ########.fr       */
+/*   Updated: 2023/08/04 06:00:59 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ char *go_oldpwd(t_env *env)
 {
 	char *oldpwd;
 	
-	oldpwd = search_in_env(env, "OLDPWD");
+	oldpwd =NULL;
+	if(search_in_env(env, "OLDPWD"))
+		oldpwd = search_in_env(env, "OLDPWD")->value;
 	if(!oldpwd)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		return ;
+		return NULL;
 	}
 	else
 		chdir(oldpwd);
@@ -52,18 +54,9 @@ void cd(t_parser *parse ,t_env *env)
 {
 	char *pwd=NULL;
 	char *oldpwd= NULL;
-	char *dir;
 
-	dir = opendir(parse->command->cmds[0]);
+
 	oldpwd = getcwd(oldpwd,0);
-	if (!dir)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(dir, 2);
-		perror(" ");
-	}
-	else
-	{
 	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{	
 		go_home(env);
@@ -84,7 +77,6 @@ void cd(t_parser *parse ,t_env *env)
 			ft_putstr_fd("cd: No such file or directory\n",2);
 			return ;
 		}
-	}
 	}
 	update_pwd(env, oldpwd, pwd);
 }
