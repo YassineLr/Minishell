@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 06:00:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/04 06:07:47 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void cd(t_parser *parse ,t_env *env)
 
 
 	oldpwd = getcwd(oldpwd,0);
+	if(!oldpwd)
+		perror("");
 	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{	
 		go_home(env);
@@ -80,19 +82,3 @@ void cd(t_parser *parse ,t_env *env)
 	}
 	update_pwd(env, oldpwd, pwd);
 }
-// int		main(int ac, char **av)
-// {
-// 	char *pwd;
-// 	char *usr;
-	
-// 	printf("%s\n", getcwd(pwd, 100));
-	
-// 	if(!av[1])
-// 	{
-		
-// 		printf("%d",chdir("~"));
-// 		printf("%s\n", getcwd(pwd, 100));
-// 	}
-// 	if(!chdir(av[1]))
-// 		printf("%s\n", getcwd(pwd, 100));
-// }
