@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/04 14:19:03 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:28:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 
 // void	ctrl_c_handler(int signum)
 // {
-// 	printf("Received SIGINT (Ctrl+C).\n");
-// 	rl_replace_line();
-// 	exit(1);
-// }
-// void	ctrl_d_handler(int signum)
-// {
-// 	printf("Received EOF (Ctrl+D).\n");
-// 	return ;
-// }
-// void	ctrl_backslash_handler(int signum)
-// {
-// 	printf("Received SIGQUIT (Ctrl+\\).\n");
-// 	return ;
+// 	(void)signum;
+// 	write(1, "\n", 1);
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
 // }
 
-int	signals_handler(char *line)
-{
+// void	ctrl_d_handler(int signum)
+// {
+// 	(void)signum;
+// 	ft_putstr_fd("exit\n", 1);
+// 	exit(exitcode);
+// }
+
+// void	ctrl_backslash_handler(int signum)
+// {
+// 	signal(SIGINT, SIG_IGN);
+	
+// }
+
+// int	signals_handler()
+// {
 // 	signal(SIGINT, ctrl_c_handler);
-// 	signal(EOF, ctrl_d_handler);
 // 	signal(SIGQUIT, ctrl_backslash_handler);
-	return (1);
-}
+// 	return (1);
+// }

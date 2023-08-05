@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 23:12:09 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:45:50 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ void	redirection(t_parser *parse)
 
 void	close_files(t_parser *parse)
 {
-	if (parse->command->red_in)
-		close(parse->command->red_in);
+	// if (parse->command->red_in)
+	// 	close(parse->command->red_in);
 	if (parse->command->red_out != 1)
 		close(parse->command->red_out);
 }
@@ -182,7 +182,7 @@ void executor(t_parser *parse, t_env *env, char **envp)
 			if(!pid)
 			{
 				// if(parse->command->red_in != -1)
-					in_child(parse, head, env, envt);
+				in_child(parse, head, env, envt);
 			}
 			close_files(parse);
 			parse = parse->next;

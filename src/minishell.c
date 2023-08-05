@@ -35,11 +35,13 @@ int	main(int ac, char **av, char **envp)
 	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
-	line = readline("minishell-1.0$ ");
-	// signals_handler(line);
+	// signals_handler();
 	env = get_env(envp);
-	while (line)
+	while (1)
 	{
+		line = readline("minishell-1.0$ ");
+		if (!line)
+			ctrl_d_handler();
 		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list);
@@ -69,7 +71,6 @@ int	main(int ac, char **av, char **envp)
 		free_lexer(lexer);
 		if (hdc)
 			free_hdc(hdc);
-		line = readline("minishell-1.0$ ");
 	}
 	return (0);
 }
