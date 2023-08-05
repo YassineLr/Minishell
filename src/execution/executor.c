@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 06:43:33 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:15:20 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void executor(t_parser *parse, t_env *env, char **envp)
 	envt = env_in_tab(env);
 	int save[2];
 
-	if (in_builtins(parse) && !parse->next)
+	if (parse && in_builtins(parse) && !parse->next)
 	{
 		save[0] = dup(0);
 		save[1] = dup(1);

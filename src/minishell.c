@@ -35,7 +35,7 @@ void	remove_nulls(t_list **head)
 	prev_type = -1;
 	while (current != NULL)
 	{
-		if (current->token->type == WORD && !is_quotes(prev_type) && current->token->value[0] == '\0')
+		if (current->token->type == WORD && !is_quotes(prev_type) && current->token->value[0] == '\0' && !is_redir(prev_type))
 		{
 			prev_type = current->token->type;
 			if (prev == NULL)
@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 		ft_lexer(lexer, &tmp_list, env);
 		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
-		if (err == 0|| err == -1)
+		if (err != 1)
 			exitcode = 258;
 		if (err != -1)
 		{
