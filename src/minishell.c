@@ -24,6 +24,42 @@ int	count_env(char **str)
 	return (i);
 }
 
+void	remove_nulls(t_list **head)
+{
+	t_list *current;
+	t_list *prev;
+	int		prev_type;
+
+	prev = NULL;
+	current = *head;
+	prev_type = -1;
+	while (current != NULL)
+	{
+		if (current->token->type == WORD && !is_quotes(prev_type) && current->token->value[0] == '\0')
+		{
+			prev_type = current->token->type;
+			if (prev == NULL)
+			{
+				*head = current->next;
+				ft_lstdelone(current, &free);
+				current = *head;
+			}
+			else
+			{
+				prev->next = current->next;
+				ft_lstdelone(current, &free);
+				current = prev->next;
+			}
+		}
+		else
+		{
+			prev_type = current->token->type;
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
@@ -62,6 +98,7 @@ int	main(int ac, char **av, char **envp)
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
 			hdc = here_doc(lexer, lex_list, env);
+			remove_nulls(&lex_list);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);
 			if (err == 1)
