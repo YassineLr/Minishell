@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:07:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/04 17:09:34 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:11:11 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_lexer(t_lexer *lexer)
 
 	i = -1;
 	if (!lexer)
-		return;
+		return ;
 	free(lexer->content);
 	free(lexer);
 	lexer = 0;
@@ -26,9 +26,10 @@ void	free_lexer(t_lexer *lexer)
 
 void	free_plist(t_parser **list)
 {
-	int			i = 0;
+	int			i;
 	t_parser	*tmp;
 
+	i = 0;
 	tmp = 0;
 	if (!list)
 		return ;

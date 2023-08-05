@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/04 17:08:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:11:38 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_lexer	*init_lexer(char *content)
 	return (lexer);
 }
 
-t_token *init_token(int type, char *value)
+t_token	*init_token(int type, char *value)
 {
 	t_token	*token;
 

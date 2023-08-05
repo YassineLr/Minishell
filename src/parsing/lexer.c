@@ -49,7 +49,7 @@ void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env)
 		else if (ft_is_whitespace(lexer->c))
 		{
 			if (!check_end(&lexer->content[lexer->i]))
-				break;
+				break ;
 			lexer_handle_whitespace(lexer, list);
 		}
 		else if (lexer->c == '<')

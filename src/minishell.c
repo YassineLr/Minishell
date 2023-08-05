@@ -24,42 +24,6 @@ int	count_env(char **str)
 	return (i);
 }
 
-void	remove_nulls(t_list **head)
-{
-	t_list *current;
-	t_list *prev;
-	int		prev_type;
-
-	prev = NULL;
-	current = *head;
-	prev_type = -1;
-	while (current != NULL)
-	{
-		if (current->token->type == WORD && !is_quotes(prev_type) && current->token->value[0] == '\0' && !is_redir(prev_type))
-		{
-			prev_type = current->token->type;
-			if (prev == NULL)
-			{
-				*head = current->next;
-				ft_lstdelone(current, &free);
-				current = *head;
-			}
-			else
-			{
-				prev->next = current->next;
-				ft_lstdelone(current, &free);
-				current = prev->next;
-			}
-		}
-		else
-		{
-			prev_type = current->token->type;
-			prev = current;
-			current = current->next;
-		}
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
@@ -89,6 +53,12 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list, env);
+			// 		while (tmp_list)
+			// {
+			// 	printf("type : %d\nvalue :%s\n\n", tmp_list->token->type, tmp_list->token->value);
+			// 	tmp_list = tmp_list->next;
+			// }
+			// exit(1);
 		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
 		if (err != 1 && err != 2)

@@ -159,7 +159,7 @@ void	lexer_handle_pipe(t_lexer *lexer, t_list **list);
 void	lexer_handle_whitespace(t_lexer *lexer, t_list **list);
 t_list	**join_words(t_list **list, t_list *tmp_list);
 void	remove_type(t_list **head, int type);
-void	remove_matching_type(t_list **current, t_list **prev, int type);
+void	remove_nulls(t_list **head);
 
 // Helpers
 int		ft_is_whitespace(int c);

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:00:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 16:37:34 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:32:50 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i)
 
 	*i += 1;
 	tmp = NULL;
-	if (ft_is_whitespace(str[*i]) || str[*i] == '\0')
+	if (!ft_isalnum(str[*i]) || str[*i] == '\0')
 		return (ft_strdup("$"));
 	else if (str[*i] == '$')
 	{
