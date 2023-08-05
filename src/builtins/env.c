@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:23:15 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/19 14:31:20 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:19:51 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void ft_env(t_env *env)
 {
     t_env *courant;
 
-    printf("============= this is the env =============\n");
     courant = env;
     while (courant)
     {

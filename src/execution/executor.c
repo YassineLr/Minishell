@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 06:42:51 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 06:43:33 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	redirection(t_parser *parse)
 {
 	if (parse->command->red_in)
 		dup2(parse->command->red_in, STDIN_FILENO);
-	if (parse->command->red_out)
+	if (parse->command->red_out != 1)
 		dup2(parse->command->red_out, STDOUT_FILENO);
 }
 
@@ -126,14 +126,31 @@ void	close_files(t_parser *parse)
 		close(parse->command->red_out);
 }
 
+void ftt_dup(int fildes, int fildes2)
+{
+	dup2(fildes,fildes2);
+	close(fildes);
+}
 void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 {
+	int save[2];
+	
 	if (in_builtins(parse))
+	{
+		save[0] = dup(0);
+		save[1] = dup(1);
+		redirection(parse);
+		builtins(parse, env, 0);
+		ftt_dup(save[0],STDIN_FILENO);
+		ftt_dup(save[1], STDOUT_FILENO);
+		close_files(parse);
 		builtins(parse, env, 1);
+	}
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
 	execute_cmd(parse ,env , envt);
 }
+
 void executor(t_parser *parse, t_env *env, char **envp)
 {
 	t_parser	*head;
@@ -143,8 +160,18 @@ void executor(t_parser *parse, t_env *env, char **envp)
 	
 	head = parse;
 	envt = env_in_tab(env);
+	int save[2];
+
 	if (in_builtins(parse) && !parse->next)
+	{
+		save[0] = dup(0);
+		save[1] = dup(1);
+		redirection(parse);
 		builtins(parse, env, 0);
+		ftt_dup(save[0],STDIN_FILENO);
+		ftt_dup(save[1], STDOUT_FILENO);
+		close_files(parse);
+	}
 	else
 	{
 		while (parse)

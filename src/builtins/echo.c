@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/20 14:56:08 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:36:58 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,3 @@ void    ft_echo(t_parser *parse)
     if(!flag)
         write(1,"\n", 1);
 }
-
-// int main(int ac, char **av)
-// {
-//     ft_echo(av[1]);
-// }
