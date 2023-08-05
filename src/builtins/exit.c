@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 02:36:24 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/05 09:04:15 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int	exit_utils(t_parser *parse)
 	int	i;
 	int	ext;
 
-	i = 0;
+	i = 1;
 
+	// if(parse->command->cmds[i])
 	if (!ft_atoi(parse->command->cmds[i]))
 	{
 		ft_putstr_fd("exit\nexit : numeric argument required\n",2);

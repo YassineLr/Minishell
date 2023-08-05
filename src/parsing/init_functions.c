@@ -1,57 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:43:15 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/30 04:35:56 by oubelhaj         ###   ########.fr       */
+/*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
+/*   Updated: 2023/08/04 17:08:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	free_lexer(t_lexer *lexer)
-{
-	int	i;
-
-	i = -1;
-	if (!lexer)
-		return;
-	free(lexer->content);
-	free(lexer);
-	lexer = NULL;
-}
-
-void	free_plist(t_parser **list)
-{
-	int			i = 0;
-	t_parser	*tmp;
-
-	tmp = NULL;
-	if (!list)
-		return ;
-	while (*list)
-	{
-		i = -1;
-		while ((*list)->command->cmds[++i])
-			free((*list)->command->cmds[i]);
-		free((*list)->command->cmds[i]);
-		free((*list)->command->cmds);
-		free((*list)->command);
-		tmp = (*list)->next;
-		free(*list);
-		*list = tmp;
-	}
-	*list = NULL;
-}
-
-void	free_list(t_list **list)
-{
-	ft_lstclear(list, &free);
-	list = NULL;
-}
 
 t_lexer	*init_lexer(char *content)
 {
@@ -78,4 +37,19 @@ t_token *init_token(int type, char *value)
 	token->expanded = 0;
 	token->in_quotes = 0;
 	return (token);
+}
+
+t_vars	*init_vars(void)
+{
+	t_vars	*vars;
+
+	vars = malloc(sizeof(t_vars));
+	if (!vars)
+		return (0);
+	vars->expand = 0;
+	vars->in_quotes = 0;
+	vars->flag = 0;
+	vars->tmp = 0;
+	vars->prev = -1;
+	return (vars);
 }

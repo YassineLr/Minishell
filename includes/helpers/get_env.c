@@ -6,13 +6,13 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/24 01:31:34 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 08:54:28 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_env	*execc_get_env(char **envp)
+t_env	*get_env(char **envp)
 {
 	int		i;
 	char	**key_val;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:56:06 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/03 23:46:23 by ylr              ###   ########.fr       */
+/*   Updated: 2023/08/05 09:40:45 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void command_nf_error(t_parser *parse)
 {
 	ft_putstr_fd("minishell: ",2);
 	ft_putstr_fd(parse->command->cmds[0], 2);
-	ft_putstr_fd(":", 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd("command not found\n", 2);
     exitcode = 127;
 }

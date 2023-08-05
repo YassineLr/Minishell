@@ -6,138 +6,70 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 17:34:44 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:47:35 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*expand_(char *str, t_env *env)
-{
-	int		i;
-	char	*tmp;
-	int		start;
-	int		len;
-	char	*final_str;
-
-	i = 0;
-	final_str = malloc(sizeof(char));
-	if (!final_str)
-		return (NULL);
-	final_str[0] = '\0';
-	while (str[i])
-	{
-		len = 0;
-		if (str[i] == '$')
-		{
-			i++;
-			if (str[i] == '$')
-			{
-				final_str = ft_strjoin(final_str, "$$");
-				i++;
-			}
-			else if (str[i] == '?')
-			{
-				final_str = ft_strjoin(final_str, ft_itoa(exitcode));
-				i++;
-			}
-			else
-			{
-				start = i;
-				while (str[i] && str[i] != '$' && !ft_is_whitespace(str[i]))
-				{
-					i++;
-					len++;
-				}
-				tmp = ft_substr(str, start, len);
-				while (env)
-				{
-					if (ft_strcmp(tmp, env->key) == 0)
-						break;
-					env = env->next;
-				}
-				if (env)
-					final_str = ft_strjoin(final_str, env->value);
-				if (tmp)
-				{
-					free(tmp);
-					tmp = NULL;
-				}
-			}
-		}
-		else
-		{
-			start = i;
-			while (str[i] && str[i] != '$')
-			{
-				i++;
-				len++;
-			}
-			tmp = ft_substr(str, start, len);
-			final_str = ft_strjoin(final_str, tmp);
-			if (tmp)
-			{
-				free(tmp);
-				tmp = NULL;
-			}
-		}
-	}
-	return (final_str);
-}
-
 int	must_expand(char *str)
 {
 	int	i;
-	
+
 	i = 0;
-	while (str[i] && ft_is_whitespace(str[i]))
+	while (str[i])
+	{
+		if (str[i] == '$')
+			return (1);
 		i++;
-	if (str && str[i] == '$')
-		return (1);
+	}
 	return (0);
+}
+
+void	handle_expand(t_list **list, t_vars *vars, t_env *env)
+{
+	if (must_expand((*list)->token->value))
+	{
+		(*list)->token->value = expand_((*list)->token->value, env);
+		(*list)->token->expanded = 1;
+		if (is_quotes(vars->prev))
+			(*list)->token->in_quotes = 1;
+	}
+	vars->prev = (*list)->token->type;
+	*list = (*list)->next;
+}
+
+void	mark_quotes(t_list **list, t_vars *vars)
+{
+	vars->in_quotes = !vars->in_quotes;
+	vars->prev = (*list)->token->type;
+	*list = (*list)->next;
 }
 
 void	expansion(t_list *list, t_env *env)
 {
-	char	*str;
-	int		i;
-	int		prev;
-	int		in_quotes;
+	t_vars	*vars;
 
-	in_quotes = 0;
-	prev = -1;
-	i = 0;
+	vars = init_vars();
 	while (list)
 	{
 		if (list->token->type == S_QUOTES)
-		{
-			in_quotes = !in_quotes;
-			prev = list->token->type;
-			list = list->next;
-		}
+			mark_quotes(&list, vars);
 		else if (list->token->type == WHITESPACE)
 			list = list->next;
-		else if (list->token->type == WORD && prev == S_QUOTES && in_quotes)
+		else if (list->token->type == WORD && vars->prev == S_QUOTES
+			&& vars->in_quotes)
 		{
-			prev = list->token->type;
+			vars->prev = list->token->type;
 			list = list->next;
 		}
-		else if (list->token->type == WORD && prev != HEREDOC)
-		{
-			if (must_expand(list->token->value))
-			{
-				list->token->value = expand_(list->token->value, env);
-				list->token->expanded = 1;
-				if (is_quotes(prev))
-					list->token->in_quotes = 1;
-			}
-			prev = list->token->type;
-			list = list->next;
-		}
+		else if (list->token->type == WORD && vars->prev != HEREDOC)
+			handle_expand(&list, vars, env);
 		else
 		{
-			prev = list->token->type;
+			vars->prev = list->token->type;
 			list = list->next;
 		}
 	}
+	free(vars);
 }

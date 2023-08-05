@@ -24,11 +24,12 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
 
-extern int exitcode;
+int exitcode;
 
 typedef struct s_hdc
 {
@@ -103,10 +104,25 @@ typedef struct s_parser
 	struct s_parser	*next;
 }	t_parser;
 
+typedef struct s_vars
+{
+	int		expand;
+	int		in_quotes;
+	int		flag;
+	char	*tmp;
+	int		prev;
+}	t_vars;
+
+// Readline
+int rl_replace_line(const char *text, int clear_undo);
+
 // Error handling
 int		check_errors(char *input, t_list *list);
-void	exit_error(char *message, int s);
+int		check_quotes(char *input);
 int		check_end(char *input);
+int		check_redirections(t_list *list);
+int		redirections(t_list *list, int red_type);
+int		check_pipes(t_list *list);
 
 // Linked lists
 t_list		*ft_lstnew(t_token *token);
@@ -115,8 +131,6 @@ void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 int			ft_lstsize(t_list *lst);
 void		ft_lstclear(t_list **lst, void (*del)(void*));
-void		free_list(t_list **list);
-void		free_plist(t_parser **list);
 t_parser	*ft_lstnew_alt(t_cmd *cmd);
 void		ft_lstadd_back_alt(t_parser **lst, t_parser *new);
 t_parser	*ft_lstlast_alt(t_parser *lst);
@@ -131,14 +145,11 @@ void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
 // Lexer
-t_lexer	*init_lexer(char *content);
 void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespaces(t_lexer *lexer);
 char	*lexer_char_to_string(char c);
-t_token *init_token(int type, char *value);
 void	lexer_handle_dollar(t_lexer *lexer, t_list **list);
-void	free_lexer(t_lexer *lexer);
 char	*get_word(t_lexer *lexer);
 void	lexer_handle_single_quotes(t_lexer *lexer, t_list **list);
 void	lexer_handle_double_quotes(t_lexer *lexer, t_list **list);
@@ -146,6 +157,9 @@ void	lexer_handle_input_redirection(t_lexer *lexer, t_list **list);
 void	lexer_handle_output_redirection(t_lexer *lexer, t_list **list);
 void	lexer_handle_pipe(t_lexer *lexer, t_list **list);
 void	lexer_handle_whitespace(t_lexer *lexer, t_list **list);
+t_list	**join_words(t_list **list, t_list *tmp_list);
+void	remove_type(t_list **head, int type);
+void	remove_matching_type(t_list **current, t_list **prev, int type);
 
 // Helpers
 int		ft_is_whitespace(int c);
@@ -183,7 +197,14 @@ char	*ft_itoa(int n);
 
 // Expansion
 void	expansion(t_list *list, t_env *env);
+int		must_expand(char *str);
+void	mark_quotes(t_list **list, t_vars *vars);
+void	handle_expand(t_list **list, t_vars *vars, t_env *env);
+char	*expand_(char *str, t_env *env);
+char	*expand_regular_text(char *str, int *i);
 void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
+char	*expand_dollar_sign(char *str, t_env *env, int *i);
+char	*expand_env_variable(char *str, t_env *env, int *i);
 
 // heredoc
 t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env);
@@ -196,15 +217,31 @@ char	*fill_buff(int fd);
 char	*get_next_line(int fd);
 char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
-
 // Parser
 t_parser	*ft_parser(t_list *list, t_hdc *hdc);
-t_cmd		*init_cmd(void);
 
-// File control
+// init
+t_vars	*init_vars(void);
+t_cmd	*init_cmd(void);
+t_vars	*init_vars(void);
+t_lexer	*init_lexer(char *content);
+t_token *init_token(int type, char *value);
+
+// Files
 int	open_append(t_list *list);
 int	open_redout(t_list *list);
 int	open_redin(t_list *list);
+int	file_error(char *filename);
+int	check_filename(char *name);
+
+// freeing
+void	free_list(t_list **list);
+void	free_plist(t_parser **list);
+void	free_hdc(t_hdc *hdc);
+void	free_lexer(t_lexer *lexer);
+
+// Signals
+int		signals_handler(char *line);
 
 //builtins
 
@@ -221,7 +258,7 @@ void 	builtins(t_parser *parse, t_env *env, int child);
 void   	execute_cmd(t_parser *parse, t_env *env, char **envp);
 void 	init_fds(t_parser *parse);
 void    ft_dup(t_parser *parse);
-t_env	*execc_get_env(char **envp);
+t_env	*get_env(char **envp);
 void 	set_pipes(t_parser *parse);
 char 	**env_in_tab(t_env *env);
 void	exit_status(int status);

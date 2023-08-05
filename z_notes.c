@@ -1,7 +1,9 @@
 
-// cat << a << b << c | wc -l << a		:	wc -l reads from << c instead of << a
 
+//  minishell-1.0$ echo      $USSR $USER $skskdhkhfhsd    $HOME      n
+// oubelhaj  /Users/oubelhaj n  		space f lowl
 
+// syntax error exitcode
 
 /*
 				int x;
@@ -18,44 +20,5 @@
 					p = p->next;
 				}
 
- /*
- NEW ERRORS
 
-export a=asdfsadf
-export a
-declare -x a="a asdf sa fsd"
-declare -x a
-********
-minishell-1.0$ unset OLDPWD
-minishell-1.0$ cd -
-cd: No such file or directory
-minishell-1.0$ unset PWD
-minishell-1.0$ cd includes
-[1]    28861 segmentation fault  ./minishell
---> fixed
-*********
-minishell-1.0$ cd includes
-minishell-1.0$ unset PWD
-minishell-1.0$ cd -
-cd: No such file or directory
-minishell-1.0$ unset OLDPWD
-minishell-1.0$ cd -
-cd: No such file or directory
-*********
-bash-3.2$ expr $? + $?
-2
-bash-3.2$ expr $? + $?
-0
-bash-3.2$ expr $? + $?
-2
-bash-3.2$ expr $? + $?
-0
-bash-3.2$ expr $? + $?
-2
-bash-3.2$ expr $? + $?
-0
-bash-3.2$ expr $? + $?
-2
-bash-3.2$ expr $? + $?
-0
 */

@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+         #
+#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/03 23:41:52 by ylr              ###   ########.fr        #
+#    Updated: 2023/08/05 09:21:29 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src/parsing/parser.c \
-	./src/parsing/initialization.c ./src/parsing/error_handling.c ./src/parsing/expansion.c \
+	./src/parsing/init_functions.c ./src/parsing/expansion2.c ./src/parsing/error_handling.c ./src/parsing/expansion.c \
 	./src/parsing/here_doc.c ./includes/helpers/ft_atoi.c ./includes/helpers/ft_is_whitespace.c ./includes/helpers/ft_isalnum.c \
 	./includes/helpers/ft_isalpha.c ./includes/helpers/ft_isdigit.c ./includes/helpers/ft_putchar_fd.c ./includes/helpers/ft_putnbr_fd.c \
 	./includes/helpers/ft_putstr_fd.c ./includes/helpers/ft_exit_error.c ./includes/helpers/ft_putendl.c ./includes/linked_lists/ft_lstadd_back.c \
@@ -29,7 +29,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c \
 	./includes/string_helpers/ft_count_strs.c ./src/builtins/builtins.c ./src/parsing/lexer_handlers.c ./src/parsing/lexer_handlers2.c ./src/parsing/lexer_utils.c \
 	./includes/helpers/is_quotes.c ./includes/helpers/is_redirection.c ./src/execution/error_handler.c ./src/execution/pipes_handler.c ./src/execution/executor.c ./src/parsing/heredoc_expand.c \
-	./includes/string_helpers/ft_itoa.c
+	./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c ./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c
 	
 
 OBJS = ${SRC:.c=.o}
@@ -38,13 +38,15 @@ CC = cc
 
 CFLAGS = -fsanitize=address -g3
 
+RL_FLAGS = #-L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
+
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(RL_FLAGS) $(OBJS) -lreadline -o $(NAME)
 	@echo "\033[1;32m- minishell compiled!\033[0m"
 
 clean :

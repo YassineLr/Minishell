@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 20:29:19 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/03 23:48:53 by ylr              ###   ########.fr       */
+/*   Updated: 2023/08/05 09:54:52 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ char	*ft_strjoin(char *s1, char const *s2)
 		str[i + s1len] = s2[i];
 	str[s1len + s2len] = '\0';
 	free(s1);
-	// exit(10);
 	return (str);
 }
