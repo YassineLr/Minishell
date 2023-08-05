@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 11:51:20 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 13:02:18 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:40:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ int	must_expand(char *str)
 
 void	handle_expand(t_list **list, t_vars *vars, t_env *env)
 {
+	char	*tmp;
+
 	if (must_expand((*list)->token->value))
 	{
+		tmp = (*list)->token->value;
 		(*list)->token->value = expand_((*list)->token->value, env);
+		free(tmp);
 		(*list)->token->expanded = 1;
 		if (is_quotes(vars->prev))
 			(*list)->token->in_quotes = 1;

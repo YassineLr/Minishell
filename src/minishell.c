@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 		ft_lexer(lexer, &tmp_list, env);
 		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
-		if (err != 1)
+		if (err != 1 && err != 2)
 			exitcode = 258;
 		if (err != -1)
 		{
@@ -114,7 +114,7 @@ int	main(int ac, char **av, char **envp)
 		free_list(&tmp_list);
 		free_lexer(lexer);
 		if (hdc)
-			free(hdc);
+			free_hdc(hdc);
 		line = readline("minishell-1.0$ ");
 	}
 	return (0);

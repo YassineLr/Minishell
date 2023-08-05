@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/02 03:53:05 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:37:36 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	check_errors(char *input, t_list *list)
 
 	i = 0;
 	if (!input || !list)
-		return (0);
+		return (2);
 	if (!check_quotes(input))
 	{	
 		ft_putstr_fd("minishell: syntax error\n", 2);

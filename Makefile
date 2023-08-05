@@ -6,7 +6,7 @@
 #    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/05 09:21:29 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/05 16:28:45 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = -fsanitize=address -g3
+CFLAGS = #-fsanitize=address -g3
 
 RL_FLAGS = #-L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
 

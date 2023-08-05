@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/04 15:37:25 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:51:09 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env)
 							if (expand == 0)
 								ft_putendl_fd(hdoc_line, end[1]);
 							else
-								expansion_v2(lexer, hdoc_line, end[1], env);
+								expansion_v2(hdoc_line, env, end[1]);
 						}
 						if (hdoc_line)
 							free(hdoc_line);
@@ -188,11 +188,5 @@ t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env)
 			}
 		}
 	}
-	// printf("%d\n", hdc->fds[1]);
-	// printf("%d\n", hdc->fds[2]);
-	// printf("%s", get_next_line(hdc->fds[0]));
-	// printf("%s", get_next_line(hdc->fds[1]));
-	// printf("%s", get_next_line(hdc->fds[2]));
-	// exit(1);
 	return (hdc);
 }

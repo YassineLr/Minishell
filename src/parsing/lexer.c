@@ -34,7 +34,7 @@ int	is_special(char c)
 
 void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env)
 {
-	if (ft_is_whitespace(lexer->c) || lexer->c == '\n')
+	if (ft_is_whitespace(lexer->c))
 		lexer_skip_whitespaces(lexer);
 	while (lexer->c)
 	{
@@ -42,7 +42,7 @@ void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env)
 			lexer_handle_dollar(lexer, list);
 		else if (lexer->c == '\'')
 			lexer_handle_single_quotes(lexer, list);
-		else if (lexer->c == '"')
+		if (lexer->c == '"')
 			lexer_handle_double_quotes(lexer, list);
 		else if (lexer->c == '|')
 			lexer_handle_pipe(lexer, list);

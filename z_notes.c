@@ -1,12 +1,5 @@
 
 
-//  minishell-1.0$ echo      $USSR $USER $skskdhkhfhsd    $HOME      n
-
-// oubelhaj  /Users/oubelhaj n  		space f lowl
-
-// < $ segfault
-
-// syntax error exitcode
 
 /*
 				int x;
@@ -29,5 +22,9 @@
 				lex_list = lex_list->next;
 			}
 			exit(1);
+
+
+//	update exitcode in buildtins
+//	many processes created when red_in is used (< $a)
 
 */

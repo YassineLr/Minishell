@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:00:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 14:48:31 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:37:34 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*expand_env_variable(char *str, t_env *env, int *i)
 
 	start = *i;
 	len = 0;
-	while (str[*i] && str[*i] != '$' && !ft_is_whitespace(str[*i]))
+	while (str[*i] && ft_isalnum(str[*i]))
 	{
 		*i += 1;
 		len++;
@@ -104,6 +104,5 @@ char	*expand_(char *str, t_env *env)
 		}
 		free(tmp);
 	}
-	free(str);
 	return (final_str);
 }

@@ -202,7 +202,7 @@ void	mark_quotes(t_list **list, t_vars *vars);
 void	handle_expand(t_list **list, t_vars *vars, t_env *env);
 char	*expand_(char *str, t_env *env);
 char	*expand_regular_text(char *str, int *i);
-void	expansion_v2(t_lexer *lexer, char *str, int fd, t_env *env);
+void	expansion_v2(char *str, t_env *env, int fd);
 char	*expand_dollar_sign(char *str, t_env *env, int *i);
 char	*expand_env_variable(char *str, t_env *env, int *i);
 

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:12:29 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/31 12:15:33 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:22:31 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	lexer_advance(t_lexer *lexer)
 
 void	lexer_skip_whitespaces(t_lexer *lexer)
 {
-	while (ft_is_whitespace(lexer->c) || lexer->c == '\n')
+	while (ft_is_whitespace(lexer->c))
 		lexer_advance(lexer);
 }
 
