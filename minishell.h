@@ -145,7 +145,7 @@ void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
 // Lexer
-void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env);
+void	ft_lexer(t_lexer *lexer, t_list **list);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespaces(t_lexer *lexer);
 char	*lexer_char_to_string(char c);
@@ -172,7 +172,6 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		is_special(char c);
-int		count_env(char **str);
 t_env	*search_in_env(t_env *env, char *key);
 int		is_quotes(int type);
 int		is_redir(int type);
@@ -202,12 +201,12 @@ void	mark_quotes(t_list **list, t_vars *vars);
 void	handle_expand(t_list **list, t_vars *vars, t_env *env);
 char	*expand_(char *str, t_env *env);
 char	*expand_regular_text(char *str, int *i);
-void	expansion_v2(char *str, t_env *env, int fd);
+void	heredoc_expand(char *str, t_env *env, int fd);
 char	*expand_dollar_sign(char *str, t_env *env, int *i);
 char	*expand_env_variable(char *str, t_env *env, int *i);
 
 // heredoc
-t_hdc	*here_doc(t_lexer *lexer, t_list *list, t_env *env);
+t_hdc	*here_doc(t_list *list, t_env *env);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
@@ -219,6 +218,11 @@ char	*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 // Parser
 t_parser	*ft_parser(t_list *list, t_hdc *hdc);
+void		get_parser_word(t_list *list, char **cmds, int *i);
+int			check_expanded_cmd(char *str);
+int			count_parser_words(t_list *list);
+int			get_last_red_out(t_reds *red_outs);
+int			get_last_red_in(t_reds *red_ins);
 
 // init
 t_vars	*init_vars(void);
@@ -239,6 +243,7 @@ void	free_list(t_list **list);
 void	free_plist(t_parser **list);
 void	free_hdc(t_hdc *hdc);
 void	free_lexer(t_lexer *lexer);
+void	free_cmds(t_cmd *cmd);
 
 // Signals
 int		signals_handler(char *line);

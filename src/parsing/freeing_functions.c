@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:07:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 19:11:11 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:58:20 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ void	free_hdc(t_hdc *hdc)
 		free(hdc->fds);
 	free(hdc);
 	hdc = 0;
+}
+
+void	free_cmds(t_cmd *cmd)
+{
+	int	i;
+
+	i = -1;
+	if (cmd)
+	{
+		if (cmd->cmds)
+		{
+			while (cmd->cmds[++i])
+				free(cmd->cmds[i]);
+		}
+		free(cmd);
+	}
 }

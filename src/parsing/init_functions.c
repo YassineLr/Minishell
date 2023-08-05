@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 19:11:38 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:34:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,18 @@ t_vars	*init_vars(void)
 	vars->tmp = 0;
 	vars->prev = -1;
 	return (vars);
+}
+
+t_cmd	*init_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (0);
+	cmd->cmds = 0;
+	cmd->pipe = 0;
+	cmd->red_in = 0;
+	cmd->red_out = 0;
+	return (cmd);
 }

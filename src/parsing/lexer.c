@@ -32,7 +32,7 @@ int	is_special(char c)
 	return (0);
 }
 
-void	ft_lexer(t_lexer *lexer, t_list **list, t_env *env)
+void	ft_lexer(t_lexer *lexer, t_list **list)
 {
 	if (ft_is_whitespace(lexer->c))
 		lexer_skip_whitespaces(lexer);

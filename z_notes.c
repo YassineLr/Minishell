@@ -27,4 +27,7 @@
 //	update exitcode in buildtins
 //	many processes created when red_in is used (< $a)
 
+//	cat << a << b << c | echo << a
+
+
 */

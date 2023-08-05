@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion2.c                                       :+:      :+:    :+:   */
+/*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/04 17:00:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 19:32:50 by oubelhaj         ###   ########.fr       */
+/*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
+/*   Updated: 2023/08/05 23:03:49 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i)
 
 	*i += 1;
 	tmp = NULL;
-	if (!ft_isalnum(str[*i]) || str[*i] == '\0')
-		return (ft_strdup("$"));
-	else if (str[*i] == '$')
+	if (str[*i] == '$')
 	{
 		tmp = ft_strdup("$$");
 		*i += 1;
@@ -59,6 +57,8 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i)
 		tmp = ft_itoa(exitcode);
 		*i += 1;
 	}
+	else if (!ft_isalnum(str[*i]) || str[*i] == '\0')
+		return (ft_strdup("$"));
 	else
 		tmp = expand_env_variable(str, env, i);
 	return (tmp);
@@ -105,4 +105,16 @@ char	*expand_(char *str, t_env *env)
 		free(tmp);
 	}
 	return (final_str);
+}
+
+void	heredoc_expand(char *str, t_env *env, int fd)
+{
+	char	*final_str;
+	
+	final_str = expand_(str, env);
+	if (final_str)
+	{
+		ft_putendl_fd(final_str, fd);
+		free(final_str);
+	}
 }

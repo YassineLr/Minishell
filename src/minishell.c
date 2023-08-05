@@ -14,16 +14,6 @@
 
 int exitcode;
 
-int	count_env(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
@@ -52,13 +42,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		add_history(line);
 		lexer = init_lexer(line);
-		ft_lexer(lexer, &tmp_list, env);
-			// 		while (tmp_list)
-			// {
-			// 	printf("type : %d\nvalue :%s\n\n", tmp_list->token->type, tmp_list->token->value);
-			// 	tmp_list = tmp_list->next;
-			// }
-			// exit(1);
+		ft_lexer(lexer, &tmp_list);
 		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
 		if (err != 1 && err != 2)
@@ -67,7 +51,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
-			hdc = here_doc(lexer, lex_list, env);
+			hdc = here_doc(lex_list, env);
 			remove_nulls(&lex_list);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);
