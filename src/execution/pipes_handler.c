@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:53:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 15:18:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/04 06:45:29 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void    ft_dup(t_parser *parse)
 		dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
 }
 
+
 void set_pipes(t_parser *parse)
 {
 	t_parser     *courant;
@@ -41,7 +42,7 @@ void set_pipes(t_parser *parse)
 
 	
 	courant = parse;
-	while (courant && courant->next)
+	while (courant->next)
 	{
 		if (courant->command->pipe == 1)
 		{

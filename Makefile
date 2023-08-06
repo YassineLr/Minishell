@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/05 23:33:14 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/06 01:04:40 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CC = cc
 
 CFLAGS = #-fsanitize=address -g3
 
-RL_FLAGS = -L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
+RL_FLAGS = #-L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

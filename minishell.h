@@ -246,8 +246,8 @@ void	free_lexer(t_lexer *lexer);
 void	free_cmds(t_cmd *cmd);
 
 // Signals
-int		signals_handler();
-void	ctrl_d_handler(void);
+// int		signals_handler();
+// void	ctrl_d_handler(void);
 
 //builtins
 

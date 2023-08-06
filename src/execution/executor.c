@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 23:45:50 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 01:15:53 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char    *ft_path(t_parser *parse, t_env *env)
 	char    *path;
 	char    *paths;
 	char    **splited;
-	char 	*tmp;
 	int        i;
 
 	i = 0;
@@ -31,16 +30,12 @@ char    *ft_path(t_parser *parse, t_env *env)
 			if (search_in_env(env, "PATH"))
 				paths = search_in_env(env, "PATH")->value;
 			if (!paths)
-			{
 				no_path_err(parse);
-				exit (exitcode);
-			}
 			splited = ft_split(paths, ':');
 			while (splited[i])
 			{
-				tmp = ft_strjoin(splited[i], "/");
-				path = ft_strjoin(tmp, parse->command->cmds[0]);
-				if (access(path, X_OK | F_OK) == 0)
+				path = ft_strjoin(ft_strjoin(splited[i], "/"), parse->command->cmds[0]);
+				if (access(path, F_OK) == 0)
 					return (path);
 				i++;
 			}
@@ -78,7 +73,6 @@ char **env_in_tab(t_env *env)
 	return(envp);
 }
 
-
 void	exit_status(int status)
 {
 	if (WIFEXITED(status))
@@ -93,7 +87,17 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 	
 	exitcode = 0;
 	ft_dup(parse);
-	execve(parse->command->cmds[0], parse->command->cmds, envp);
+	if(index_at(parse->command->cmds[0],'/') != -1)
+	{
+		if(access(parse->command->cmds[0], X_OK) == 0)
+			execve(parse->command->cmds[0],parse->command->cmds,envp);
+		else
+		{
+			ft_putstr_fd("minishell: no such file or directory\n", 2);
+			exitcode = 127;
+			exit(exitcode);
+		}
+	}
 	path = ft_path(parse, env);
 	if (!path)
 	{
@@ -109,7 +113,6 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 		}
 	exit(exitcode);
 }
-
 void	redirection(t_parser *parse)
 {
 	if (parse->command->red_in && parse->command->red_in != -1)
@@ -120,8 +123,8 @@ void	redirection(t_parser *parse)
 
 void	close_files(t_parser *parse)
 {
-	// if (parse->command->red_in)
-	// 	close(parse->command->red_in);
+	if (parse->command->red_in)
+		close(parse->command->red_in);
 	if (parse->command->red_out != 1)
 		close(parse->command->red_out);
 }
@@ -131,23 +134,26 @@ void ftt_dup(int fildes, int fildes2)
 	dup2(fildes,fildes2);
 	close(fildes);
 }
-void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
+
+void red_buil(t_parser *parse, t_env *env)
 {
 	int save[2];
-	
+
+	save[0] = dup(0);
+	save[1] = dup(1);
+	redirection(parse);
+	builtins(parse, env, 1);
+	ftt_dup(save[0],STDIN_FILENO);
+	ftt_dup(save[1], STDOUT_FILENO);
+	close_files(parse);
+}
+
+void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
+{
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))
-	{
-		save[0] = dup(0);
-		save[1] = dup(1);
-		redirection(parse);
-		builtins(parse, env, 0);
-		ftt_dup(save[0],STDIN_FILENO);
-		ftt_dup(save[1], STDOUT_FILENO);
-		close_files(parse);
-		builtins(parse, env, 1);
-	}
+		red_buil(parse, env);
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
 	execute_cmd(parse ,env , envt);
@@ -164,26 +170,15 @@ void executor(t_parser *parse, t_env *env, char **envp)
 	envt = env_in_tab(env);
 	int save[2];
 
-	if (parse && in_builtins(parse) && !parse->next)
-	{
-		save[0] = dup(0);
-		save[1] = dup(1);
-		redirection(parse);
-		builtins(parse, env, 0);
-		ftt_dup(save[0],STDIN_FILENO);
-		ftt_dup(save[1], STDOUT_FILENO);
-		close_files(parse);
-	}
+	if (head && in_builtins(parse) && !head->next)
+		red_buil(parse, env);
 	else
 	{
 		while (parse)
 		{
 			pid = fork();
 			if(!pid)
-			{
-				// if(parse->command->red_in != -1)
 				in_child(parse, head, env, envt);
-			}
 			close_files(parse);
 			parse = parse->next;
 		}

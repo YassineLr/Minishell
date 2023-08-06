@@ -40,8 +40,8 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline("minishell-1.0$ ");
-		if (!line)
-			ctrl_d_handler();
+		// if (!line)
+		// 	ctrl_d_handler();
 		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list);
