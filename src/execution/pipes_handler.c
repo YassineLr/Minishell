@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:53:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 04:38:08 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:55:54 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void set_pipes(t_parser *parse)
 {
 	t_parser     *courant;
 	int            T[2];
-
 	
 	courant = parse;
 	while (courant->next)

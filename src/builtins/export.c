@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 00:47:23 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:16:43 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,18 @@ int invalid_identifier(char *str)
 			return(0);
 	return(1);
 }
+
 void concate_val(t_env *env, char **key_val)
 {
 	t_env   *to_concate;
 	
-	key_val[0] = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
+	key_val[0] = ft_strdup(ft_substr(key_val[0],0,ft_strlen(key_val[0])-1));
 	to_concate = search_in_env(env,key_val[0]);
 	if(to_concate)
 			to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
 	else
 		ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
-	// free(key_val[0]);
+	free(key_val[0]);
 }
 
 char last_char(char *str)
@@ -75,8 +76,6 @@ void    export_no_args(t_env *env)
 void	export(t_parser *parse, t_env **env)
 {
 	char	**key_val;
-	char	*tmp;
-	char	*tmpp;
 	int		i = 1;
 
 	if (!parse->command->cmds[1])
@@ -84,17 +83,15 @@ void	export(t_parser *parse, t_env **env)
 		export_no_args(*env);
 		return ;
 	}
+	key_val = malloc(2*sizeof(char*));
 	while (parse->command->cmds[i])
 	{
 		if (!(parse->command->cmds[i][0] == '_' || ft_isalnum(parse->command->cmds[i][0])))
 			ft_putstr_fd("invalid identifier\n", 2);
 		else if (index_at(parse->command->cmds[i],'=') != -1)
 		{
-			key_val = malloc(2*sizeof(char*));
 			key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
 			key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
-			tmp = key_val[0];
-			tmpp = key_val[1];
 			if(!invalid_identifier(key_val[0]))
 				ft_putstr_fd("invalid identifier 2\n",2);
 			else if(last_char(key_val[0]) == '+')
@@ -106,8 +103,8 @@ void	export(t_parser *parse, t_env **env)
 				else
 					ft_lstadd_back_env(env,ft_lstnew_env(key_val));
 			}
-			// free(tmp);
-			// free(tmpp);
+			free(key_val[0]);
+			free(key_val[1]);
 		}
 		else if (index_at(parse->command->cmds[i],'=') == -1)
 		{
@@ -120,4 +117,5 @@ void	export(t_parser *parse, t_env **env)
 		}
 		i++;
 	}
+	free(key_val);
 }

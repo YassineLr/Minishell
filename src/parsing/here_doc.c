@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 23:10:29 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:40:05 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ t_hdc	*init_hdc(int count)
 t_hdc	*here_doc(t_list *list, t_env *env)
 {
 	int		i;
+	int		fd;
 	int		expand;
 	int		count_hdcs;
 	int		count;

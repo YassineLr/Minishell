@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:07:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 20:58:20 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:08:36 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	free_cmds(t_cmd *cmd)
 		{
 			while (cmd->cmds[++i])
 				free(cmd->cmds[i]);
+			free(cmd->cmds);
 		}
 		free(cmd);
 	}
