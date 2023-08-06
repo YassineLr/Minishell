@@ -277,6 +277,7 @@ void 	command_nf_error(t_parser *parse);
 void	redirection(t_parser *parse);
 void	close_files(t_parser *parse);
 void 	no_path_err(t_parser *parse);
+void ftt_dup(int fildes, int fildes2);
 
 
 #endif

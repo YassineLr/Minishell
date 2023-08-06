@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 01:15:53 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:34:37 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,18 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 		}
 	exit(exitcode);
 }
+
+void ftt_dup(int fildes, int fildes2)
+{
+	dup2(fildes,fildes2);
+	close(fildes);
+}
 void	redirection(t_parser *parse)
 {
 	if (parse->command->red_in && parse->command->red_in != -1)
-		dup2(parse->command->red_in, STDIN_FILENO);
+		ftt_dup(parse->command->red_in, STDIN_FILENO);	
 	if (parse->command->red_out != 1)
-		dup2(parse->command->red_out, STDOUT_FILENO);
+		ftt_dup(parse->command->red_out, STDOUT_FILENO);
 }
 
 void	close_files(t_parser *parse)
@@ -129,20 +135,15 @@ void	close_files(t_parser *parse)
 		close(parse->command->red_out);
 }
 
-void ftt_dup(int fildes, int fildes2)
-{
-	dup2(fildes,fildes2);
-	close(fildes);
-}
 
-void red_buil(t_parser *parse, t_env *env)
+void red_buil(t_parser *parse, t_env *env, int child)
 {
 	int save[2];
 
 	save[0] = dup(0);
 	save[1] = dup(1);
 	redirection(parse);
-	builtins(parse, env, 1);
+	builtins(parse, env, child);
 	ftt_dup(save[0],STDIN_FILENO);
 	ftt_dup(save[1], STDOUT_FILENO);
 	close_files(parse);
@@ -153,10 +154,10 @@ void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))
-		red_buil(parse, env);
+		red_buil(parse, env, 1);
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
-	execute_cmd(parse ,env , envt);
+	execute_cmd(parse ,env ,envt);
 }
 
 void executor(t_parser *parse, t_env *env, char **envp)
@@ -168,10 +169,8 @@ void executor(t_parser *parse, t_env *env, char **envp)
 	
 	head = parse;
 	envt = env_in_tab(env);
-	int save[2];
-
 	if (head && in_builtins(parse) && !head->next)
-		red_buil(parse, env);
+		red_buil(parse, env, 0);
 	else
 	{
 		while (parse)

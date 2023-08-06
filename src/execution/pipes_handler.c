@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:53:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 06:45:29 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:38:08 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void    ft_dup(t_parser *parse)
 	close_pipes(parse, parse->command->pipe_fd.read, parse->command->pipe_fd.write);
 	if (parse->command->pipe_fd.read && !parse->command->red_in)
 		dup2(parse->command->pipe_fd.read, STDIN_FILENO);
-	if (parse->command->pipe_fd.write != 1)
+	if (parse->command->pipe_fd.write != 1 && parse->command->red_out == 1)
 		dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
 }
 
@@ -60,7 +60,6 @@ void	close_pipes(t_parser *parse, int fread, int fwrite)
 	t_parser	*cur;
 
 	cur = parse;
-	
 	while (cur)
 	{
 		if(cur->command->pipe_fd.write != fwrite && cur->command->pipe_fd.write != 1)

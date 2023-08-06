@@ -29,5 +29,5 @@
 
 //	cat << a << b << c | echo << a
 
-
+// cat | echo | export > l | env > h | echo skf sdkfmm sdmfm | wc -l
 */
