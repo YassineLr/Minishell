@@ -78,34 +78,31 @@ typedef struct s_list
 
 typedef struct s_pipe
 {
-	// int to_close;
 	int write;
 	int read;
 }	t_pipe;
-
-typedef struct s_reds
-{
-	int				fd;
-	int				is_heredoc;
-	char			*delim;
-	struct s_reds	*next;
-}	t_reds;
 
 typedef struct s_hdoc
 {
 	int 	in;
 	int 	out;
-	int 	is_last;
+	char 	*delim;
 	struct 	s_hdoc *next;
 } t_hdoc;
+
+typedef struct s_reds
+{
+	int				fd;
+	t_hdoc			hdoc;
+	struct s_reds	*next;
+}	t_reds;
 
 typedef struct s_cmd
 {
 	char		**cmds;
 	int			pipe;
-	t_hdoc		*heredoc;
 	t_pipe		pipe_fd;
-	int			red_in;
+	t_reds		*red_in;
 	int			red_out;
 }	t_cmd;
 

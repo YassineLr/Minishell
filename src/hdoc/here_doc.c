@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 12:48:38 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 13:04:34 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 14:53:23 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,7 @@ void set_hdoc_pipes(t_parser *parse)
     }
 }
 
+int is_last_hdoc(t_parser *parse)
+{
+    
+}
