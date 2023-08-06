@@ -213,7 +213,6 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i);
 char	*expand_env_variable(char *str, t_env *env, int *i);
 
 // heredoc
-t_hdc	*here_doc(t_list *list, t_env *env);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
@@ -284,8 +283,8 @@ void 	command_nf_error(t_parser *parse);
 void	redirection(t_parser *parse);
 void	close_files(t_parser *parse);
 void 	no_path_err(t_parser *parse);
-void ftt_dup(int fildes, int fildes2);
-int last_redin(t_reds *red);
-void hdoc(t_parser *parse);
+void 	ftt_dup(int fildes, int fildes2);
+int 	last_redin(t_reds *red);
+void	hdoc(t_parser *parse, t_env *env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 12:48:38 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 16:16:17 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:38:57 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,42 @@ int is_there_hdoc(t_parser *parse)
     return (0);
 }
 
-void hdoc(t_parser *parse)
+void    here_doc(t_parser *parser, t_env *env)
+{
+	int		expand;
+	char	*hdoc_line;
+
+	expand = 1;
+	while (parser->command->red_in)
+	{
+        if (parser->command->red_in->fd == -2)
+        {
+            hdoc_line = readline("> ");
+            while (ft_strcmp(hdoc_line, parser->command->red_in->hdoc->delim))
+		    {
+                if (!parser->command->red_in->next)
+                {
+		    	    // if (expand == 0)
+		    	    	ft_putendl_fd(hdoc_line, parser->command->red_in->hdoc->in);
+		    	    // else
+		    	    // 	heredoc_expand(hdoc_line, env, parser->command->red_in->hdoc->in);
+                }
+		    	if (hdoc_line)
+		    		free(hdoc_line);
+		    	hdoc_line = readline("> ");
+            }
+        }
+        parser->command->red_in = parser->command->red_in->next;
+    }
+    exit(1);
+}
+
+void hdoc(t_parser *parse, t_env *env)
 {
     
 
     if(is_there_hdoc(parse))
     {
-        // hdoc implementation
+        here_doc(parse, env);
     }
 }

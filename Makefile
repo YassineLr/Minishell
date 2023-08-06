@@ -6,7 +6,7 @@
 #    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/06 16:28:09 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/06 18:33:04 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src/parsing/parser.c \
 	./src/parsing/init_functions.c ./src/parsing/expand1.c ./src/parsing/error_handling.c ./src/parsing/expand2.c \
-	./src/parsing/here_doc.c ./includes/helpers/ft_atoi.c ./includes/helpers/ft_is_whitespace.c ./includes/helpers/ft_isalnum.c \
+	./includes/helpers/ft_atoi.c ./includes/helpers/ft_is_whitespace.c ./includes/helpers/ft_isalnum.c \
 	./includes/helpers/ft_isalpha.c ./includes/helpers/ft_isdigit.c ./includes/helpers/ft_putchar_fd.c ./includes/helpers/ft_putnbr_fd.c \
 	./includes/helpers/ft_putstr_fd.c ./includes/helpers/ft_exit_error.c ./includes/helpers/ft_putendl.c ./includes/linked_lists/ft_lstadd_back.c \
 	./includes/linked_lists/ft_lstclear.c ./includes/linked_lists/ft_lstdelone.c ./includes/linked_lists/ft_lstlast.c \

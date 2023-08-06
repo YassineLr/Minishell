@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 17:51:32 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:30:11 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 	// 	exit(1);
 	if (in_builtins(parse))
 		red_buil(parse, env, 1);
-	// hdoc(parse);
+	hdoc(parse, env);
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
 	execute_cmd(parse ,env ,envt);
