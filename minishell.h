@@ -89,10 +89,19 @@ typedef struct s_reds
 	struct s_reds	*next;
 }	t_reds;
 
+typedef struct s_hdoc
+{
+	int 	in;
+	int 	out;
+	int 	is_last;
+	struct 	s_hdoc *next;
+} t_hdoc;
+
 typedef struct s_cmd
 {
 	char		**cmds;
 	int			pipe;
+	t_hdoc		*heredoc;
 	t_pipe		pipe_fd;
 	int			red_in;
 	int			red_out;
@@ -103,6 +112,7 @@ typedef struct s_parser
 	t_cmd			*command;
 	struct s_parser	*next;
 }	t_parser;
+
 
 typedef struct s_vars
 {
