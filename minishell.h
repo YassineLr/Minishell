@@ -111,7 +111,6 @@ typedef struct s_parser
 	struct s_parser	*next;
 }	t_parser;
 
-
 typedef struct s_vars
 {
 	int		expand;
@@ -122,7 +121,7 @@ typedef struct s_vars
 }	t_vars;
 
 // Readline
-int rl_replace_line(const char *text, int clear_undo);
+
 
 // Error handling
 int		check_errors(char *input, t_list *list);
@@ -148,7 +147,7 @@ t_env		*ft_last_env(t_env *lst);
 void		ft_lstclear_env(t_env **lst, void (*del)(void*));
 void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
 t_reds		*ft_lstlast_reds(t_reds *lst);
-t_reds		*ft_lstnew_reds(int fd);
+t_reds		*ft_lstnew_reds(int fd, char *delim);
 void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
@@ -287,6 +286,6 @@ void	close_files(t_parser *parse);
 void 	no_path_err(t_parser *parse);
 void ftt_dup(int fildes, int fildes2);
 int last_redin(t_reds *red);
-
+void hdoc(t_parser *parse);
 
 #endif

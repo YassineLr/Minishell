@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 22:54:22 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 15:53:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	get_redout(t_list *list)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&r_outs, ft_lstnew_reds(open_redout(list)));
+				ft_lstadd_back_reds(&r_outs, ft_lstnew_reds(open_redout(list), NULL));
 		}
 		else if (list->token->type == APPEND)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&r_outs, ft_lstnew_reds(open_append(list)));
+				ft_lstadd_back_reds(&r_outs, ft_lstnew_reds(open_append(list), NULL));
 		}
 		list = list->next;
 	}
@@ -40,12 +40,10 @@ int	get_redout(t_list *list)
 	return (last_red);
 }
 
-int	get_redin(t_list *list)
+t_reds	*get_redin(t_list *list)
 {
 	t_reds	*red_ins;
-	int		last_red;
 
-	last_red = 0;
 	red_ins = NULL;
 	while (list && list->token && list->token->type != PIPE)
 	{
@@ -53,19 +51,17 @@ int	get_redin(t_list *list)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list)));
+				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list), NULL));
 		}
 		else if (list->token->type == HEREDOC)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(-2));
+				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(-2, list->token->value));
 		}
 		list = list->next;
 	}
-	if (red_ins)
-		last_red = get_last_red_in(red_ins);
-	return (last_red);
+	return (red_ins);
 }
 
 char	**get_cmds(t_list *list)
@@ -113,8 +109,6 @@ t_parser	*ft_parser(t_list *list, t_hdc *hdc)
 	while (list)
 	{
 		cmd = fill_cmd(list);
-		if (cmd->red_in == -2)
-			cmd->red_in = hdc->fds[i++];
 		while (list && list->token && list->token->type != PIPE)
 			list = list->next;
 		if (list && list->token && list->token->type == PIPE)

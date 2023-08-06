@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
+#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/06 01:04:40 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/06 16:28:09 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,14 +30,14 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c ./includes/linked_lists/ft_lstclear_reds.c \
 	./includes/string_helpers/ft_count_strs.c ./src/builtins/builtins.c ./src/parsing/lexer_handlers1.c ./src/parsing/lexer_handlers2.c ./src/parsing/lexer_utils.c \
 	./includes/helpers/is_quotes.c ./includes/helpers/is_redirection.c ./src/execution/error_handler.c ./src/execution/pipes_handler.c ./src/execution/executor.c \
-	./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c ./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c
+	./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c ./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/hdoc/here_doc.c
 	
 
 OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = #-fsanitize=address -g3
+CFLAGS = -fsanitize=address -g3
 
 RL_FLAGS = #-L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
 
