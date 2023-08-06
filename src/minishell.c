@@ -53,7 +53,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
-			hdc = here_doc(lex_list, env);
+			// hdc = here_doc(lex_list, env);
 			remove_nulls(&lex_list);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);
@@ -85,7 +85,6 @@ int	main(int ac, char **av, char **envp)
 				// 	}
 				// 	p = p->next;
 				// }
-
 				init_fds(p_list);
 				set_pipes(p_list);
 				executor(p_list, env, envp);

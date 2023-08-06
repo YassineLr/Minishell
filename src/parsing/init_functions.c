@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 20:34:01 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:41:13 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ t_lexer	*init_lexer(char *content)
 	lexer = malloc(sizeof(t_lexer));
 	if (!lexer)
 		return (0);
-	lexer->content = content;
-	lexer->i = 0;
-	lexer->c = content[lexer->i];
+	if (content)
+	{
+		lexer->content = content;
+		lexer->i = 0;
+		lexer->c = content[lexer->i];
+	}
 	return (lexer);
 }
 
