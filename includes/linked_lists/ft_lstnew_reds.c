@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 00:36:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/07/12 00:40:12 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 14:48:44 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_reds	*ft_lstnew_reds(int fd)
 	if (!node)
 		return (0);
 	node->fd = fd;
+	node->is_heredoc = 0;
+	node->delim = 0;
 	node->next = NULL;
 	return (node);
 }

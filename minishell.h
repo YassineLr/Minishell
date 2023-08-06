@@ -86,6 +86,8 @@ typedef struct s_pipe
 typedef struct s_reds
 {
 	int				fd;
+	int				is_heredoc;
+	char			*delim;
 	struct s_reds	*next;
 }	t_reds;
 
