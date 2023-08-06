@@ -6,35 +6,60 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 12:48:38 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 14:53:23 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:16:17 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int last_redin(t_reds *red)
+{
+    t_reds  *cur;
+
+    cur = red;
+    while (cur)
+    {
+        if(!cur->next)
+            return(cur->fd);
+        cur = cur->next;
+    }
+    return(0);
+}
+
 void set_hdoc_pipes(t_parser *parse)
 {
     int i;
     int t[2];
-    t_hdoc *cur;
+    t_reds *cur;
 
-    cur = parse->command->heredoc;
-    while (cur)
+    if(last_redin(parse->command->red_in) == -2)
     {
-        if (!cur->next)
-        {
-            pipe(t);
-            cur->in = t[1];
-            cur->out = t[0];
-            break;
-        }
-        cur->in = -1;
-        cur->out = -1;
-        cur = cur->next;
+        pipe(t);
+        cur->hdoc->in = t[1];
+        cur->hdoc->out = t[0];    
     }
 }
 
-int is_last_hdoc(t_parser *parse)
+int is_there_hdoc(t_parser *parse)
+{
+    t_reds *red;
+
+    red = parse->command->red_in;
+    while (red)
+    {
+        if(red->fd == -2)
+            return (1);
+        red = red->next;
+    }
+    return (0);
+}
+
+void hdoc(t_parser *parse)
 {
     
+
+    if(is_there_hdoc(parse))
+    {
+        // hdoc implementation
+    }
 }

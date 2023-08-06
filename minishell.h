@@ -87,13 +87,12 @@ typedef struct s_hdoc
 	int 	in;
 	int 	out;
 	char 	*delim;
-	struct 	s_hdoc *next;
-} t_hdoc;
+} 	t_hdoc;
 
 typedef struct s_reds
 {
 	int				fd;
-	t_hdoc			hdoc;
+	t_hdoc			*hdoc;
 	struct s_reds	*next;
 }	t_reds;
 
@@ -287,6 +286,7 @@ void	redirection(t_parser *parse);
 void	close_files(t_parser *parse);
 void 	no_path_err(t_parser *parse);
 void ftt_dup(int fildes, int fildes2);
+int last_redin(t_reds *red);
 
 
 #endif
