@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 05:34:59 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 19:08:25 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/03 02:57:52 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_parser	*ft_lstnew_alt(t_cmd *cmd)
 	node->command = init_cmd();
 	node->command->cmds = malloc(sizeof(char *) * (ft_count_strs(cmd->cmds) + 1));
 	if (ft_count_strs(cmd->cmds) == 0)
-		node->command->cmds[0] = NULL;
+		node->command->cmds[0] = NULL; // node->command->cmds[0] = ft_strdup("");
 	else
 	{
 		while (cmd->cmds[++i])

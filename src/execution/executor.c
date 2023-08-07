@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 18:30:11 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:55:45 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,21 +121,18 @@ void ftt_dup(int fildes, int fildes2)
 	dup2(fildes,fildes2);
 	close(fildes);
 }
-
 void	redirection(t_parser *parse)
 {
-	if (last_redin(parse->command->red_in) != -2)
-		ftt_dup(last_redin(parse->command->red_in), STDIN_FILENO);
-	else if (last_redin(parse->command->red_in) == -2)
-		ftt_dup(parse->command->red_in->hdoc->in, STDIN_FILENO);
+	if (parse->command->red_in && parse->command->red_in != -1)
+		ftt_dup(parse->command->red_in, STDIN_FILENO);	
 	if (parse->command->red_out != 1)
 		ftt_dup(parse->command->red_out, STDOUT_FILENO);
 }
 
 void	close_files(t_parser *parse)
 {
-	if (last_redin(parse->command->red_in) != -2 && parse->command->red_in)
-		close(last_redin(parse->command->red_in));
+	if (parse->command->red_in)
+		close(parse->command->red_in);
 	if (parse->command->red_out != 1)
 		close(parse->command->red_out);
 }
@@ -156,11 +153,10 @@ void red_buil(t_parser *parse, t_env *env, int child)
 
 void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 {
-	// if (!parse->command->red_in)
-	// 	exit(1);
+	if (parse->command->red_in == -1)
+		exit(1);
 	if (in_builtins(parse))
 		red_buil(parse, env, 1);
-	hdoc(parse, env);
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
 	execute_cmd(parse ,env ,envt);
@@ -192,5 +188,4 @@ void executor(t_parser *parse, t_env *env, char **envp)
 			exit_status(status);
 	}
 	ft_free_strs(envt);
-	// exit(1);
 }

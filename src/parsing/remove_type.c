@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:11:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 20:26:18 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:07:38 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,6 @@ void	remove_type(t_list **head, int type)
 			prev = current;
 			current = current->next;
 		}
-	}
-}
-
-void	hdc_delim(t_list *list)
-{
-	while (list)
-	{
-		if (list->token->type == HEREDOC)
-		{
-			list = list->next;
-			if (list->next && is_quotes(list->token->type))
-				list->next->token->expanded = 1;
-		}
-		list = list->next;
 	}
 }
 

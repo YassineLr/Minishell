@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 18:55:18 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:34:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ t_lexer	*init_lexer(char *content)
 	lexer = malloc(sizeof(t_lexer));
 	if (!lexer)
 		return (0);
-	if (content)
-	{
-		lexer->content = content;
-		lexer->i = 0;
-		lexer->c = content[lexer->i];
-	}
+	lexer->content = content;
+	lexer->i = 0;
+	lexer->c = content[lexer->i];
 	return (lexer);
 }
 
@@ -39,7 +36,6 @@ t_token	*init_token(int type, char *value)
 	token->value = value;
 	token->expanded = 0;
 	token->in_quotes = 0;
-	token->heredoc_expand = 1;
 	return (token);
 }
 

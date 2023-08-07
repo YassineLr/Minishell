@@ -68,7 +68,6 @@ typedef struct s_token
 	char	*value;
 	int		expanded;
 	int		in_quotes;
-	int		heredoc_expand;
 }	t_token;
 
 typedef struct s_list
@@ -79,22 +78,14 @@ typedef struct s_list
 
 typedef struct s_pipe
 {
+	// int to_close;
 	int write;
 	int read;
 }	t_pipe;
 
-typedef struct s_hdoc
-{
-	int 	in;
-	int 	out;
-	char 	*delim;
-	int		expand;
-} 	t_hdoc;
-
 typedef struct s_reds
 {
 	int				fd;
-	t_hdoc			*hdoc;
 	struct s_reds	*next;
 }	t_reds;
 
@@ -103,7 +94,7 @@ typedef struct s_cmd
 	char		**cmds;
 	int			pipe;
 	t_pipe		pipe_fd;
-	t_reds		*red_in;
+	int			red_in;
 	int			red_out;
 }	t_cmd;
 
@@ -123,7 +114,7 @@ typedef struct s_vars
 }	t_vars;
 
 // Readline
-
+int rl_replace_line(const char *text, int clear_undo);
 
 // Error handling
 int		check_errors(char *input, t_list *list);
@@ -149,7 +140,7 @@ t_env		*ft_last_env(t_env *lst);
 void		ft_lstclear_env(t_env **lst, void (*del)(void*));
 void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
 t_reds		*ft_lstlast_reds(t_reds *lst);
-t_reds		*ft_lstnew_reds(int fd, t_token *token);
+t_reds		*ft_lstnew_reds(int fd);
 void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
@@ -215,10 +206,10 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i);
 char	*expand_env_variable(char *str, t_env *env, int *i);
 
 // heredoc
+t_hdc	*here_doc(t_list *list, t_env *env);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
-void	hdc_delim(t_list *list);
 
 // get_next_line
 char	*fill_buff(int fd);
@@ -286,8 +277,7 @@ void 	command_nf_error(t_parser *parse);
 void	redirection(t_parser *parse);
 void	close_files(t_parser *parse);
 void 	no_path_err(t_parser *parse);
-void 	ftt_dup(int fildes, int fildes2);
-int 	last_redin(t_reds *red);
-void	hdoc(t_parser *parse, t_env *env);
+void ftt_dup(int fildes, int fildes2);
+
 
 #endif
