@@ -24,8 +24,8 @@
 			exit(1);
 
 
-//	update exitcode in buildtins
-//	many processes created when red_in is used (< $a)
+
+	keep quotes and update parser based on that, to check in parser to expand heredoc delim or not
 
 //	cat << a << b << c | echo << a
 

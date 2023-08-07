@@ -68,6 +68,7 @@ typedef struct s_token
 	char	*value;
 	int		expanded;
 	int		in_quotes;
+	int		heredoc_expand;
 }	t_token;
 
 typedef struct s_list
@@ -87,6 +88,7 @@ typedef struct s_hdoc
 	int 	in;
 	int 	out;
 	char 	*delim;
+	int		expand;
 } 	t_hdoc;
 
 typedef struct s_reds
@@ -147,7 +149,7 @@ t_env		*ft_last_env(t_env *lst);
 void		ft_lstclear_env(t_env **lst, void (*del)(void*));
 void		ft_lstdelone_env(t_env *lst, void (*del)(void *));
 t_reds		*ft_lstlast_reds(t_reds *lst);
-t_reds		*ft_lstnew_reds(int fd, char *delim);
+t_reds		*ft_lstnew_reds(int fd, t_token *token);
 void		ft_lstadd_back_reds(t_reds **lst, t_reds *new);
 void		ft_lstclear_reds(t_reds **lst);
 
@@ -216,6 +218,7 @@ char	*expand_env_variable(char *str, t_env *env, int *i);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
+void	hdc_delim(t_list *list);
 
 // get_next_line
 char	*fill_buff(int fd);

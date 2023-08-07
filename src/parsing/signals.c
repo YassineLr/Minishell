@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 00:28:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:28:33 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 // void	ctrl_d_handler(int signum)
 // {
 // 	(void)signum;
+// if (signum == SIGQUIT)
+    // printf("Q")
 // 	ft_putstr_fd("exit\n", 1);
 // 	exit(exitcode);
 // }

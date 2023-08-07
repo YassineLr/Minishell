@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 15:53:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:18:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_reds	*get_redin(t_list *list)
 		{
 			list = list->next;
 			if (list && list->token)
-				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(-2, list->token->value));
+				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(-2, list->token));
 		}
 		list = list->next;
 	}

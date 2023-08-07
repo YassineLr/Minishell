@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **envp)
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
 			// hdc = here_doc(lex_list, env);
+			hdc_delim(lex_list);
 			remove_nulls(&lex_list);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);

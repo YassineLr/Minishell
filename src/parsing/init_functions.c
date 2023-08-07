@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 17:41:13 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:55:18 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_token	*init_token(int type, char *value)
 	token->value = value;
 	token->expanded = 0;
 	token->in_quotes = 0;
+	token->heredoc_expand = 1;
 	return (token);
 }
 
