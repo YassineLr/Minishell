@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 21:37:29 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:06:33 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void red_buil(t_parser *parse, t_env *env, int child)
 void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 {
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ctrl_c_hdoc);
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))

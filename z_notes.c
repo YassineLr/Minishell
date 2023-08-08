@@ -23,4 +23,9 @@
 			}
 			exit(1);
 
+
+	Try ctrl-\ in a prompt after you wrote some stuff should quit minishell 
+
+
+	ctrl-C in grep "" 	should quit minishell
 */

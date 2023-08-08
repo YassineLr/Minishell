@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:55 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 21:24:50 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:42:48 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,12 @@ void	expansion(t_list *list, t_env *env)
 	vars = init_vars();
 	while (list)
 	{
-		if (list->token->type == S_QUOTES)
+		if (list->token->type == HEREDOC)
+		{
+			vars->flag = 1;
+			list = list->next;
+		}
+		else if (list->token->type == S_QUOTES)
 			mark_quotes(&list, vars);
 		else if (list->token->type == WHITESPACE)
 			list = list->next;
@@ -89,7 +94,15 @@ void	expansion(t_list *list, t_env *env)
 			list = list->next;
 		}
 		else if (list->token->type == WORD && vars->prev != HEREDOC)
-			handle_expand(&list, vars, env);
+		{
+			if (vars->flag != 1)
+				handle_expand(&list, vars, env);
+			else
+			{
+				vars->flag = 0;
+				list = list->next;
+			}
+		}
 		else
 		{
 			vars->prev = list->token->type;

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 21:37:37 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 21:47:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,8 +227,7 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 						{
 							if (!count || !count_hdcs)
 								break ;
-							ft_putstr_fd("> ", 1);
-							hdoc_line = readline("");
+							hdoc_line = readline("> ");
 							if (!hdoc_line)
 								break ;
 							if (ft_strcmp(hdoc_line, list->token->value))

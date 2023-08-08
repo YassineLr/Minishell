@@ -75,6 +75,7 @@ typedef struct s_token
 	char	*value;
 	int		expanded;
 	int		in_quotes;
+	int		flag;
 }	t_token;
 
 typedef struct s_list
