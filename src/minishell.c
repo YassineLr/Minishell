@@ -35,22 +35,24 @@ int	main(int ac, char **av, char **envp)
 	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
-	// signals_handler();
+	g.in_hdoc = 0;
 	env = get_env(envp);
 	while (1)
 	{
+		signals_handler();
 		line = readline("minishell-1.0$ ");
-		// if (!line)
-		// 	ctrl_d_handler();
+		if (!line)
+			ctrl_d();
+		signal(SIGINT, SIG_IGN);
 		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list);
-		expansion(tmp_list, env);
 		err = check_errors(line, tmp_list);
 		if (err != 1 && err != 2)
 			exitcode = 258;
 		if (err != -1)
 		{
+			expansion(tmp_list, env);
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
 			hdc = here_doc(lex_list, env);
@@ -60,21 +62,6 @@ int	main(int ac, char **av, char **envp)
 			if (err == 1)
 			{
 				p_list = ft_parser(lex_list, hdc);
-				// int x;
-				// t_parser *p;
-				// p = p_list;
-				// printf("---------------- in minishell ------------\n");
-				// while (p)
-				// {
-				// 	x = -1;
-				// 	while (p->command->cmds[++x])
-				// 		printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
-				// 	printf("pipe     : %d\n", p->command->pipe);
-				// 	printf("red_in   : %d\n", p->command->red_in);
-				// 	printf("red_out  : %d\n", p->command->red_out);
-				// 	p = p->next;
-				// }
-				// exit(1);
 				if (p_list)
 				{
 					init_fds(p_list);

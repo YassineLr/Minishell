@@ -31,6 +31,13 @@
 
 extern int exitcode;
 
+typedef struct s_global
+{
+	int	in_hdoc;
+}	t_global;
+
+t_global	g;
+
 typedef struct s_hdc
 {
 	int	*fds;
@@ -245,7 +252,9 @@ void	free_cmds(t_cmd *cmd);
 
 // Signals
 // int		signals_handler();
-// void	ctrl_d_handler(void);
+void	ctrl_d(void);
+void	ctrl_c_hdoc(int signum);
+void	ctrl_backslash(int signum);
 
 //builtins
 

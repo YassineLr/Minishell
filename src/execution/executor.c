@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 12:37:14 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:01:35 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void red_buil(t_parser *parse, t_env *env, int child)
 
 void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))
@@ -187,6 +188,8 @@ void executor(t_parser *parse, t_env *env, char **envp)
 		close_pipes(head, 0, 1);
 		while(waitpid(-1, &status, 0) != -1)
 			exit_status(status);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			printf("Quit: %d\n", WTERMSIG(status));
 	}
 	ft_free_strs(envt);
 }

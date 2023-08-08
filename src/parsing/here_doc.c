@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 12:27:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:58:21 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,10 +190,11 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 	if (!hdc)
 		return (0);
 	pid = fork();
+	g.in_hdoc = 1;
 	if (!pid)
 	{	
-		// restore_signals();
 		i = 0;
+		signal(SIGINT, ctrl_c_hdoc);
 		while (i < pipe_count)
 		{
 			close(ends[i][0]);
@@ -222,19 +223,28 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 							expand = 0;
 							list = list->next;
 						}
-						hdoc_line = readline("> ");
-						while (ft_strcmp(hdoc_line, list->token->value))
+						while (1)
 						{
-							if (count == 1)
+							if (!count || !count_hdcs)
+								break ;
+							ft_putstr_fd("> ", 1);
+							hdoc_line = readline("");
+							if (!hdoc_line)
+								break ;
+							if (ft_strcmp(hdoc_line, list->token->value))
 							{
-								if (expand == 0)
-									ft_putendl_fd(hdoc_line, ends[i][1]);
-								else
-									heredoc_expand(hdoc_line, env, ends[i][1]);
+								if (count == 1)
+								{
+									if (expand == 0)
+										ft_putendl_fd(hdoc_line, ends[i][1]);
+									else
+										heredoc_expand(hdoc_line, env, ends[i][1]);
+								}
 							}
+							else
+								break ;
 							if (hdoc_line)
 								free(hdoc_line);
-							hdoc_line = readline("> ");
 						}
 						if (count == 1)
 							i++;
@@ -273,5 +283,6 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 			i++;
 		}
 	}
+	g.in_hdoc = 0;
 	return (hdc);
 }

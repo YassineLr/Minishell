@@ -6,37 +6,41 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 00:28:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 21:35:43 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// void	ctrl_c_handler(int signum)
-// {
-// 	(void)signum;
-// 	write(1, "\n", 1);
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
+void	ctrl_c_handler(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	exitcode = 1;
+}
 
-// void	ctrl_d_handler(int signum)
-// {
-// 	(void)signum;
-// 	ft_putstr_fd("exit\n", 1);
-// 	exit(exitcode);
-// }
+void	ctrl_c_hdoc(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	exit(1);
+}
 
-// void	ctrl_backslash_handler(int signum)
-// {
-// 	signal(SIGINT, SIG_IGN);
-	
-// }
+void	ctrl_d()
+{
+	ft_putstr_fd("exit\n", 2);
+	exit(exitcode);
+}
 
-// int	signals_handler()
-// {
-// 	signal(SIGINT, ctrl_c_handler);
-// 	signal(SIGQUIT, ctrl_backslash_handler);
-// 	return (1);
-// }
+int	signals_handler()
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ctrl_c_handler);
+	return (1);
+}
