@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 11:04:16 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:44:23 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 	t_hdc	*hdc;
 	char	*hdoc_line;
 	int		pipe_count;
+	int		status;
 
 	i = 0;
 	expand = 1;
@@ -257,7 +258,8 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 	}
 	else
 	{
-		wait(NULL);
+		while(waitpid(-1, &status, 0) != -1)
+			exit_status(status);
 		i = 0;
 		while (i < pipe_count)
 		{

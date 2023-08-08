@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 20:23:15 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:30:52 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void go_home(t_env *env)
 			chdir(home_path);
 	}
 	else
+	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		exitcode = 1;
+	}
 }
 
 char *go_oldpwd(t_env *env)
@@ -49,6 +52,7 @@ char *go_oldpwd(t_env *env)
 	if(!oldpwd)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		exitcode = 1;
 		return NULL;
 	}
 	else
@@ -61,10 +65,13 @@ void cd(t_parser *parse ,t_env *env)
 	char *pwd=NULL;
 	char *oldpwd= NULL;
 
-
+	exitcode = 0;
 	oldpwd = getcwd(oldpwd,0);
 	if(!oldpwd)
+	{
+		exitcode = 255;
 		perror("");
+	}
 	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{
 		go_home(env);
@@ -84,6 +91,7 @@ void cd(t_parser *parse ,t_env *env)
 		else
 		{
 			ft_putstr_fd("cd: No such file or directory\n",2);
+			exitcode = 1;
 			return ;
 		}
 	}

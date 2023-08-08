@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 10:16:43 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:37:03 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void concate_val(t_env *env, char **key_val)
 			to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
 	else
 		ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
-	free(key_val[0]);
 }
 
 char last_char(char *str)
@@ -78,6 +77,7 @@ void	export(t_parser *parse, t_env **env)
 	char	**key_val;
 	int		i = 1;
 
+    exitcode = 0;
 	if (!parse->command->cmds[1])
 	{
 		export_no_args(*env);
@@ -87,13 +87,19 @@ void	export(t_parser *parse, t_env **env)
 	while (parse->command->cmds[i])
 	{
 		if (!(parse->command->cmds[i][0] == '_' || ft_isalnum(parse->command->cmds[i][0])))
+		{
 			ft_putstr_fd("invalid identifier\n", 2);
+    		exitcode = 127;
+		}
 		else if (index_at(parse->command->cmds[i],'=') != -1)
 		{
 			key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
 			key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
 			if(!invalid_identifier(key_val[0]))
-				ft_putstr_fd("invalid identifier 2\n",2);
+			{
+			    exitcode = 127;
+				ft_putstr_fd("invalid identifier \n",2);
+			}
 			else if(last_char(key_val[0]) == '+')
 				concate_val(*env, key_val);
 			else

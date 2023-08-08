@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/07/20 11:27:58 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:34:31 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    remove_variable(t_env *env, char *key)
                 precourant->next = courant->next;
                 free(courant->key);
                 free(courant->value);
-                courant->next = NULL;
+                free(courant);
                 return ;
             }
             precourant = precourant->next;
@@ -49,6 +49,7 @@ void    unset(t_parser *parse, t_env *env)
 {
     int i;
     
+    exitcode = 0;
     i = 1;
     while (parse->command->cmds[i])
     {
@@ -56,5 +57,4 @@ void    unset(t_parser *parse, t_env *env)
             remove_variable(env, parse->command->cmds[i]);
         i++;
     }
-    
 }
