@@ -24,10 +24,4 @@
 			exit(1);
 
 
-//	update exitcode in buildtins
-//	many processes created when red_in is used (< $a)
-
-//	cat << a << b << c | echo << a
-
-// cat | echo | export > l | env > h | echo skf sdkfmm sdmfm | wc -l
 */

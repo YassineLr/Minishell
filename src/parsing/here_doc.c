@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 11:44:23 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:27:59 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,18 +273,5 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 			i++;
 		}
 	}
-	// i = 0;
-	// printf("%s", get_next_line(hdc->fds[0]));
-	// printf("%s", get_next_line(hdc->fds[1]));
-	// printf("%s", get_next_line(hdc->fds[2]));
-	// exit(1);
-	// i = 0;
-	// printf("---------------- in herdoc ------------\n");
-	// while (i < pipe_count)
-	// {
-	// 	printf("%d\n", hdc->fds[i]);
-	// 	i++;
-	// }
-	// exit(1);
 	return (hdc);
 }

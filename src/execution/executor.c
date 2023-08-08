@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/06 10:55:45 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:37:14 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void ftt_dup(int fildes, int fildes2)
 	dup2(fildes,fildes2);
 	close(fildes);
 }
+
 void	redirection(t_parser *parse)
 {
 	if (parse->command->red_in && parse->command->red_in != -1)

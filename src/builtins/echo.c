@@ -6,13 +6,13 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 11:32:27 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:31:51 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int args_treatment(char **cmd)
+int check_args(char **cmd)
 {
     int i;
 
@@ -37,7 +37,7 @@ void    ft_echo(t_parser *parse)
     flag = 0;
     if(parse->command->cmds[1])
     {
-        flag = args_treatment(parse->command->cmds);
+        flag = check_args(parse->command->cmds);
         if(flag)
             i = flag;
         else
