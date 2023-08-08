@@ -29,7 +29,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 
-int exitcode;
+extern int exitcode;
 
 typedef struct s_hdc
 {
@@ -113,8 +113,6 @@ typedef struct s_vars
 	int		prev;
 }	t_vars;
 
-// Readline
-int rl_replace_line(const char *text, int clear_undo);
 
 // Error handling
 int		check_errors(char *input, t_list *list);
