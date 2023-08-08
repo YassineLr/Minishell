@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 10:10:04 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:04:16 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,14 @@ int	heredoc_count3(t_list **list)
 	{
 		if ((*list)->token->type == HEREDOC)
 		{
+			count = 1;
 			if (!handle_heredoc(list, prev_type))
 				return (count);
 			else
 				count = 1;
 		}
+		else if ((*list)->token->type == RED_IN)
+			count = 0;			
 		else
 		{
 			if (!hc_handle_errors(prev_type, (*list)->token->type))
@@ -179,8 +182,6 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 			return (0);
 		i++;
 	}
-	// printf("here\n");
-	// exit(1);
 	count_hdcs = heredoc_count(list);
 	if (!count_hdcs)
 		return (0);
@@ -191,10 +192,17 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 	if (!pid)
 	{	
 		// restore_signals();
+		i = 0;
+		while (i < pipe_count)
+		{
+			close(ends[i][0]);
+			i++;
+		}
+		i = 0;
 		while (list && count_hdcs > 0)
 		{
 			count = heredoc_count2(list);
-			if (!count) // if no heredoc in current command skip to next command
+			if (!count)
 			{
 				while (list && list->token->type != PIPE)
 					list = list->next;
@@ -253,18 +261,28 @@ t_hdc	*here_doc(t_list *list, t_env *env)
 		i = 0;
 		while (i < pipe_count)
 		{
-			hdc->fds[i] = ends[i][1];
+			close(ends[i][1]);
+			i++;
+		}
+		i = 0;
+		while (i < pipe_count)
+		{
+			hdc->fds[i] = ends[i][0];
 			i++;
 		}
 	}
-	i = 0;
-	printf("%s", get_next_line(hdc->fds[0]));
-	exit(1);
-	while (i < pipe_count)
-	{
-		printf("%d\n", hdc->fds[i]);
-		i++;
-	}
-	exit(1);
+	// i = 0;
+	// printf("%s", get_next_line(hdc->fds[0]));
+	// printf("%s", get_next_line(hdc->fds[1]));
+	// printf("%s", get_next_line(hdc->fds[2]));
+	// exit(1);
+	// i = 0;
+	// printf("---------------- in herdoc ------------\n");
+	// while (i < pipe_count)
+	// {
+	// 	printf("%d\n", hdc->fds[i]);
+	// 	i++;
+	// }
+	// exit(1);
 	return (hdc);
 }
