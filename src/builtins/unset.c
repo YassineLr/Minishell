@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 02:50:46 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 04:44:30 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void    unset(t_parser *parse, t_env *env)
     {
         
         if(search_in_env(env, parse->command->cmds[i]))
-            remove_variable(env, parse->command->cmds[i]);
+            remove_variable(&env, parse->command->cmds[i]);
         i++;
     }
 }

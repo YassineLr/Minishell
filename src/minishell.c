@@ -24,11 +24,6 @@ int	main(int ac, char **av, char **envp)
 	t_list		*lex_list;
 	t_parser	*p_list;
 	t_env		*env;
-	// t_env		*courant;
-	// char		**envvv;
-	// int i = 0;
-	// int id;
-	// int status;
 
 	(void)ac;
 	(void)av;

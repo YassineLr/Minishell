@@ -3,203 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:26:09 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 04:36:53 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	heredoc_count2(t_list *list)
-{
-	int	count;
-	int	prev_type;
-
-	count = 0;
-	prev_type = -1;
-	while (list && list->token->type != PIPE)
-	{
-		if (list->token->type == HEREDOC)
-		{
-			if (!handle_heredoc(&list, prev_type))
-				return (count);
-			else
-				count++;
-		}
-		else
-		{
-			if (!hc_handle_errors(prev_type, list->token->type))
-				return (count);
-		}
-		prev_type = list->token->type;
-		list = list->next;
-	}
-	return (count);
-}
-
-int	hc_handle_errors(int prev_type, int curr_type)
-{
-	if (curr_type == PIPE && (is_redir(prev_type) || prev_type == PIPE))
-		return (0);
-	else if (curr_type == RED_IN && is_redir_2(prev_type))
-		return (0);
-	else if (curr_type == RED_OUT && is_redir_2(prev_type))
-		return (0);
-	else if (curr_type == APPEND && is_redir_2(prev_type))
-		return (0);
-	return (1);
-}
-
-int	handle_heredoc(t_list **list, int prev_type)
-{
-	if (is_redir_2(prev_type) || is_quotes(prev_type))
-		return (0);
-	if ((*list)->next)
-	{
-		*list = (*list)->next;
-		if ((*list)->next)
-		{
-			if (is_quotes((*list)->token->type))
-				*list = (*list)->next;
-		}
-		if ((*list)->token->type != WORD)
-			return (0);
-	}
-	else
-		return (0);
-	return (1);
-}
-
-int	heredoc_count(t_list *list)
-{
-	int	count;
-	int	prev_type;
-
-	count = 0;
-	prev_type = -1;
-	while (list)
-	{
-		if (list->token->type == HEREDOC)
-		{
-			if (!handle_heredoc(&list, prev_type))
-				return (count);
-			else
-				count++;
-		}
-		else
-		{
-			if (!hc_handle_errors(prev_type, list->token->type))
-				return (count);
-		}
-		prev_type = list->token->type;
-		list = list->next;
-	}
-	return (count);
-}
-
-t_hdc	*init_hdc(int count)
-{
-	t_hdc	*hdc;
-
-	hdc = malloc(sizeof(t_hdc));
-	if (!hdc)
-		return (0);
-	hdc->count = count;
-	hdc->fds = malloc(sizeof(int) * count);
-	if (!hdc->fds)
-		return (0);
-	return (hdc);
-}
-
-int	heredoc_count3(t_list **list)
-{
-	int	count;
-	int	prev_type;
-
-	count = 0;
-	prev_type = -1;
-	while (*list && (*list)->token->type != PIPE)
-	{
-		if ((*list)->token->type == HEREDOC)
-		{
-			count = 1;
-			if (!handle_heredoc(list, prev_type))
-				return (count);
-			else
-				count = 1;
-		}
-		else if ((*list)->token->type == RED_IN)
-			count = 0;			
-		else
-		{
-			if (!hc_handle_errors(prev_type, (*list)->token->type))
-				return (count);
-		}
-		prev_type = (*list)->token->type;
-		*list = (*list)->next;
-	}
-	return (count);
-}
-
-int	count_ends(t_list *list)
-{
-	int	count;
-
-	count = 0;
-	while (list)
-	{
-		count += heredoc_count3(&list);
-		if (list && list->token->type == PIPE)
-			list = list->next;
-		else
-			return (count);
-	}
-	return (count);
-}
-
-t_vars	*initialize_vars(t_list *list)
-{
-	t_vars	*vars;
-
-	vars = init_vars();
-	vars->hdc_expand = 1;
-	vars->pipe_count = count_ends(list);
-	vars->ends = malloc(sizeof(int *) * vars->pipe_count);
-	if (!vars->ends)
-		return (0);
-	return (vars);
-}
-
-int	setup_pipes(t_vars *vars)
-{
-	int	i;
-
-	i = 0;
-	while (i < vars->pipe_count)
-	{
-		vars->ends[i] = malloc(sizeof(int) * 2);
-		if (!vars->ends[i] || pipe(vars->ends[i]) == -1)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void    skip_to_next_cmd(t_list **list)
-{
-	while (*list && (*list)->token->type != PIPE)
-		*list = (*list)->next;
-	if (*list)
-		*list = (*list)->next;
-}
-
-void	mark_hdc_quotes(t_list **list, t_vars *vars)
-{
-	vars->hdc_expand = 0;
-	*list = (*list)->next;
-}
 
 void    open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 {
@@ -228,6 +39,7 @@ void    open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 			free(vars->hdoc_line);
 	}
 }
+
 void    process_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 {
     while (*list && (*list)->token && (*list)->token->type != PIPE && vars->count_hdcs > 0)
@@ -246,19 +58,6 @@ void    process_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 		else
 			*list = (*list)->next;
 	}
-}
-
-void    close_and_exit(t_vars *vars)
-{
-    int i;
-
-	i = 0;
-	while (i < vars->pipe_count)
-	{
-		close(vars->ends[i][1]);
-		i++;
-	}
-	exit(exitcode);
 }
 
 void	child_process(t_list *list, t_vars *vars, t_env *env, t_hdc *hdc)
