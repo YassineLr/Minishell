@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 19:14:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:50:43 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	search_env(t_env **env, char *tmp)
+{
+	while (*env)
+	{
+		if (ft_strcmp(tmp, (*env)->key) == 0)
+			break ;
+		*env = (*env)->next;
+	}
+}
 char	*expand_env_variable(char *str, int *i)
 {
 	char	*tmp;
@@ -19,7 +28,7 @@ char	*expand_env_variable(char *str, int *i)
 	int		len;
 	t_env	*env;
 
-	env = global.env;	
+	env = global.env;
 	start = *i;
 	len = 0;
 	while (str[*i] && ft_isalnum(str[*i]))
@@ -28,21 +37,11 @@ char	*expand_env_variable(char *str, int *i)
 		len++;
 	}
 	tmp = ft_substr(str, start, len);
-	while (env)
-	{
-		if (ft_strcmp(tmp, env->key) == 0)
-			break ;
-		env = env->next;
-	}
+	search_env(&env, tmp);
 	if (env)
 	{
 		free(tmp);
 		return (ft_strdup(env->value));
-	}
-	while (global.env)
-	{
-		printf(" %s -> %s\n", global.env->key, global.env->value);
-		global.env = global.env = global.env->next;
 	}
 	free(tmp);
 	return (ft_strdup(""));

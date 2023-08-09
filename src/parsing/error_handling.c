@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 15:37:36 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 22:20:41 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,9 @@ int	check_pipes(t_list *list)
 			if (!list->next)
 				return (0);
 			list = list->next;
-			if (list->next)
-			{
-				if (list->token->type == WHITESPACE)
-					list = list->next;
-				if (list->token->type == PIPE)
-					return (0);
-			}
-			else
+			if (list->token->type == WHITESPACE)
+				list = list->next;
+			if (list->token->type == PIPE)
 				return (0);
 		}
 		list = list->next;

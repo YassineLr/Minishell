@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/07 22:49:49 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:40:22 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_parser	*ft_parser(t_list *list, t_hdc *hdc)
 	p_list = NULL;
 	while (list)
 	{
+		global.flag = 0;
 		cmd = fill_cmd(list);
 		if (cmd->red_in == -2)
 			cmd->red_in = hdc->fds[i++];

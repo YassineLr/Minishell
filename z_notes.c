@@ -1,8 +1,41 @@
+
+
 /*
+				int x;
+				t_parser *p;
+				p = p_list;
+				while (p)
+				{
+					x = -1;
+					while (p->command->cmds[++x])
+						printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
+					printf("pipe     : %d\n", p->command->pipe);
+					printf("red_in   : %d\n", p->command->red_in);
+					printf("red_out  : %d\n", p->command->red_out);
+					p = p->next;
+				}
+
 			while (lex_list)
 			{
 				printf("type : %d\nvalue :%s\n\n", lex_list->token->type, lex_list->token->value);
 				lex_list = lex_list->next;
 			}
 			exit(1);
+
+
+
+	export A-
+
+	exit +100
+	exit "+100"
+
+	exit +"100"
+
+	exit 9223372036854775808
+
+	echo <"./test_files/infile" <missing <"./test_files/infile"
+
+	echo <file | cat < file2 < file3
+
+	ls >./outfiles/outfile01 >./test_files/invalid_permission
 */

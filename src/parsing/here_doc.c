@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 18:15:51 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:44:06 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	open_heredoc(t_list **list, t_vars *vars, t_hdc *hdc)
+void	open_heredoc(t_list **list, t_vars *vars)
 {
 	if (is_quotes((*list)->token->type))
 		mark_hdc_quotes(list, vars);
@@ -40,7 +40,7 @@ void	open_heredoc(t_list **list, t_vars *vars, t_hdc *hdc)
 	}
 }
 
-void	process_heredoc(t_list **list, t_vars *vars, t_hdc *hdc)
+void	process_heredoc(t_list **list, t_vars *vars)
 {
 	while (*list && (*list)->token && (*list)->token->type != PIPE
 		&& vars->count_hdcs > 0)
@@ -48,7 +48,7 @@ void	process_heredoc(t_list **list, t_vars *vars, t_hdc *hdc)
 		if ((*list)->token->type == HEREDOC)
 		{
 			*list = (*list)->next;
-			open_heredoc(list, vars, hdc);
+			open_heredoc(list, vars);
 			if (vars->count == 1)
 				vars->i++;
 			if (vars->hdoc_line)
@@ -61,12 +61,12 @@ void	process_heredoc(t_list **list, t_vars *vars, t_hdc *hdc)
 	}
 }
 
-void	child_process(t_list *list, t_vars *vars, t_hdc *hdc)
+void	child_process(t_list *list, t_vars *vars)
 {
 	int	i;
 
 	i = 0;
-	// signal(SIGINT, ctrl_c_hdoc);
+	signal(SIGINT, ctrl_c_hdoc);
 	while (i < vars->pipe_count)
 	{
 		close(vars->ends[i][0]);
@@ -78,7 +78,7 @@ void	child_process(t_list *list, t_vars *vars, t_hdc *hdc)
 		if (!vars->count)
 			skip_to_next_cmd(&list);
 		else
-			process_heredoc(&list, vars, hdc);
+			process_heredoc(&list, vars);
 	}
 	close_and_exit(vars);
 	exit(global.exitcode);
@@ -116,14 +116,18 @@ t_hdc	*here_doc(t_list *list)
 		return (0);
 	vars->count_hdcs = heredoc_count(list);
 	if (!vars->count_hdcs)
+	{
+		free_vars(vars);
 		return (0);
-	hdc = init_hdc(vars->pipe_count);
+	}
+	hdc = init_hdc(vars);
 	if (!hdc)
 		return (0);
 	vars->pid = fork();
 	if (!vars->pid)
-		child_process(list, vars, hdc);
+		child_process(list, vars);
 	else
 		parent_process(vars, hdc);
+	free_vars(vars);
 	return (hdc);
 }

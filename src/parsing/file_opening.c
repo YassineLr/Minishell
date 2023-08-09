@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 15:15:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:40:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ int	check_filename(char *name)
 
 int	file_error(char *filename)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(filename, 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
+	if (global.flag != 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(": ", 2);
+		perror("");
+		global.flag = 1;
+	}
 	return (-1);
 }
 

@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hdoc_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:37:18 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 18:08:53 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:43:43 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	setup_pipes(t_vars *vars)
-{
-	int	i;
-
-	i = 0;
-	while (i < vars->pipe_count)
-	{
-		vars->ends[i] = malloc(sizeof(int) * 2);
-		if (!vars->ends[i] || pipe(vars->ends[i]) == -1)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 void	skip_to_next_cmd(t_list **list)
 {
@@ -52,4 +37,38 @@ void	close_and_exit(t_vars *vars)
 		i++;
 	}
 	exit(global.exitcode);
+}
+
+void	free_vars(t_vars *vars)
+{
+	int	i;
+
+	i = -1;
+	if (!vars)
+		return ;
+	if (vars->ends)
+	{
+		while (++i < vars->pipe_count)
+			free(vars->ends[i]);
+		free(vars->ends);
+	}
+	free(vars);
+}
+
+int	setup_pipes(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (i < vars->pipe_count)
+	{
+		vars->ends[i] = malloc(sizeof(int) * 2);
+		if (!vars->ends[i] || pipe(vars->ends[i]) == -1)
+		{
+			free_vars(vars);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

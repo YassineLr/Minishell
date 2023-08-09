@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 22:04:07 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:19:02 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ char	**env_in_tab(void)
 
 void	in_child(t_parser *parse, t_parser *head, char **envt)
 {
-	// signal(SIGQUIT, SIG_DFL);
-	// signal(SIGINT, ctrl_c_hdoc);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ctrl_c_hdoc);
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))

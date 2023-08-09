@@ -40,6 +40,7 @@ typedef struct s_env
 typedef struct s_meta_data 
 {
 	int 	exitcode;
+	int		flag;
 	t_env 	*env;
 } 	meta_data;
 
@@ -240,7 +241,7 @@ int		heredoc_count3(t_list **list);
 void	mark_hdc_quotes(t_list **list, t_vars *vars);
 void	skip_to_next_cmd(t_list **list);
 int		setup_pipes(t_vars *vars);
-t_hdc	*init_hdc(int count);
+t_hdc	*init_hdc(t_vars *vars);
 int		count_ends(t_list *list);
 t_vars	*initialize_vars(t_list *list);
 int		heredoc_count2(t_list *list);
@@ -279,6 +280,7 @@ void	free_plist(t_parser **list);
 void	free_hdc(t_hdc *hdc);
 void	free_lexer(t_lexer *lexer);
 void	free_cmds(t_cmd *cmd);
+void	free_vars(t_vars *vars);
 
 // Signals
 // int		signals_handler();
