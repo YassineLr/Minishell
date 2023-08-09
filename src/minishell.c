@@ -38,11 +38,11 @@ int	main(int ac, char **av, char **envp)
 	env = get_env(envp);
 	while (1)
 	{
-		signals_handler();
+		// signals_handler();
 		line = readline("minishell-1.0$ ");
-		if (!line)
-			ctrl_d();
-		signal(SIGINT, SIG_IGN);
+		// if (!line)
+		// 	ctrl_d();
+		// signal(SIGINT, SIG_IGN);
 		add_history(line);
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list);

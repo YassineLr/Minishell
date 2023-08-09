@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 11:37:03 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 02:35:13 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void concate_val(t_env *env, char **key_val)
 {
 	t_env   *to_concate;
 	
-	key_val[0] = ft_strdup(ft_substr(key_val[0],0,ft_strlen(key_val[0])-1));
+	key_val[0] = ft_substr(key_val[0],0,ft_strlen(key_val[0])-1);
 	to_concate = search_in_env(env,key_val[0]);
 	if(to_concate)
 			to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
@@ -72,9 +72,52 @@ void    export_no_args(t_env *env)
 	}
 }
 
+void	only_identifier(t_parser *parse, t_env **env,int i)
+{
+	char **tmp;
+
+	tmp = ft_split(parse->command->cmds[i], '=');
+	if(!search_in_env(*env, tmp[0]))
+		ft_lstadd_back_env(env,ft_lstnew_env(tmp));
+	ft_free_strs(tmp);
+}
+
+void invalid_id_err(void)
+{
+	ft_putstr_fd("invalid identifier\n", 2);
+    exitcode = 1;
+}
+void	id_val(t_parser *parse, t_env **env, int i)
+{
+	char **key_val;
+	
+	key_val = ft_calloc(2,sizeof(char*));
+	key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
+	if(last_char(parse->command->cmds[i]) == '=')
+		key_val[1] = ft_strdup("");
+	else if(ft_strchr(parse->command->cmds[i],'='))
+		key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);	
+	if(!invalid_identifier(key_val[0]))
+		invalid_id_err();
+	else if(last_char(key_val[0]) == '+')
+	{
+		free(key_val[0]);
+		concate_val(*env, key_val);
+	}
+	else
+	{
+		if (key_exist(*env, key_val))
+			search_in_env(*env, key_val[0])->value = ft_strdup(key_val[1]);
+		else
+			ft_lstadd_back_env(env,ft_lstnew_env(key_val));
+	}
+	free(key_val[0]);
+	free(key_val[1]);
+	free(key_val);
+}
+
 void	export(t_parser *parse, t_env **env)
 {
-	char	**key_val;
 	int		i = 1;
 
     exitcode = 0;
@@ -83,45 +126,14 @@ void	export(t_parser *parse, t_env **env)
 		export_no_args(*env);
 		return ;
 	}
-	key_val = malloc(2*sizeof(char*));
 	while (parse->command->cmds[i])
 	{
-		if (!(parse->command->cmds[i][0] == '_' || ft_isalnum(parse->command->cmds[i][0])))
-		{
-			ft_putstr_fd("invalid identifier\n", 2);
-    		exitcode = 127;
-		}
+		if (parse->command->cmds[i][0] != '_' && !ft_isalpha(parse->command->cmds[i][0]))
+			invalid_id_err();
 		else if (index_at(parse->command->cmds[i],'=') != -1)
-		{
-			key_val[0] = ft_substr(parse->command->cmds[i], 0, index_at(parse->command->cmds[i],'='));
-			key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i],'=')+1);
-			if(!invalid_identifier(key_val[0]))
-			{
-			    exitcode = 127;
-				ft_putstr_fd("invalid identifier \n",2);
-			}
-			else if(last_char(key_val[0]) == '+')
-				concate_val(*env, key_val);
-			else
-			{
-				if (key_exist(*env, key_val))
-					search_in_env(*env, key_val[0])->value = key_val[1];
-				else
-					ft_lstadd_back_env(env,ft_lstnew_env(key_val));
-			}
-			free(key_val[0]);
-			free(key_val[1]);
-		}
+			id_val(parse, env, i);
 		else if (index_at(parse->command->cmds[i],'=') == -1)
-		{
-			char **tmp = ft_split(parse->command->cmds[i], '=');
-			if(search_in_env(*env, tmp[0]) && !search_in_env(*env, tmp[0])->value)
-				search_in_env(*env, tmp[0])->value = "";
-			else if(!search_in_env(*env, tmp[0]))
-				ft_lstadd_back_env(env,ft_lstnew_env(tmp));
-			ft_free_strs(tmp);
-		}
+			only_identifier(parse, env, i);
 		i++;
 	}
-	free(key_val);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 03:17:43 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 04:26:09 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ void	child_process(t_list *list, t_vars *vars, t_env *env, t_hdc *hdc)
 	int	i;
 
 	i = 0;
-	signal(SIGINT, ctrl_c_hdoc);
+	// signal(SIGINT, ctrl_c_hdoc);
 	while (i < vars->pipe_count)
 	{
 		close(vars->ends[i][0]);

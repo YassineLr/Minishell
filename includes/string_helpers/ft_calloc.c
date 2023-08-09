@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 14:23:15 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 17:37:51 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/08/09 01:14:20 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/08/09 01:14:35 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_env(t_env *env)
+void	*ft_calloc(size_t count, size_t size)
 {
-    t_env *courant;
+	void	*new;
 
-    courant = env;
-    while (courant)
-    {
-        if(courant->key && courant->value)
-        {
-            if(!courant->value)
-                printf("%s=\n", courant->key);
-            else
-                printf("%s=%s\n", courant->key, courant->value);
-        }
-        courant = courant->next;
-    }
-    exitcode = 0;
+	new = malloc(count * size);
+	if (!new)
+		return (0);
+	ft_bzero(new, count * size);
+	return (new);
 }

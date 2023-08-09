@@ -201,6 +201,10 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_substr(char const *s, int start, int len);
 int		ft_count_strs(char **str);
 char	*ft_itoa(int n);
+void    *ft_memset(void *s, int c, size_t n);
+void    *ft_calloc(size_t count, size_t size);
+void    ft_bzero(void *s, size_t n);
+
 
 // Expansion
 void	expansion(t_list *list, t_env *env);
@@ -264,55 +268,53 @@ void	ctrl_d(void);
 void	ctrl_c_hdoc(int signum);
 void	ctrl_backslash(int signum);
 
-//builtins
-
-void	go_home(t_env *env);
-void 	update_pwd(t_env *env, char *oldpwd, char *pwd);
-char 	*go_oldpwd(t_env *env);
-void	cd(t_parser *parse ,t_env *env);
-int		key_exist(t_env *env, char **key_val);
-int		invalid_identifier(char *str);
-void 	concate_val(t_env *env, char **key_val);
-char 	last_char(char *str);
+void    go_home(t_env *env);
+void     update_pwd(t_env *env, char *oldpwd, char *pwd);
+char     *go_oldpwd(t_env *env);
+void    cd(t_parser *parse ,t_env *env);
+int        key_exist(t_env *env, char **key_val);
+int        invalid_identifier(char *str);
+void     concate_val(t_env *env, char **key_val);
+char     last_char(char *str);
 void    export_no_args(t_env *env);
-void	export(t_parser *parse, t_env **env);
-void 	ft_env(t_env *env);
-void    remove_variable(t_env *env, char *key);
+void    export(t_parser *parse, t_env **env);
+void     ft_env(t_env *env);
+void    remove_variable(t_env **env, char *key);
 void    unset(t_parser *parse, t_env *env);
-void 	pwd(void);
-int 	check_args(char **cmd);
+void     pwd(void);
+int     check_args(char **cmd);
 void    ft_echo(t_parser *parse);
-int 	is_numeric(char *str);
-int		exit_utils(t_parser *parse);
-void	ft_exit(t_parser *parse);
-int 	in_builtins(t_parser *parse);
-void 	builtins(t_parser *parse, t_env *env, int child);
-void 	red_buil(t_parser *parse, t_env *env, int child);
+int     is_numeric(char *str);
+int        exit_utils(t_parser *parse);
+void    ft_exit(t_parser *parse);
+int     in_builtins(t_parser *parse);
+void     builtins(t_parser *parse, t_env *env, int child);
+void     red_buil(t_parser *parse, t_env *env, int child);
 
 // execution
 
 char    *ft_path(t_parser *parse, t_env *env);
-char	 **env_in_tab(t_env *env);
-void	exit_status(int status);
-t_env	*get_env(char **envp);
-void 	set_pipes(t_parser *parse);
-char 	**env_in_tab(t_env *env);
-void	exit_status(int status);
-void 	init_fds(t_parser *parse);
-void	close_pipes(t_parser *parse, int fread, int fwrite);
-void	redirection(t_parser *parse);
-void	close_files(t_parser *parse);
-void   	execute_cmd(t_parser *parse, t_env *env, char **envp);
-void	redirection(t_parser *parse);
+char     **env_in_tab(t_env *env);
+void    exit_status(int status);
+t_env    *get_env(char **envp);
+void     set_pipes(t_parser *parse);
+char     **env_in_tab(t_env *env);
+void    exit_status(int status);
+void     init_fds(t_parser *parse);
+void    close_pipes(t_parser *parse, int fread, int fwrite);
+void    redirection(t_parser *parse);
+void    close_files(t_parser *parse);
+void       execute_cmd(t_parser *parse, t_env *env, char **envp);
+void    redirection(t_parser *parse);
 void    ft_dup(t_parser *parse);
-void 	ftt_dup(int fildes, int fildes2);
-void 	in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt);
-void 	executor(t_parser *parse, t_env *env, char **envp);
+void     ftt_dup(int fildes, int fildes2);
+void     in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt);
+void     executor(t_parser *parse, t_env *env, char **envp);
 
 // error handler
 
-void 	command_nf_error(t_parser *parse);
-void	print_error(char *error);
-void 	no_path_err(t_parser *parse);
+void     command_nf_error(t_parser *parse);
+void    print_error(char *error);
+void     no_path_err(t_parser *parse);
 
 #endif
