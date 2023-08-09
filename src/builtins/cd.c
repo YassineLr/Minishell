@@ -6,33 +6,33 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 18:57:20 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 22:01:43 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void update_pwd(char *oldpwd, char *pwd)
+void	update_pwd(char *oldpwd, char *pwd)
 {
 	t_env	*t_oldpwd;
 	t_env	*t_pwd;
 
 	t_pwd = search_in_env("PWD");
-	if(t_pwd)
+	if (t_pwd)
 		t_pwd->value = pwd;
 	t_oldpwd = search_in_env("OLDPWD");
-	if(t_oldpwd)
+	if (t_oldpwd)
 		t_oldpwd->value = oldpwd;
 }
 
-void go_home(void)
+void	go_home(void)
 {
 	char	*home_path;
 
-	if(search_in_env("HOME"))
+	if (search_in_env("HOME"))
 	{
 		home_path = search_in_env("HOME")->value;
-		if(home_path)
+		if (home_path)
 			chdir(home_path);
 	}
 	else
@@ -42,43 +42,45 @@ void go_home(void)
 	}
 }
 
-char *go_oldpwd(void)
+char	*go_oldpwd(void)
 {
-	char *oldpwd;
-	
-	oldpwd =NULL;
-	if(search_in_env("OLDPWD"))
+	char	*oldpwd;
+
+	oldpwd = NULL;
+	if (search_in_env("OLDPWD"))
 		oldpwd = search_in_env("OLDPWD")->value;
-	if(!oldpwd)
+	if (!oldpwd)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		global.exitcode = 1;
-		return NULL;
+		return (NULL);
 	}
 	else
 		chdir(oldpwd);
-	return(oldpwd);
+	return (oldpwd);
 }
 
-void cd(t_parser *parse)
+void	cd(t_parser *parse)
 {
-	char *pwd=NULL;
-	char *oldpwd= NULL;
+	char	*pwd;
+	char	*oldpwd;
 
+	pwd = NULL;
+	oldpwd = NULL;
 	global.exitcode = 0;
-	oldpwd = getcwd(oldpwd,0);
-	if(!oldpwd)
+	oldpwd = getcwd(oldpwd, 0);
+	if (!oldpwd)
 	{
 		global.exitcode = 255;
 		perror("");
 	}
-	if(!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
+	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 	{
 		go_home();
-		if(search_in_env("HOME"))
+		if (search_in_env("HOME"))
 			pwd = search_in_env("HOME")->value;
 	}
-	else if(!ft_strcmp(parse->command->cmds[1], "-"))
+	else if (!ft_strcmp(parse->command->cmds[1], "-"))
 	{
 		pwd = go_oldpwd();
 		if (!pwd)
@@ -86,11 +88,11 @@ void cd(t_parser *parse)
 	}	
 	else
 	{
-		if(chdir(parse->command->cmds[1]) == 0)
-			pwd = getcwd(pwd,0);
+		if (chdir(parse->command->cmds[1]) == 0)
+			pwd = getcwd(pwd, 0);
 		else
 		{
-			ft_putstr_fd("cd: No such file or directory\n",2);
+			ft_putstr_fd("cd: No such file or directory\n", 2);
 			global.exitcode = 1;
 			return ;
 		}

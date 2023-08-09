@@ -6,50 +6,50 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 18:07:05 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 21:59:38 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int check_args(char **cmd)
+int	check_args(char **cmd)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    if(!cmd)
-        return (0);
-    if(!ft_strcmp(cmd[1],"-n"))
-    {
-        while(!ft_strcmp(cmd[i], "-n"))
-            i++;
-        return (i);
-    }
-    return (0);
+	i = 1;
+	if (!cmd)
+		return (0);
+	if (!ft_strcmp(cmd[1], "-n"))
+	{
+		while (!ft_strcmp(cmd[i], "-n"))
+			i++;
+		return (i);
+	}
+	return (0);
 }
 
-void    ft_echo(t_parser *parse)
+void	ft_echo(t_parser *parse)
 {
-    int     i;
-    int     flag;
+	int		i;
+	int		flag;
 
-    global.exitcode = 0;
-    flag = 0;
-    if(parse->command->cmds[1])
-    {
-        flag = check_args(parse->command->cmds);
-        if(flag)
-            i = flag;
-        else
-            i = 1;
-        while (parse->command->cmds[i])
-        {
-            ft_putstr_fd(parse->command->cmds[i],1);
-            if(parse->command->cmds[i+1])
-                ft_putstr_fd(" ",1);
-            i++;
-        }
-    }
-    if(!flag)
-        write(1,"\n", 1);
+	global.exitcode = 0;
+	flag = 0;
+	if (parse->command->cmds[1])
+	{
+		flag = check_args(parse->command->cmds);
+		if (flag)
+			i = flag;
+		else
+			i = 1;
+		while (parse->command->cmds[i])
+		{
+			ft_putstr_fd(parse->command->cmds[i], 1);
+			if (parse->command->cmds[i + 1])
+				ft_putstr_fd(" ", 1);
+			i++;
+		}
+	}
+	if (!flag)
+		write(1, "\n", 1);
 }

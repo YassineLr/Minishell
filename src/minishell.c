@@ -31,12 +31,6 @@ int	main(int ac, char **av, char **envp)
 	tmp_list = NULL;
 	lex_list = NULL;
 	global.env = get_env(envp);
-	// while (global.env)
-	// {
-	// 	printf(" %s -> %s\n", global.env->key, global.env->value);
-	// 	global.env = global.env = global.env->next;
-	// }
-		
 	while (1)
 	{
 		// signals_handler();
@@ -65,11 +59,6 @@ int	main(int ac, char **av, char **envp)
 				if (p_list)
 				{
 					init_fds(p_list);
-					// while (global.env)
-					// {
-					// 	printf(" %s -> %s\n", global.env->key, global.env->value);
-					// 	global.env = global.env = global.env->next;
-					// }
 					set_pipes(p_list);
 					executor(p_list, envp);
 					free_plist(&p_list);
