@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hdoc_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:37:18 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 05:44:03 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:08:53 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	close_and_exit(t_vars *vars)
 		close(vars->ends[i][1]);
 		i++;
 	}
-	exit(exitcode);
+	exit(global.exitcode);
 }

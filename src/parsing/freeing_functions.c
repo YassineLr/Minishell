@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:07:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/06 10:08:36 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:20:51 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_plist(t_parser **list)
 
 	i = 0;
 	tmp = 0;
-	if (!list)
+	if (!*list)
 		return ;
 	while (*list)
 	{

@@ -6,19 +6,19 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 01:32:26 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/04 04:40:39 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:45:27 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_env *search_in_env(t_env *env, char *key)
+t_env *search_in_env(char *key)
 {
     t_env   *courant;
 
-    if(!env)
+    if(!global.env)
         return NULL;
-    courant = env;
+    courant = global.env;
     while (courant)
     {
         if(!ft_strcmp(key, courant->key))

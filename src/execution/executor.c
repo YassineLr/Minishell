@@ -6,13 +6,13 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 04:26:30 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:22:03 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../minishell.h"
 
-char    *ft_path(t_parser *parse, t_env *env)
+char    *ft_path(t_parser *parse)
 {
 	char    *path;
 	char    *paths;
@@ -28,8 +28,8 @@ char    *ft_path(t_parser *parse, t_env *env)
 			command_nf_error(parse);
 		else
 		{
-			if (search_in_env(env, "PATH"))
-				paths = search_in_env(env, "PATH")->value;
+			if (search_in_env("PATH"))
+				paths = search_in_env("PATH")->value;
 			if (!paths)
 				no_path_err(parse);
 			splited = ft_split(paths, ':');
@@ -47,7 +47,7 @@ char    *ft_path(t_parser *parse, t_env *env)
 	return (NULL);
 }
 
-char **env_in_tab(t_env *env)
+char **env_in_tab(void)
 {
 	char    **envp;
 	int     count;
@@ -56,14 +56,14 @@ char **env_in_tab(t_env *env)
 	
 	i = 0;
 	count = 0;
-	cur = env;
+	cur = global.env;
 	while (cur)
 	{
 		count++;
 		cur = cur->next;
 	}
 	envp = (char **) malloc((count+1)*sizeof(char *));
-	cur = env;
+	cur = global.env;
 	while (cur)
 	{
 		envp[i] = ft_strjoin(ft_strdup(cur->key),"=");
@@ -78,16 +78,16 @@ char **env_in_tab(t_env *env)
 void	exit_status(int status)
 {
 	if (WIFEXITED(status))
-		exitcode = WEXITSTATUS(status);
+		global.exitcode = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		exitcode = WTERMSIG(status) + 128;
+		global.exitcode = WTERMSIG(status) + 128;
 }
 
-void   execute_cmd(t_parser *parse, t_env *env, char **envp)
+void   execute_cmd(t_parser *parse, char **envp)
 {
 	char *path;
 	
-	exitcode = 0;
+	global.exitcode = 0;
 	ft_dup(parse);
 	if(index_at(parse->command->cmds[0],'/') != -1)
 	{
@@ -96,24 +96,24 @@ void   execute_cmd(t_parser *parse, t_env *env, char **envp)
 		else
 		{
 			ft_putstr_fd("minishell: no such file or directory\n", 2);
-			exitcode = 127;
-			exit(exitcode);
+			global.exitcode = 127;
+			exit(global.exitcode);
 		}
 	}
-	path = ft_path(parse, env);
+	path = ft_path(parse);
 	if (!path)
 	{
-		exitcode = 127;
-		exit(exitcode);
+		global.exitcode = 127;
+		exit(global.exitcode);
 	}
 	if (parse->command->cmds[0])
 		if (execve(path, parse->command->cmds, envp) == -1)
 		{
 			print_error("could not execve\n");
-			exitcode = 127;
-			exit(exitcode);
+			global.exitcode = 127;
+			exit(global.exitcode);
 		}
-	exit(exitcode);
+	exit(global.exitcode);
 }
 
 void ftt_dup(int fildes, int fildes2)
@@ -139,33 +139,33 @@ void	close_files(t_parser *parse)
 }
 
 
-void red_buil(t_parser *parse, t_env *env, int child)
+void red_buil(t_parser *parse, int child)
 {
 	int save[2];
 
 	save[0] = dup(0);
 	save[1] = dup(1);
 	redirection(parse);
-	builtins(parse, env, child);
+	builtins(parse, child);
 	ftt_dup(save[0],STDIN_FILENO);
 	ftt_dup(save[1], STDOUT_FILENO);
 	close_files(parse);
 }
 
-void in_child(t_parser *parse,t_parser *head, t_env *env ,char **envt)
+void in_child(t_parser *parse,t_parser *head,char **envt)
 {
 	// signal(SIGQUIT, SIG_DFL);
 	// signal(SIGINT, ctrl_c_hdoc);
 	if (parse->command->red_in == -1)
 		exit(1);
 	if (in_builtins(parse))
-		red_buil(parse, env, 1);
+		red_buil(parse, 1);
 	close_pipes(head,parse->command->pipe_fd.read,parse->command->pipe_fd.write);
 	redirection(parse);
-	execute_cmd(parse ,env ,envt);
+	execute_cmd(parse ,envt);
 }
 
-void executor(t_parser *parse, t_env *env, char **envp)
+void executor(t_parser *parse, char **envp)
 {
 	t_parser	*head;
 	char 		**envt;
@@ -173,16 +173,16 @@ void executor(t_parser *parse, t_env *env, char **envp)
 	int			status;
 	
 	head = parse;
-	envt = env_in_tab(env);
 	if (head && in_builtins(parse) && !head->next)
-		red_buil(parse, env, 0);
+		red_buil(parse, 0);
 	else
 	{
+		envt = env_in_tab();
 		while (parse)
 		{
 			pid = fork();
 			if(!pid)
-				in_child(parse, head, env, envt);
+				in_child(parse, head, envt);
 			close_files(parse);
 			parse = parse->next;
 		}
@@ -191,6 +191,6 @@ void executor(t_parser *parse, t_env *env, char **envp)
 			exit_status(status);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 			printf("Quit: %d\n", WTERMSIG(status));
+		ft_free_strs(envt);
 	}
-	ft_free_strs(envt);
 }

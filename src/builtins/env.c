@@ -6,17 +6,17 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:23:15 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 17:37:51 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:12:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_env(t_env *env)
+void ft_env(void)
 {
     t_env *courant;
 
-    courant = env;
+    courant = global.env;
     while (courant)
     {
         if(courant->key && courant->value)
@@ -28,5 +28,5 @@ void ft_env(t_env *env)
         }
         courant = courant->next;
     }
-    exitcode = 0;
+    global.exitcode = 0;
 }

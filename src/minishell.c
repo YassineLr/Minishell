@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int exitcode;
+// int exitcode;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -30,7 +30,13 @@ int	main(int ac, char **av, char **envp)
 	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
-	env = get_env(envp);
+	global.env = get_env(envp);
+	// while (global.env)
+	// {
+	// 	printf(" %s -> %s\n", global.env->key, global.env->value);
+	// 	global.env = global.env = global.env->next;
+	// }
+		
 	while (1)
 	{
 		// signals_handler();
@@ -43,13 +49,13 @@ int	main(int ac, char **av, char **envp)
 		ft_lexer(lexer, &tmp_list);
 		err = check_errors(line, tmp_list);
 		if (err != 1 && err != 2)
-			exitcode = 258;
+			global.exitcode = 258;
 		if (err != -1)
 		{
-			expansion(tmp_list, env);
+			expansion(tmp_list);
 			join_words(&lex_list, tmp_list);
 			remove_type(&lex_list, WHITESPACE);
-			hdc = here_doc(lex_list, env);
+			hdc = here_doc(lex_list);
 			remove_nulls(&lex_list);
 			remove_type(&lex_list, S_QUOTES);
 			remove_type(&lex_list, D_QUOTES);
@@ -59,8 +65,13 @@ int	main(int ac, char **av, char **envp)
 				if (p_list)
 				{
 					init_fds(p_list);
+					// while (global.env)
+					// {
+					// 	printf(" %s -> %s\n", global.env->key, global.env->value);
+					// 	global.env = global.env = global.env->next;
+					// }
 					set_pipes(p_list);
-					executor(p_list, env, envp);
+					executor(p_list, envp);
 					free_plist(&p_list);
 				}
 			}

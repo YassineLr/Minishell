@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expand1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:55 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 01:18:23 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:12:55 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_expand(t_list **list, t_vars *vars, t_env *env)
+void	handle_expand(t_list **list, t_vars *vars)
 {
 	char	*tmp;
 
 	if (is_before_pipe(*list))
-		exitcode = 0;
+		global.exitcode = 0;
 	if (must_expand((*list)->token->value))
 	{
 		tmp = (*list)->token->value;
-		(*list)->token->value = expand_((*list)->token->value, env);
+		(*list)->token->value = expand_((*list)->token->value);
 		free(tmp);
 		(*list)->token->expanded = 1;
 		if (is_quotes(vars->prev))
@@ -31,10 +31,10 @@ void	handle_expand(t_list **list, t_vars *vars, t_env *env)
 	*list = (*list)->next;
 }
 
-void	check_flag(t_list **list, t_vars *vars, t_env *env)
+void	check_flag(t_list **list, t_vars *vars)
 {
 	if (vars->flag != 1)
-		handle_expand(list, vars, env);
+		handle_expand(list, vars);
 	else
 	{
 		vars->flag = 0;
@@ -42,7 +42,7 @@ void	check_flag(t_list **list, t_vars *vars, t_env *env)
 	}
 }
 
-void	expansion(t_list *list, t_env *env)
+void	expansion(t_list *list)
 {
 	t_vars	*vars;
 
@@ -59,7 +59,7 @@ void	expansion(t_list *list, t_env *env)
 			&& vars->in_quotes)
 			list_advance(&list, vars);
 		else if (list->token->type == WORD && vars->prev != HEREDOC)
-			check_flag(&list, vars, env);
+			check_flag(&list, vars);
 		else
 			list_advance(&list, vars);
 	}

@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:56:06 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/05 07:06:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:08:20 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void command_nf_error(t_parser *parse)
 	ft_putstr_fd(parse->command->cmds[0], 2);
 	ft_putstr_fd(":", 2);
 	ft_putstr_fd("command not found\n", 2);
-    exitcode = 127;
+    global.exitcode = 127;
 }
 
 void	print_error(char *error)
 {
 	ft_putstr_fd(error, 2);
-    exitcode = 127;
+    global.exitcode = 127;
 }
 
 void no_path_err(t_parser *parse)
@@ -32,6 +32,6 @@ void no_path_err(t_parser *parse)
     ft_putstr_fd("minishell: ",2);
     ft_putstr_fd(parse->command->cmds[0], 2);
     ft_putstr_fd(": No such file or directory\n",2);
-    exitcode = 127;
-    exit (exitcode);
+    global.exitcode = 127;
+    exit (global.exitcode);
 }

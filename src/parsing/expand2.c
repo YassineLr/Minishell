@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 01:18:51 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 19:14:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*expand_env_variable(char *str, t_env *env, int *i)
+char	*expand_env_variable(char *str, int *i)
 {
 	char	*tmp;
 	int		start;
 	int		len;
+	t_env	*env;
 
+	env = global.env;	
 	start = *i;
 	len = 0;
 	while (str[*i] && ft_isalnum(str[*i]))
@@ -37,11 +39,16 @@ char	*expand_env_variable(char *str, t_env *env, int *i)
 		free(tmp);
 		return (ft_strdup(env->value));
 	}
+	while (global.env)
+	{
+		printf(" %s -> %s\n", global.env->key, global.env->value);
+		global.env = global.env = global.env->next;
+	}
 	free(tmp);
 	return (ft_strdup(""));
 }
 
-char	*expand_dollar_sign(char *str, t_env *env, int *i)
+char	*expand_dollar_sign(char *str, int *i)
 {
 	char	*tmp;
 
@@ -54,13 +61,13 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i)
 	}
 	else if (str[*i] == '?')
 	{
-		tmp = ft_itoa(exitcode);
+		tmp = ft_itoa(global.exitcode);
 		*i += 1;
 	}
 	else if (!ft_isalnum(str[*i]) || str[*i] == '\0')
 		return (ft_strdup("$"));
 	else
-		tmp = expand_env_variable(str, env, i);
+		tmp = expand_env_variable(str, i);
 	return (tmp);
 }
 
@@ -79,7 +86,7 @@ char	*expand_regular_text(char *str, int *i)
 	return (ft_substr(str, start, len));
 }
 
-char	*expand_(char *str, t_env *env)
+char	*expand_(char *str)
 {
 	int		i;
 	char	*final_str;
@@ -94,7 +101,7 @@ char	*expand_(char *str, t_env *env)
 	{
 		if (str[i] == '$')
 		{
-			tmp = expand_dollar_sign(str, env, &i);
+			tmp = expand_dollar_sign(str, &i);
 			final_str = ft_strjoin(final_str, tmp);
 		}
 		else
@@ -107,11 +114,11 @@ char	*expand_(char *str, t_env *env)
 	return (final_str);
 }
 
-void	heredoc_expand(char *str, t_env *env, int fd)
+void	heredoc_expand(char *str, int fd)
 {
 	char	*final_str;
 
-	final_str = expand_(str, env);
+	final_str = expand_(str);
 	if (final_str)
 	{
 		ft_putendl_fd(final_str, fd);

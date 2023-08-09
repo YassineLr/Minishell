@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/02 01:23:30 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:48:44 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,22 @@ int in_builtins(t_parser *parse)
     return 0;
 }
 
-void builtins(t_parser *parse, t_env *env, int child)
+void builtins(t_parser *parse, int child)
 {
     if(child)
         ft_dup(parse);
     if(!ft_strcmp(parse->command->cmds[0], "echo"))
         ft_echo(parse);
     else if(!ft_strcmp(parse->command->cmds[0], "cd"))
-        cd(parse, env);
+        cd(parse);
     else if(!ft_strcmp(parse->command->cmds[0], "export"))
-        export(parse, &env);
+        export(parse);
     else if(!ft_strcmp(parse->command->cmds[0], "pwd"))
         pwd();
     else if(!ft_strcmp(parse->command->cmds[0], "env"))
-        ft_env(env);
+        ft_env();
     else if(!ft_strcmp(parse->command->cmds[0], "unset"))
-        unset(parse, env);
+        unset(parse);
     else if(!ft_strcmp(parse->command->cmds[0], "exit"))
         ft_exit(parse);
     if(child)

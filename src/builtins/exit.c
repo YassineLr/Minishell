@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/08 11:25:41 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:07:32 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ int	exit_utils(t_parser *parse)
 	if (!parse->command->cmds[1])
 	{
 		ft_putstr_fd("exit\n",1);
-		exitcode = 0;
-		exit (exitcode);
+		global.exitcode = 0;
+		exit (global.exitcode);
 	}
 	else if (!is_numeric(parse->command->cmds[1]))
 	{
 		ft_putstr_fd("exit\nexit : numeric argument required\n",2);
-		exitcode = 255;
-		exit(exitcode);
+		global.exitcode = 255;
+		exit(global.exitcode);
 		return 1;
 	}
 	else if (parse->command->cmds[1] && !parse->command->cmds[2])
 	{
-		exitcode = ft_atoi(parse->command->cmds[1]);
+		global.exitcode = ft_atoi(parse->command->cmds[1]);
 		ft_putstr_fd("exit\n",1);
-		exit (exitcode);
+		exit (global.exitcode);
 	}
 	else if (ft_atoi(parse->command->cmds[1]) && parse->command->cmds[2])
 	{
@@ -65,6 +65,6 @@ void	ft_exit(t_parser *parse)
 	if (i == 1)
 	{
 		ft_putstr_fd("exit\n", 1);
-		exit(exitcode);
+		exit(global.exitcode);
 	}
 }

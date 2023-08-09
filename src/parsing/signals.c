@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:26:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:09:18 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // 	rl_replace_line("", 0);
 // 	rl_on_new_line();
 // 	rl_redisplay();
-// 	exitcode = 1;
+// 	global.exitcode = 1;
 // }
 
 // void	ctrl_c_hdoc(int signum)
@@ -35,7 +35,7 @@
 // void	ctrl_d(void)
 // {
 // 	ft_putstr_fd("exit\n", 2);
-// 	exit(exitcode);
+// 	exit(global.exitcode);
 // }
 
 // int	signals_handler(void)
