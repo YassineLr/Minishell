@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:35:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:37:36 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 05:42:24 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,10 @@ t_vars	*initialize_vars(t_list *list)
 	if (!vars->ends)
 		return (0);
 	return (vars);
+}
+
+void	advance_in_list(t_list **list, int *prev_type)
+{
+	*prev_type = (*list)->token->type;
+	*list = (*list)->next;
 }

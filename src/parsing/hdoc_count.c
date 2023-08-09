@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:32:27 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:35:17 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 05:43:49 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ int	heredoc_count3(t_list **list)
 				count = 1;
 		}
 		else if ((*list)->token->type == RED_IN)
-			count = 0;			
+			count = 0;
 		else
 		{
 			if (!hc_handle_errors(prev_type, (*list)->token->type))
 				return (count);
 		}
-		prev_type = (*list)->token->type;
-		*list = (*list)->next;
+		advance_in_list(list, &prev_type);
 	}
 	return (count);
 }

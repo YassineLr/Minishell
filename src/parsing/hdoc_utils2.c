@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:37:18 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:42:52 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 05:44:03 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	mark_hdc_quotes(t_list **list, t_vars *vars)
 
 void	close_and_exit(t_vars *vars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < vars->pipe_count)

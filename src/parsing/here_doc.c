@@ -6,13 +6,13 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 04:36:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 05:47:51 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void    open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
+void	open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 {
 	if (is_quotes((*list)->token->type))
 		mark_hdc_quotes(list, vars);
@@ -30,7 +30,8 @@ void    open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 				if (vars->hdc_expand == 0)
 					ft_putendl_fd(vars->hdoc_line, vars->ends[vars->i][1]);
 				else
-					heredoc_expand(vars->hdoc_line, env, vars->ends[vars->i][1]);
+					heredoc_expand(vars->hdoc_line, env,
+						vars->ends[vars->i][1]);
 			}
 		}
 		else
@@ -40,14 +41,15 @@ void    open_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 	}
 }
 
-void    process_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
+void	process_heredoc(t_list **list, t_vars *vars, t_env *env, t_hdc *hdc)
 {
-    while (*list && (*list)->token && (*list)->token->type != PIPE && vars->count_hdcs > 0)
+	while (*list && (*list)->token && (*list)->token->type != PIPE
+		&& vars->count_hdcs > 0)
 	{
 		if ((*list)->token->type == HEREDOC)
 		{
 			*list = (*list)->next;
-            open_heredoc(list, vars, env, hdc);
+			open_heredoc(list, vars, env, hdc);
 			if (vars->count == 1)
 				vars->i++;
 			if (vars->hdoc_line)
@@ -74,10 +76,10 @@ void	child_process(t_list *list, t_vars *vars, t_env *env, t_hdc *hdc)
 	while (list && vars->count_hdcs > 0)
 	{
 		vars->count = heredoc_count2(list);
-        if (!vars->count)
-            skip_to_next_cmd(&list);
-        else
-            process_heredoc(&list, vars, env, hdc);
+		if (!vars->count)
+			skip_to_next_cmd(&list);
+		else
+			process_heredoc(&list, vars, env, hdc);
 	}
 	close_and_exit(vars);
 	exit(exitcode);
@@ -85,10 +87,10 @@ void	child_process(t_list *list, t_vars *vars, t_env *env, t_hdc *hdc)
 
 void	parent_process(t_vars *vars, t_hdc *hdc)
 {
-    int i;
+	int	i;
 
 	i = 0;
-	while(waitpid(-1, &vars->status, 0) != -1)
+	while (waitpid(-1, &vars->status, 0) != -1)
 		exit_status(vars->status);
 	while (i < vars->pipe_count)
 	{

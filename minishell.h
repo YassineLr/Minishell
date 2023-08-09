@@ -236,6 +236,7 @@ t_hdc	*init_hdc(int count);
 int		count_ends(t_list *list);
 t_vars	*initialize_vars(t_list *list);
 int		heredoc_count2(t_list *list);
+void	advance_in_list(t_list **list, int *prev_type);
 
 // get_next_line
 char	*fill_buff(int fd);
