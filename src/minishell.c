@@ -35,7 +35,6 @@ int	main(int ac, char **av, char **envp)
 	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
-	g.in_hdoc = 0;
 	env = get_env(envp);
 	while (1)
 	{

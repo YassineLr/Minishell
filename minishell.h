@@ -29,14 +29,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 
-extern int exitcode;
-
-typedef struct s_global
-{
-	int	in_hdoc;
-}	t_global;
-
-t_global	g;
+int exitcode;
 
 typedef struct s_hdc
 {
@@ -119,6 +112,15 @@ typedef struct s_vars
 	int		flag;
 	char	*tmp;
 	int		prev;
+	int		pid;
+	int		hdc_expand;
+	int		i;
+	int		count_hdcs;
+	char	*hdoc_line;
+	int		count;
+	int		**ends;
+	int		pipe_count;
+	int		status;
 }	t_vars;
 
 
@@ -216,6 +218,11 @@ t_hdc	*here_doc(t_list *list, t_env *env);
 int		handle_heredoc(t_list **list, int prev_type);
 int		heredoc_count(t_list *list);
 int		hc_handle_errors(int prev_type, int curr_type);
+int		must_expand(char *str);
+int		is_before_pipe(t_list *list);
+void	mark_quotes(t_list **list, t_vars *vars);
+void	mark_hdoc(t_list **list, t_vars *vars);
+void	list_advance(t_list **list, t_vars *vars);
 
 // get_next_line
 char	*fill_buff(int fd);

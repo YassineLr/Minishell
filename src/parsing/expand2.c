@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 21:12:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 01:18:51 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*expand_dollar_sign(char *str, t_env *env, int *i)
 	}
 	else if (str[*i] == '?')
 	{
-		tmp = ft_strdup("$?");
+		tmp = ft_itoa(exitcode);
 		*i += 1;
 	}
 	else if (!ft_isalnum(str[*i]) || str[*i] == '\0')
@@ -110,7 +110,7 @@ char	*expand_(char *str, t_env *env)
 void	heredoc_expand(char *str, t_env *env, int fd)
 {
 	char	*final_str;
-	
+
 	final_str = expand_(str, env);
 	if (final_str)
 	{

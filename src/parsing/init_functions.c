@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 23:38:17 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 03:05:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ t_vars	*init_vars(void)
 	vars->flag = 0;
 	vars->tmp = 0;
 	vars->prev = -1;
+	vars->pid = 0;
+	vars->hdc_expand = 1;
+	vars->count_hdcs = 0;
+	vars->count = 0;
+	vars->ends = 0;
+	vars->pipe_count = 0;
+	vars->status = 0;
+	vars->i = 0;
+	vars->hdoc_line = 0;
 	return (vars);
 }
 

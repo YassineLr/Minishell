@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/08 21:37:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:51:34 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	ctrl_c_hdoc(int signum)
 	exit(1);
 }
 
-void	ctrl_d()
+void	ctrl_d(void)
 {
 	ft_putstr_fd("exit\n", 2);
 	exit(exitcode);
 }
 
-int	signals_handler()
+int	signals_handler(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ctrl_c_handler);
