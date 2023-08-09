@@ -6,11 +6,29 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 19:00:39 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/09 21:05:37 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int count_env()
+{
+    int count;
+    t_env *env;
+
+    count = 0;
+    if(global.env)
+    {
+        env = global.env;
+        while (env)
+        {
+            count++;
+            env = env->next;
+        }
+    }
+    return (count);
+}
 
 int    remove_first(char *key)
 {
@@ -18,12 +36,19 @@ int    remove_first(char *key)
     
     if (!ft_strcmp(global.env->key, key))
     {
-        tmp = global.env;
-        if(global.env->next)
-            global.env = global.env->next;
-        free(tmp->key);
-        free(tmp->value);
-        // free(tmp);
+        if(count_env() == 1)
+        {
+            ft_lstclear_env(&global.env,free);
+            global.env = NULL;
+        }
+        else
+        {
+            tmp = global.env;
+            if(global.env->next)
+                global.env = global.env->next;
+            free(tmp->key);
+            free(tmp->value);
+        }
         return(1);
     }
     return 0;
