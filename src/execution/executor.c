@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 03:45:43 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 04:14:23 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	execute_cmd(t_parser *parse, char **envp)
 				execve(parse->command->cmds[0], parse->command->cmds, envp);
 			else
 			{
-				ft_putstr_fd("minishell: no such file or directory\n", 2);
+				perror("");
 				g_global.exitcode = 127;
+				if (access(parse->command->cmds[0], X_OK) == -1)
+					g_global.exitcode = 126;
 				exit(g_global.exitcode);
 			}
 		}
