@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 21:36:44 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:54:18 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	cd(t_parser *parse)
 	oldpwd = NULL;
 	g_global.exitcode = 0;
 	oldpwd = getcwd(oldpwd, 0);
-	if (!oldpwd)
+	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
+		pwd = go_home();
+	else if (!oldpwd)
 	{
 		g_global.exitcode = 255;
 		perror("");
 	}
-	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
-		pwd = go_home();
 	else if (!ft_strcmp(parse->command->cmds[1], "-"))
 	{
 		pwd = go_oldpwd();

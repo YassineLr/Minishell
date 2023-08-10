@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:26:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:02:59 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	in_builtins(t_parser *parse)
 {
+	if (parse->command->red_in == -1 || parse->command->red_in == -3)
+		return (0);
+	else if (parse->command->red_out == -1 || parse->command->red_out == -3)
+		return (0);
 	if (!ft_strcmp(parse->command->cmds[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(parse->command->cmds[0], "cd"))

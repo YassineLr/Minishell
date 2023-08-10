@@ -25,6 +25,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+// #include <sys/types.h>
+#include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
@@ -318,6 +320,7 @@ void		only_identifier(t_parser *parse, int i);
 void		new_id_val(char **key_val);
 
 // execution
+int 		isDirectory(const char *path);
 char		*ft_path(t_parser *parse);
 char		**env_in_tab(void);
 void		exit_status(int status);

@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 21:31:30 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 22:46:59 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	in_child(t_parser *parse, t_parser *head, char **envt)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, ctrl_c_hdoc);
-	if (parse->command->red_in == -1)
+	if (parse->command->red_in == -1 || parse->command->red_in == -3)
 		exit(1);
 	if (in_builtins(parse))
 		red_buil(parse, 1);

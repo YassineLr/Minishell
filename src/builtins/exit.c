@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 21:39:13 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:07:28 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	exit_utils(t_parser *parse)
 	else if (ft_atoi(parse->command->cmds[1]))
 	{
 		ft_putstr_fd("exit : too many arguments\n", 2);
+		g_global.exitcode = 1;
 		return (-1);
 	}
 	return (1);

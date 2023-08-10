@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:04:01 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/11 00:05:22 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_cmd	*fill_cmd(t_list *list)
 
 	cmd = init_cmd();
 	cmd->cmds = get_cmds(list);
-	cmd->red_out = get_redout(list);
 	cmd->red_in = get_redin(list);
+	cmd->red_out = get_redout(list);
 	return (cmd);
 }
 

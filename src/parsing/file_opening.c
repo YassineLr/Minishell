@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_opening.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 22:45:35 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/11 00:12:45 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	file_error(char *filename)
 		ft_putstr_fd(": ", 2);
 		perror("");
 		g_global.flag = 1;
-		if (access(filename, W_OK) == -1 || access(filename, R_OK) == -1)
-		{
-			g_global.exitcode = 1;
-			return (-3);
-		}
+	}
+	if (access(filename, F_OK) && (access(filename, W_OK) == -1 || access(filename, R_OK) == -1))
+	{
+		g_global.exitcode = 1;
+		return (-3);
 	}
 	return (-1);
 }
