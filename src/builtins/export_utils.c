@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:53:22 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:54:38 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:42:34 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	invalid_id_err(void)
 {
 	ft_putstr_fd("invalid identifier\n", 2);
-	global.exitcode = 1;
+	g_global.exitcode = 1;
 }
 
 int	key_exist(char **key_val)

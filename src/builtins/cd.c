@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 22:01:43 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:42:10 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	go_home(void)
 	else
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		global.exitcode = 1;
+		g_global.exitcode = 1;
 	}
 }
 
@@ -52,7 +52,7 @@ char	*go_oldpwd(void)
 	if (!oldpwd)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		global.exitcode = 1;
+		g_global.exitcode = 1;
 		return (NULL);
 	}
 	else
@@ -67,11 +67,11 @@ void	cd(t_parser *parse)
 
 	pwd = NULL;
 	oldpwd = NULL;
-	global.exitcode = 0;
+	g_global.exitcode = 0;
 	oldpwd = getcwd(oldpwd, 0);
 	if (!oldpwd)
 	{
-		global.exitcode = 255;
+		g_global.exitcode = 255;
 		perror("");
 	}
 	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
@@ -93,7 +93,7 @@ void	cd(t_parser *parse)
 		else
 		{
 			ft_putstr_fd("cd: No such file or directory\n", 2);
-			global.exitcode = 1;
+			g_global.exitcode = 1;
 			return ;
 		}
 	}

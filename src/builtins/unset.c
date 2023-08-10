@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:33:33 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:54:24 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	count_env(void)
 	t_env	*env;
 
 	count = 0;
-	if (global.env)
+	if (g_global.env)
 	{
-		env = global.env;
+		env = g_global.env;
 		while (env)
 		{
 			count++;
@@ -41,18 +41,18 @@ int	remove_first(char *key)
 {
 	t_env	*tmp;
 
-	if (!ft_strcmp(global.env->key, key))
+	if (!ft_strcmp(g_global.env->key, key))
 	{
 		if (count_env() == 1)
 		{
-			ft_lstclear_env(&global.env, free);
-			global.env = NULL;
+			ft_lstclear_env(&g_global.env, free);
+			g_global.env = NULL;
 		}
 		else
 		{
-			tmp = global.env;
-			if (global.env->next)
-				global.env = global.env->next;
+			tmp = g_global.env;
+			if (g_global.env->next)
+				g_global.env = g_global.env->next;
 			free(tmp->key);
 			free(tmp->value);
 		}
@@ -65,22 +65,21 @@ void	remove_variable(char *key)
 {
 	t_env	*precourant;
 	t_env	*courant;
-	int		check;
 
-	if (!global.env)
+	if (!g_global.env)
 		return ;
 	if (remove_first(key))
 		return ;
 	else
 	{
-		courant = (global.env)->next;
-		precourant = global.env;
+		courant = (g_global.env)->next;
+		precourant = g_global.env;
 		while (courant)
 		{
 			if (!ft_strcmp(courant->key, key))
 			{
 				precourant->next = courant->next;
-				free_env(courant);
+				ft_lstdelone_env(courant, free);
 				return ;
 			}
 			precourant = precourant->next;
@@ -93,7 +92,7 @@ void	unset(t_parser *parse)
 {
 	int	i;
 
-	global.exitcode = 0;
+	g_global.exitcode = 0;
 	i = 1;
 	while (parse->command->cmds[i])
 	{

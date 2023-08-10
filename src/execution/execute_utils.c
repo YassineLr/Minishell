@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 23:19:02 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:43:09 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ char	**env_in_tab(void)
 
 	i = 0;
 	count = 0;
-	cur = global.env;
+	cur = g_global.env;
 	while (cur)
 	{
 		count++;
 		cur = cur->next;
 	}
 	envp = (char **) malloc ((count + 1) * sizeof (char *));
-	cur = global.env;
+	cur = g_global.env;
 	while (cur)
 	{
 		envp[i] = ft_strjoin(ft_strdup(cur->key), "=");

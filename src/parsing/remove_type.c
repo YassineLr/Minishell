@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:11:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:04:13 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:56:58 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	delete_first_node(t_list **head, t_list **current)
 	*current = *head;
 }
 
-void	delete_other_nodes(t_list **head, t_list **current, t_list **prev)
+void	delete_other_nodes(t_list **current, t_list **prev)
 {
 	(*prev)->next = (*current)->next;
 	ft_lstdelone(*current, &free);
@@ -72,7 +72,7 @@ void	remove_nulls(t_list **head)
 			if (prev == NULL)
 				delete_first_node(head, &current);
 			else
-				delete_other_nodes(head, &current, &prev);
+				delete_other_nodes(&current, &prev);
 		}
 		else
 		{

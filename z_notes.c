@@ -33,9 +33,17 @@
 
 	exit 9223372036854775808
 
-	echo <"./test_files/infile" <missing <"./test_files/infile"
 
-	echo <file | cat < file2 < file3
 
-	ls >./outfiles/outfile01 >./test_files/invalid_permission
+	ls | << a /bin/cat < Makefile  | /bin/cat -e
+	cat << a < Makefile| cat << b << c | cat << d
+	> fsdfsdf
+	> a
+	> b
+	> v
+	> sdgsdgsdgc
+	> c
+	> fgdfgdfgdfgdf
+	v
+	sdgsdgsdgc
 */

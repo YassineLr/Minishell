@@ -129,6 +129,12 @@ typedef struct s_vars
 	int		status;
 }	t_vars;
 
+// readline
+int			rl_on_new_line(void);
+void		rl_redisplay(void);
+char		*readline(const char *charprompt);
+void		rl_replace_line(const char *text, int clear_undo);
+
 // Error handling
 int			check_errors(char *input, t_list *list);
 int			check_quotes(char *input);
@@ -325,7 +331,7 @@ void		redirection(t_parser *parse);
 void		ft_dup(t_parser *parse);
 void		ftt_dup(int fildes, int fildes2);
 void		in_child(t_parser *parse, t_parser *head, char **envt);
-void		executor(t_parser *parse, char **envp);
+void		executor(t_parser *parse);
 
 // error handler
 void		command_nf_error(t_parser *parse);

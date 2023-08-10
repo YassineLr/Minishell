@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:59:38 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:42:16 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_echo(t_parser *parse)
 	int		i;
 	int		flag;
 
-	global.exitcode = 0;
+	g_global.exitcode = 0;
 	flag = 0;
 	if (parse->command->cmds[1])
 	{

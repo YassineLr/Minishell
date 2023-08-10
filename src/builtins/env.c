@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:23:15 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:27:24 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:42:22 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	ft_env(void)
 {
-	t_env	*courant;
+	t_env	*cur;
 
-	if (global.env)
+	if (g_global.env)
 	{
-		courant = global.env;
-		while (courant)
+		cur = g_global.env;
+		while (cur)
 		{
-			if (courant->key && courant->value)
+			if (cur->key && cur->value)
 			{
-				if (!courant->value)
-					printf("%s=\n", courant->key);
+				if (!cur->value)
+					printf("%s=\n", cur->key);
 				else
-					printf("%s=%s\n", courant->key, courant->value);
+					printf("%s=%s\n", cur->key, cur->value);
 			}
-			courant = courant->next;
+			cur = cur->next;
 		}
 	}
-	global.exitcode = 0;
+	g_global.exitcode = 0;
 }

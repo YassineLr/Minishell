@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_opening.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:00:02 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 03:49:22 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	file_error(char *filename)
 {
 	if (g_global.flag != 1)
 	{
+		if (access(filename, W_OK) == -1 || access(filename, R_OK) == -1)
+			g_global.exitcode = 126;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(filename, 2);
 		ft_putstr_fd(": ", 2);

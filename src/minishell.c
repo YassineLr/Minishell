@@ -23,7 +23,6 @@ int	main(int ac, char **av, char **envp)
 	t_list		*tmp_list;
 	t_list		*lex_list;
 	t_parser	*p_list;
-	t_env		*env;
 
 	(void)ac;
 	(void)av;
@@ -60,7 +59,7 @@ int	main(int ac, char **av, char **envp)
 				{
 					init_fds(p_list);
 					set_pipes(p_list);
-					executor(p_list, envp);
+					executor(p_list);
 					free_plist(&p_list);
 				}
 			}

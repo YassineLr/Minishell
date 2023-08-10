@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 01:32:26 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 18:45:27 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:41:29 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_env *search_in_env(char *key)
 {
     t_env   *courant;
 
-    if(!global.env)
+    if(!g_global.env)
         return NULL;
-    courant = global.env;
+    courant = g_global.env;
     while (courant)
     {
         if(!ft_strcmp(key, courant->key))
