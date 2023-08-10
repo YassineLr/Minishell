@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:08:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 23:40:22 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:04:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	get_redout(t_list *list)
 
 	last_red = 1;
 	r_outs = NULL;
-	while (list && list->token && list->token->type != PIPE)
+	while (list && list->token && list->token->e_type != PIPE)
 	{
-		if (list->token->type == RED_OUT)
+		if (list->token->e_type == RED_OUT)
 		{
 			list = list->next;
 			if (list && list->token)
 				ft_lstadd_back_reds(&r_outs, ft_lstnew_reds(open_redout(list)));
 		}
-		else if (list->token->type == APPEND)
+		else if (list->token->e_type == APPEND)
 		{
 			list = list->next;
 			if (list && list->token)
@@ -47,15 +47,15 @@ int	get_redin(t_list *list)
 
 	last_red = 0;
 	red_ins = NULL;
-	while (list && list->token && list->token->type != PIPE)
+	while (list && list->token && list->token->e_type != PIPE)
 	{
-		if (list->token->type == RED_IN)
+		if (list->token->e_type == RED_IN)
 		{
 			list = list->next;
 			if (list && list->token)
 				ft_lstadd_back_reds(&red_ins, ft_lstnew_reds(open_redin(list)));
 		}
-		else if (list->token->type == HEREDOC)
+		else if (list->token->e_type == HEREDOC)
 		{
 			list = list->next;
 			if (list && list->token)
@@ -79,11 +79,11 @@ char	**get_cmds(t_list *list)
 	if (count == 0)
 		return (NULL);
 	cmds = malloc(sizeof(char *) * (count + 1));
-	while (list && list->token->type != PIPE)
+	while (list && list->token->e_type != PIPE)
 	{
-		if (is_redir(list->token->type))
+		if (is_redir(list->token->e_type))
 			list = list->next;
-		else if (list->token->type == WORD)
+		else if (list->token->e_type == WORD)
 			get_parser_word(list, cmds, &i);
 		list = list->next;
 	}
@@ -112,13 +112,13 @@ t_parser	*ft_parser(t_list *list, t_hdc *hdc)
 	p_list = NULL;
 	while (list)
 	{
-		global.flag = 0;
+		g_global.flag = 0;
 		cmd = fill_cmd(list);
 		if (cmd->red_in == -2)
 			cmd->red_in = hdc->fds[i++];
-		while (list && list->token && list->token->type != PIPE)
+		while (list && list->token && list->token->e_type != PIPE)
 			list = list->next;
-		if (list && list->token && list->token->type == PIPE)
+		if (list && list->token && list->token->e_type == PIPE)
 		{
 			cmd->pipe = 1;
 			list = list->next;

@@ -30,7 +30,7 @@ int	main(int ac, char **av, char **envp)
 	hdc = NULL;
 	tmp_list = NULL;
 	lex_list = NULL;
-	global.env = get_env(envp);
+	g_global.env = get_env(envp);
 	while (1)
 	{
 		signals_handler();
@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **envp)
 		ft_lexer(lexer, &tmp_list);
 		err = check_errors(line, tmp_list);
 		if (err != 1 && err != 2)
-			global.exitcode = 258;
+			g_global.exitcode = 258;
 		if (err != -1)
 		{
 			expansion(tmp_list);

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:11:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 19:07:38 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:04:13 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	remove_type(t_list **head, int type)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if ((int)current->token->type == type)
+		if ((int)current->token->e_type == type)
 		{
 			if (prev == NULL)
 				delete_first_node(head, &current);
@@ -65,10 +65,10 @@ void	remove_nulls(t_list **head)
 	prev_type = -1;
 	while (current != NULL)
 	{
-		if (current->token->type == WORD && !is_quotes(prev_type)
+		if (current->token->e_type == WORD && !is_quotes(prev_type)
 			&& current->token->value[0] == '\0' && !is_redir(prev_type))
 		{
-			prev_type = current->token->type;
+			prev_type = current->token->e_type;
 			if (prev == NULL)
 				delete_first_node(head, &current);
 			else
@@ -76,7 +76,7 @@ void	remove_nulls(t_list **head)
 		}
 		else
 		{
-			prev_type = current->token->type;
+			prev_type = current->token->e_type;
 			prev = current;
 			current = current->next;
 		}

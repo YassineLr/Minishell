@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:32:27 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 05:43:49 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:02:15 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	heredoc_count3(t_list **list)
 
 	count = 0;
 	prev_type = -1;
-	while (*list && (*list)->token->type != PIPE)
+	while (*list && (*list)->token->e_type != PIPE)
 	{
-		if ((*list)->token->type == HEREDOC)
+		if ((*list)->token->e_type == HEREDOC)
 		{
 			count = 1;
 			if (!handle_heredoc(list, prev_type))
@@ -29,11 +29,11 @@ int	heredoc_count3(t_list **list)
 			else
 				count = 1;
 		}
-		else if ((*list)->token->type == RED_IN)
+		else if ((*list)->token->e_type == RED_IN)
 			count = 0;
 		else
 		{
-			if (!hc_handle_errors(prev_type, (*list)->token->type))
+			if (!hc_handle_errors(prev_type, (*list)->token->e_type))
 				return (count);
 		}
 		advance_in_list(list, &prev_type);
@@ -48,9 +48,9 @@ int	heredoc_count2(t_list *list)
 
 	count = 0;
 	prev_type = -1;
-	while (list && list->token->type != PIPE)
+	while (list && list->token->e_type != PIPE)
 	{
-		if (list->token->type == HEREDOC)
+		if (list->token->e_type == HEREDOC)
 		{
 			if (!handle_heredoc(&list, prev_type))
 				return (count);
@@ -59,10 +59,10 @@ int	heredoc_count2(t_list *list)
 		}
 		else
 		{
-			if (!hc_handle_errors(prev_type, list->token->type))
+			if (!hc_handle_errors(prev_type, list->token->e_type))
 				return (count);
 		}
-		prev_type = list->token->type;
+		prev_type = list->token->e_type;
 		list = list->next;
 	}
 	return (count);
@@ -90,10 +90,10 @@ int	handle_heredoc(t_list **list, int prev_type)
 		*list = (*list)->next;
 		if ((*list)->next)
 		{
-			if (is_quotes((*list)->token->type))
+			if (is_quotes((*list)->token->e_type))
 				*list = (*list)->next;
 		}
-		if ((*list)->token->type != WORD)
+		if ((*list)->token->e_type != WORD)
 			return (0);
 	}
 	else
@@ -110,7 +110,7 @@ int	heredoc_count(t_list *list)
 	prev_type = -1;
 	while (list)
 	{
-		if (list->token->type == HEREDOC)
+		if (list->token->e_type == HEREDOC)
 		{
 			if (!handle_heredoc(&list, prev_type))
 				return (count);
@@ -119,10 +119,10 @@ int	heredoc_count(t_list *list)
 		}
 		else
 		{
-			if (!hc_handle_errors(prev_type, list->token->type))
+			if (!hc_handle_errors(prev_type, list->token->e_type))
 				return (count);
 		}
-		prev_type = list->token->type;
+		prev_type = list->token->e_type;
 		list = list->next;
 	}
 	return (count);

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 23:44:06 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:02:54 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	open_heredoc(t_list **list, t_vars *vars)
 {
-	if (is_quotes((*list)->token->type))
+	if (is_quotes((*list)->token->e_type))
 		mark_hdc_quotes(list, vars);
 	while (1)
 	{
@@ -42,10 +42,10 @@ void	open_heredoc(t_list **list, t_vars *vars)
 
 void	process_heredoc(t_list **list, t_vars *vars)
 {
-	while (*list && (*list)->token && (*list)->token->type != PIPE
+	while (*list && (*list)->token && (*list)->token->e_type != PIPE
 		&& vars->count_hdcs > 0)
 	{
-		if ((*list)->token->type == HEREDOC)
+		if ((*list)->token->e_type == HEREDOC)
 		{
 			*list = (*list)->next;
 			open_heredoc(list, vars);
@@ -81,7 +81,7 @@ void	child_process(t_list *list, t_vars *vars)
 			process_heredoc(&list, vars);
 	}
 	close_and_exit(vars);
-	exit(global.exitcode);
+	exit(g_global.exitcode);
 }
 
 void	parent_process(t_vars *vars, t_hdc *hdc)

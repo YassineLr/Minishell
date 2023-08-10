@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 14:20:40 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/04 15:50:06 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:03:23 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	process_word(t_list **tmp_list, t_vars *vars)
 	vars->tmp[0] = '\0';
 	while (*tmp_list && (*tmp_list)->token)
 	{
-		if ((*tmp_list)->token->type == WORD)
+		if ((*tmp_list)->token->e_type == WORD)
 		{
 			vars->tmp = ft_strjoin(vars->tmp, (*tmp_list)->token->value);
 			if ((*tmp_list)->token->expanded)
@@ -29,7 +29,7 @@ void	process_word(t_list **tmp_list, t_vars *vars)
 				vars->in_quotes = 1;
 			*tmp_list = (*tmp_list)->next;
 		}
-		else if (is_quotes((*tmp_list)->token->type))
+		else if (is_quotes((*tmp_list)->token->e_type))
 		{
 			vars->flag = 1;
 			*tmp_list = (*tmp_list)->next;
@@ -67,9 +67,9 @@ t_list	**join_words(t_list **list, t_list *tmp_list)
 		return (0);
 	while (tmp_list)
 	{
-		if (tmp_list->token->type != WORD && !is_quotes(tmp_list->token->type))
+		if (tmp_list->token->e_type != WORD && !is_quotes(tmp_list->token->e_type))
 		{
-			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->type,
+			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->e_type,
 						ft_strdup(tmp_list->token->value))));
 			tmp_list = tmp_list->next;
 		}

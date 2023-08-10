@@ -6,21 +6,12 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 23:50:43 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 01:59:57 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	search_env(t_env **env, char *tmp)
-{
-	while (*env)
-	{
-		if (ft_strcmp(tmp, (*env)->key) == 0)
-			break ;
-		*env = (*env)->next;
-	}
-}
 char	*expand_env_variable(char *str, int *i)
 {
 	char	*tmp;
@@ -28,7 +19,7 @@ char	*expand_env_variable(char *str, int *i)
 	int		len;
 	t_env	*env;
 
-	env = global.env;
+	env = g_global.env;
 	start = *i;
 	len = 0;
 	while (str[*i] && ft_isalnum(str[*i]))
@@ -60,7 +51,7 @@ char	*expand_dollar_sign(char *str, int *i)
 	}
 	else if (str[*i] == '?')
 	{
-		tmp = ft_itoa(global.exitcode);
+		tmp = ft_itoa(g_global.exitcode);
 		*i += 1;
 	}
 	else if (!ft_isalnum(str[*i]) || str[*i] == '\0')

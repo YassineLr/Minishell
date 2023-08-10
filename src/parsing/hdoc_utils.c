@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:35:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 20:36:53 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:02:39 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	count_ends(t_list *list)
 	while (list)
 	{
 		count += heredoc_count3(&list);
-		if (list && list->token->type == PIPE)
+		if (list && list->token->e_type == PIPE)
 			list = list->next;
 		else
 			return (count);
@@ -73,6 +73,6 @@ t_vars	*initialize_vars(t_list *list)
 
 void	advance_in_list(t_list **list, int *prev_type)
 {
-	*prev_type = (*list)->token->type;
+	*prev_type = (*list)->token->e_type;
 	*list = (*list)->next;
 }

@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:37:18 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 23:43:43 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:02:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	skip_to_next_cmd(t_list **list)
 {
-	while (*list && (*list)->token->type != PIPE)
+	while (*list && (*list)->token->e_type != PIPE)
 		*list = (*list)->next;
 	if (*list)
 		*list = (*list)->next;
@@ -36,7 +36,7 @@ void	close_and_exit(t_vars *vars)
 		close(vars->ends[i][1]);
 		i++;
 	}
-	exit(global.exitcode);
+	exit(g_global.exitcode);
 }
 
 void	free_vars(t_vars *vars)

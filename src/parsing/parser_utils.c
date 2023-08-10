@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 22:43:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/05 22:53:34 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:03:47 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	count_parser_words(t_list *list)
 	count = 0;
 	while (list)
 	{
-		if (is_redir(list->token->type))
+		if (is_redir(list->token->e_type))
 			list = list->next;
-		else if (list->token->type == PIPE)
+		else if (list->token->e_type == PIPE)
 			break ;
 		else
 		{

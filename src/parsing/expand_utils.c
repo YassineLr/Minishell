@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 01:16:49 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 01:18:26 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:01:24 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	list_advance(t_list **list, t_vars *vars)
 {
-	vars->prev = (*list)->token->type;
+	vars->prev = (*list)->token->e_type;
 	*list = (*list)->next;
 }
 
@@ -27,7 +27,7 @@ void	mark_hdoc(t_list **list, t_vars *vars)
 void	mark_quotes(t_list **list, t_vars *vars)
 {
 	vars->in_quotes = !vars->in_quotes;
-	vars->prev = (*list)->token->type;
+	vars->prev = (*list)->token->e_type;
 	*list = (*list)->next;
 }
 
@@ -35,7 +35,7 @@ int	is_before_pipe(t_list *list)
 {
 	while (list)
 	{
-		if (list->token->type == PIPE)
+		if (list->token->e_type == PIPE)
 			return (1);
 		list = list->next;
 	}

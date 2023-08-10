@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:06:23 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 03:05:07 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:03:07 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*init_token(int type, char *value)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (0);
-	token->type = type;
+	token->e_type = type;
 	token->value = value;
 	token->expanded = 0;
 	token->in_quotes = 0;
