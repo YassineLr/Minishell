@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:01:16 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:59:59 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ int	check_quotes(char *input)
 
 int	check_errors(char *input, t_list *list)
 {
-	int	i;
-
-	i = 0;
 	if (!input || !list)
 		return (2);
 	if (!check_quotes(input))

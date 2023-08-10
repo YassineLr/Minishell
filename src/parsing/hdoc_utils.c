@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:35:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:02:39 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:09:38 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ t_vars	*initialize_vars(t_list *list)
 		return (0);
 	vars->hdc_expand = 1;
 	vars->pipe_count = count_ends(list);
-	if (!vars->pipe_count)
-	{
-		free(vars);
-		return (0);
-	}
 	vars->ends = malloc(sizeof(int *) * vars->pipe_count);
 	if (!vars->ends)
 	{

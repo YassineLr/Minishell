@@ -6,11 +6,22 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:02:54 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:19:29 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	is_last_redin(t_list *list)
+{
+	while (list && list->token->e_type != PIPE)
+	{
+		if (list->token->e_type == RED_IN)
+			return (0);
+		list = list->next;
+	}
+	return (1);
+}
 
 void	open_heredoc(t_list **list, t_vars *vars)
 {
@@ -25,7 +36,7 @@ void	open_heredoc(t_list **list, t_vars *vars)
 			break ;
 		if (ft_strcmp(vars->hdoc_line, (*list)->token->value))
 		{
-			if (vars->count == 1)
+			if (is_last_redin(*list))
 			{
 				if (vars->hdc_expand == 0)
 					ft_putendl_fd(vars->hdoc_line, vars->ends[vars->i][1]);
@@ -49,7 +60,7 @@ void	process_heredoc(t_list **list, t_vars *vars)
 		{
 			*list = (*list)->next;
 			open_heredoc(list, vars);
-			if (vars->count == 1)
+			if (vars->count == 1 && is_last_redin(*list))
 				vars->i++;
 			if (vars->hdoc_line)
 				free(vars->hdoc_line);

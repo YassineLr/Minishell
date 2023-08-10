@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_opening.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 03:49:22 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:58:40 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	check_filename(char *name)
 {
-	int		i;
 	char	**str;
 
-	i = 0;
 	if (name[0] == '\0')
 		return (1);
 	str = ft_split(name, ' ');
