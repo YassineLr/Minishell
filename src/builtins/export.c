@@ -6,11 +6,25 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:45:31 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 18:08:14 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 21:09:54 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	new_id_val(char **key_val)
+{
+	char	*to_free;
+
+	if (key_exist(key_val[0]))
+	{
+		to_free = search_in_env(key_val[0])->value;
+		search_in_env(key_val[0])->value = ft_strdup(key_val[1]);
+		free(to_free);
+	}
+	else
+		ft_lstadd_back_env(&g_global.env, ft_lstnew_env(key_val));
+}
 
 void	export(t_parser *parse)
 {

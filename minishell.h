@@ -287,7 +287,7 @@ void		ctrl_d(void);
 void		ctrl_c_hdoc(int signum);
 
 // builtins
-void		go_home(void);
+char		*go_home(void);
 void		update_pwd(char *oldpwd, char *pwd);
 char		*go_oldpwd(void);
 void		cd(t_parser *parse );
@@ -315,6 +315,7 @@ char		**init_id_val(t_parser *parse, int i);
 void		only_identifier(t_parser *parse, int i);
 void		id_val(t_parser *parse, int i);
 void		only_identifier(t_parser *parse, int i);
+void		new_id_val(char **key_val);
 
 // execution
 char		*ft_path(t_parser *parse);

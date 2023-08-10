@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 04:14:23 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:56:36 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,28 @@ void	exit_status(int status)
 		g_global.exitcode = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_global.exitcode = WTERMSIG(status) + 128;
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		printf("Quit: %d\n", WTERMSIG(status));
+}
+
+void	exit_with_err(void)
+{
+	g_global.exitcode = 127;
+	exit(g_global.exitcode);
+}
+
+void	run_script(t_parser *parse, char **envp)
+{
+	if (access(parse->command->cmds[0], X_OK) == 0)
+		execve(parse->command->cmds[0], parse->command->cmds, envp);
+	else
+	{
+		perror("");
+		g_global.exitcode = 127;
+		if (access(parse->command->cmds[0], X_OK) == -1)
+			g_global.exitcode = 126;
+		exit(g_global.exitcode);
+	}
 }
 
 void	execute_cmd(t_parser *parse, char **envp)
@@ -29,30 +51,15 @@ void	execute_cmd(t_parser *parse, char **envp)
 		g_global.exitcode = 0;
 		ft_dup(parse);
 		if (index_at(parse->command->cmds[0], '/') != -1)
-		{
-			if (access(parse->command->cmds[0], X_OK) == 0)
-				execve(parse->command->cmds[0], parse->command->cmds, envp);
-			else
-			{
-				perror("");
-				g_global.exitcode = 127;
-				if (access(parse->command->cmds[0], X_OK) == -1)
-					g_global.exitcode = 126;
-				exit(g_global.exitcode);
-			}
-		}
+			run_script(parse, envp);
 		path = ft_path(parse);
 		if (!path)
-		{
-			g_global.exitcode = 127;
-			exit(g_global.exitcode);
-		}
+			exit_with_err();
 		if (parse->command->cmds[0]
 			&& (execve(path, parse->command->cmds, envp) == -1))
 		{
 			print_error("could not execve\n");
-			g_global.exitcode = 127;
-			exit(g_global.exitcode);
+			exit_with_err();
 		}
 	}
 	exit(g_global.exitcode);
@@ -82,8 +89,6 @@ void	executor(t_parser *parse)
 		close_pipes(head, 0, 1);
 		while (waitpid(-1, &status, 0) != -1)
 			exit_status(status);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-			printf("Quit: %d\n", WTERMSIG(status));
 		ft_free_strs(envt);
 	}
 }

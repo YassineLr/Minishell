@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 08:36:58 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 21:36:44 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	update_pwd(char *oldpwd, char *pwd)
 	free(tmp);
 }
 
-void	go_home(void)
+char	*go_home(void)
 {
 	char	*home_path;
 
@@ -39,12 +39,13 @@ void	go_home(void)
 		home_path = ft_strdup(search_in_env("HOME")->value);
 		if (home_path)
 			chdir(home_path);
-		free (home_path);
+		return (home_path);
 	}
 	else
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		g_global.exitcode = 1;
+		return (NULL);
 	}
 }
 
@@ -66,6 +67,21 @@ char	*go_oldpwd(void)
 	return (oldpwd);
 }
 
+int	with_path(t_parser *parse, char *pwd, char *oldpwd)
+{
+	if (chdir(parse->command->cmds[1]) == 0)
+		pwd = getcwd(pwd, 0);
+	else
+	{
+		ft_putstr_fd("cd: No such file or directory\n", 2);
+		g_global.exitcode = 1;
+		free(oldpwd);
+		return (0);
+	}
+	free(pwd);
+	return (1);
+}
+
 void	cd(t_parser *parse)
 {
 	char	*pwd;
@@ -81,28 +97,14 @@ void	cd(t_parser *parse)
 		perror("");
 	}
 	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
-	{
-		go_home();
-		if (search_in_env("HOME"))
-			pwd = strdup(search_in_env("HOME")->value);
-	}
+		pwd = go_home();
 	else if (!ft_strcmp(parse->command->cmds[1], "-"))
 	{
 		pwd = go_oldpwd();
 		if (!pwd)
 			return ;
 	}	
-	else
-	{
-		if (chdir(parse->command->cmds[1]) == 0)
-			pwd = getcwd(pwd, 0);
-		else
-		{
-			ft_putstr_fd("cd: No such file or directory\n", 2);
-			g_global.exitcode = 1;
-			free(oldpwd);
-			return ;
-		}
-	}
+	else if (!with_path(parse, pwd, oldpwd))
+		return ;
 	update_pwd(oldpwd, pwd);
 }
