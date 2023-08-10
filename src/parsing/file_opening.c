@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 10:59:22 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 14:58:40 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:00:57 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	check_filename(char *name)
 		return (1);
 	str = ft_split(name, ' ');
 	if (ft_count_strs(str) != 1)
+	{
+		ft_free_strs(str);
 		return (1);
+	}
 	ft_free_strs(str);
 	return (0);
 }
