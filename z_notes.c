@@ -1,4 +1,19 @@
 /*
+
+
+				exit 42 world
+				echo hi > f2 > file_with_no_permissions | echo bye
+				echo < file_with_no_permissions
+				echo hi | echo bye > file_with_no_permissions
+
+
+				bash-3.2$ $PWD
+				bash: /Users/oubelhaj/Desktop/final: is a directory
+				bash-3.2$ echo $?
+				126
+				bash-3.2$ 
+
+
 				int x;
 				t_parser *p;
 				p = p_list;
