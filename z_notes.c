@@ -1,5 +1,3 @@
-
-
 /*
 				int x;
 				t_parser *p;
@@ -46,4 +44,24 @@
 	> fgdfgdfgdfgdf
 	v
 	sdgsdgsdgc
+
+	double free in this case : export jjj+=od 
+
+	minishell-1.0$ cd includes/
+	minishell-1.0$ cd dfghjkl;
+	cd: No such file or directory
+	minishell-1.0$ cd dfghjkl;
+	cd: No such file or directory
+	minishell-1.0$ cd
+	minishell-1.0$ cd ..
+	minishell-1.0$ cd
+	minishell-1.0$ cd -
+	minishell-1.0$ cd ~
+	minishell-1.0$ pwd
+	/Users/ylarhris
+	minishell-1.0$ ls
+	Applications	Downloads	goinfre
+	Desktop		Library
+	Documents	Music
+	minishell-1.0$ cd Desktop/
 */

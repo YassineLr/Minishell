@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:53:22 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 02:42:34 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 09:20:17 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	invalid_id_err(void)
 	g_global.exitcode = 1;
 }
 
-int	key_exist(char **key_val)
+int	key_exist(char *key)
 {
-	if (search_in_env(key_val[0]))
+	if (search_in_env(key))
 		return (1);
 	return (0);
 }

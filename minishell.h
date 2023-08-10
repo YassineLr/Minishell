@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 # include <dirent.h>
 
 typedef struct s_env
@@ -294,7 +295,7 @@ void		go_home(void);
 void		update_pwd(char *oldpwd, char *pwd);
 char		*go_oldpwd(void);
 void		cd(t_parser *parse );
-int			key_exist(char **key_val);
+int			key_exist(char *key);
 int			invalid_identifier(char *str);
 void		concate_val(char **key_val);
 char		last_char(char *str);
