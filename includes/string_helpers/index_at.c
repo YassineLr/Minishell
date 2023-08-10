@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   index_at.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 20:10:33 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 18:03:48 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:44:21 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	index_at(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str)
+	{
 		while (str[i])
 		{
-			if(str[i] == c)
+			if (str[i] == c)
 				return (i);
 			i++;
 		}
-	return(-1);
+	}
+	return (-1);
 }

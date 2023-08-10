@@ -14,22 +14,56 @@
 
 // int exitcode;
 
+void	free_lex(t_list **tmp_list, t_lexer *lexer)
+{
+	free_list(tmp_list);
+	free_lexer(lexer);
+}
+
+void	parse_and_exec(t_list *lex_list, t_hdc *hdc)
+{
+	t_parser	*plist;
+
+	plist = ft_parser(lex_list, hdc);
+	if (plist)
+	{
+		init_fds(plist);
+		set_pipes(plist);
+		executor(plist);
+		free_plist(&plist);
+	}
+}
+
+void	minishell(t_list *tmp_list, int err)
+{
+	t_hdc		*hdc;
+	t_list		*lex_list;
+
+	lex_list = NULL;
+	expansion(tmp_list);
+	join_words(&lex_list, tmp_list);
+	remove_type(&lex_list, WHITESPACE);
+	hdc = here_doc(lex_list);
+	remove_nulls(&lex_list);
+	remove_type(&lex_list, S_QUOTES);
+	remove_type(&lex_list, D_QUOTES);
+	if (err == 1)
+		parse_and_exec(lex_list, hdc);
+	free_list(&lex_list);
+	if (hdc)
+		free_hdc(hdc);
+}
 
 int	main(int ac, char **av, char **envp)
 {
 	int			err;
 	char		*line;
 	t_lexer		*lexer;
-	t_hdc		*hdc;
 	t_list		*tmp_list;
-	t_list		*lex_list;
-	t_parser	*p_list;
 
 	(void)ac;
 	(void)av;
-	hdc = NULL;
 	tmp_list = NULL;
-	lex_list = NULL;
 	g_global.env = get_env(envp);
 	while (1)
 	{
@@ -42,34 +76,9 @@ int	main(int ac, char **av, char **envp)
 		lexer = init_lexer(line);
 		ft_lexer(lexer, &tmp_list);
 		err = check_errors(line, tmp_list);
-		if (err != 1 && err != 2)
-			g_global.exitcode = 258;
 		if (err != -1)
-		{
-			expansion(tmp_list);
-			join_words(&lex_list, tmp_list);
-			remove_type(&lex_list, WHITESPACE);
-			hdc = here_doc(lex_list);
-			remove_nulls(&lex_list);
-			remove_type(&lex_list, S_QUOTES);
-			remove_type(&lex_list, D_QUOTES);
-			if (err == 1)
-			{
-				p_list = ft_parser(lex_list, hdc);
-				if (p_list)
-				{
-					init_fds(p_list);
-					set_pipes(p_list);
-					executor(p_list);
-					free_plist(&p_list);
-				}
-			}
-		}
-		free_list(&lex_list);
-		free_list(&tmp_list);
-		free_lexer(lexer);
-		if (hdc)
-			free_hdc(hdc);
+			minishell(tmp_list, err);
+		free_lex(&tmp_list, lexer);
 	}
 	return (0);
 }

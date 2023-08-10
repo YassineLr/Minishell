@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 04:35:42 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 15:09:38 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:33:40 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,15 @@ void	advance_in_list(t_list **list, int *prev_type)
 {
 	*prev_type = (*list)->token->e_type;
 	*list = (*list)->next;
+}
+
+int	is_last_redin(t_list *list)
+{
+	while (list && list->token->e_type != PIPE)
+	{
+		if (list->token->e_type == RED_IN)
+			return (0);
+		list = list->next;
+	}
+	return (1);
 }

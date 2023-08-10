@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 14:20:40 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:03:23 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:33:19 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_list	**join_words(t_list **list, t_list *tmp_list)
 		return (0);
 	while (tmp_list)
 	{
-		if (tmp_list->token->e_type != WORD && !is_quotes(tmp_list->token->e_type))
+		if (tmp_list->token->e_type != WORD
+			&& !is_quotes(tmp_list->token->e_type))
 		{
 			ft_lstadd_back(list, ft_lstnew(init_token(tmp_list->token->e_type,
 						ft_strdup(tmp_list->token->value))));

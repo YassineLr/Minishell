@@ -131,9 +131,7 @@ typedef struct s_vars
 }	t_vars;
 
 // readline
-int			rl_on_new_line(void);
-void		rl_redisplay(void);
-char		*readline(const char *charprompt);
+
 void		rl_replace_line(const char *text, int clear_undo);
 
 // Error handling
@@ -205,10 +203,8 @@ char		*ft_strdup(const char *s1);
 char		*ft_strjoin(char *s1, char const *s2);
 int			ft_strlen(const char *str);
 char		*ft_strchr(char *buff, char c);
-int			ft_strstr(char *haystack, char *needle);
 char		*ft_strnstr(const char *haystack, const char *needle, int len);
 char		*get_quoted_string(t_lexer *lexer, char quotes);
-int			ft_strncmp(const char *s1, const char *s2, int n);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_substr(char const *s, int start, int len);
 int			ft_count_strs(char **str);
@@ -249,7 +245,7 @@ int			count_ends(t_list *list);
 t_vars		*initialize_vars(t_list *list);
 int			heredoc_count2(t_list *list);
 void		advance_in_list(t_list **list, int *prev_type);
-
+int			is_last_redin(t_list *list);
 // get_next_line
 char		*fill_buff(int fd);
 char		*get_next_line(int fd);

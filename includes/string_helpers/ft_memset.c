@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 01:20:23 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 01:20:50 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:42:16 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../minishell.h"
 

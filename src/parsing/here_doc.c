@@ -6,22 +6,11 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 16:19:29 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:33:30 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	is_last_redin(t_list *list)
-{
-	while (list && list->token->e_type != PIPE)
-	{
-		if (list->token->e_type == RED_IN)
-			return (0);
-		list = list->next;
-	}
-	return (1);
-}
 
 void	open_heredoc(t_list **list, t_vars *vars)
 {

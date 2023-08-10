@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 20:30:40 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:37:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_env 	*without_env(void)
+t_env	*without_env(void)
 {
-	int 	i;
+	int		i;
 	char	**key_val;
 	t_env	*env;
 
@@ -23,13 +23,13 @@ t_env 	*without_env(void)
 	key_val = malloc(sizeof(char *) * 2);
 	key_val[0] = ft_strdup("PWD");
 	key_val[1] = ft_strdup("/Users/ylarhris/Desktop/Minishell");
-	ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
 	key_val[0] = ft_strdup("SHLVL");
 	key_val[1] = ft_strdup("");
-	ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
 	key_val[0] = ft_strdup("_");
 	key_val[1] = ft_strdup("/usr/bin/env");
-	ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
 	free(key_val[0]);
 	free(key_val[1]);
 	i++;
@@ -44,7 +44,7 @@ t_env	*get_env(char **envp)
 
 	i = 0;
 	env = NULL;
-	if(!*envp)
+	if (!*envp)
 		env = without_env();
 	else
 	{
@@ -52,8 +52,8 @@ t_env	*get_env(char **envp)
 		while (envp[i])
 		{
 			key_val[0] = ft_substr(envp[i], 0, index_at(envp[i], '='));
-			key_val[1] = ft_strdup(ft_strchr(envp[i],'=') + 1);
-			ft_lstadd_back_env(&env,ft_lstnew_env(key_val));
+			key_val[1] = ft_strdup(ft_strchr(envp[i], '=') + 1);
+			ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
 			free(key_val[0]);
 			free(key_val[1]);
 			key_val[0] = NULL;
