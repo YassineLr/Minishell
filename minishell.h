@@ -314,6 +314,11 @@ void		ft_exit(t_parser *parse);
 int			in_builtins(t_parser *parse);
 void		builtins(t_parser *parse, int child);
 void		red_buil(t_parser *parse, int child);
+int			invalid_identifier(char *str);
+char		**init_id_val(t_parser *parse, int i);
+void		only_identifier(t_parser *parse, int i);
+void		id_val(t_parser *parse, int i);
+void		only_identifier(t_parser *parse, int i);
 
 // execution
 char		*ft_path(t_parser *parse);

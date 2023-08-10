@@ -18,7 +18,7 @@ void	ft_free_strs(char **str)
 
 	i = 0;
 	if (!str)
-		return;
+		return ;
 	while (str[i])
 		free(str[i++]);
 	free(str);

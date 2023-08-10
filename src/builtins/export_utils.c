@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:53:22 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 13:44:47 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:43:03 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	last_char(char *str)
 	return (str[i]);
 }
 
-char	**init_id_val(t_parser *parse)
+char	**init_id_val(t_parser *parse, int i)
 {
 	char	**key_val;
 

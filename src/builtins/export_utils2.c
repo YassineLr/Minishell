@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 13:52:23 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:07:58 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	concate_val(char **key_val)
 	free(key_val[1]);
 	free(key_val);
 }
+
 
 void	export_no_args(void)
 {
@@ -64,7 +65,7 @@ void	only_identifier(t_parser *parse, int i)
 	char	**tmp;
 
 	tmp = ft_split(parse->command->cmds[i], '=');
-	if (!invalid_identifier(tmp[1]))
+	if (!invalid_identifier(tmp[0]))
 		invalid_id_err();
 	else if (!search_in_env(tmp[0]))
 		ft_lstadd_back_env(&g_global.env, ft_lstnew_env(tmp));
@@ -75,7 +76,7 @@ void	id_val(t_parser *parse, int i)
 {
 	char	**key_val;
 
-	key_val = init_id_val(parse);
+	key_val = init_id_val(parse, i);
 	if (!invalid_identifier(key_val[0]))
 		invalid_id_err();
 	else if (last_char(key_val[0]) == '+')
@@ -93,5 +94,7 @@ void	id_val(t_parser *parse, int i)
 		else
 			ft_lstadd_back_env(&g_global.env, ft_lstnew_env(key_val));
 	}
-	ft_free_strs(key_val);
+	free(key_val[0]);
+	free(key_val[1]);
+	free(key_val);
 }
