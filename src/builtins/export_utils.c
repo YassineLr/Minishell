@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:53:22 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 09:20:17 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:44:47 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ char	last_char(char *str)
 	while (str[i + 1])
 		i++;
 	return (str[i]);
+}
+
+char	**init_id_val(t_parser *parse)
+{
+	char	**key_val;
+
+	key_val = ft_calloc(2, sizeof(char *));
+	key_val[0] = ft_substr(parse->command->cmds[i], 0,
+			index_at(parse->command->cmds[i], '='));
+	if (last_char(parse->command->cmds[i]) == '=')
+		key_val[1] = ft_strdup("");
+	else if (ft_strchr(parse->command->cmds[i], '='))
+		key_val[1] = ft_strdup(ft_strchr(parse->command->cmds[i], '=') + 1);
+	return (key_val);
 }

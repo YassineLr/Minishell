@@ -6,7 +6,7 @@
 #    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/10 03:00:42 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/10 13:53:49 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/string_helpers/ft_count_strs.c ./includes/string_helpers/ft_memset.c  ./includes/string_helpers/ft_bzero.c  ./includes/string_helpers/ft_calloc.c  ./src/builtins/builtins.c ./src/parsing/lexer_handlers1.c ./src/parsing/lexer_handlers2.c ./src/parsing/lexer_utils.c \
 	./includes/helpers/is_quotes.c ./includes/helpers/is_redirection.c ./src/execution/error_handler.c ./src/execution/pipes_handler.c ./src/execution/executor.c \
 	./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c ./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/parsing/hdoc_count.c ./src/parsing/hdoc_utils.c ./src/parsing/hdoc_utils2.c \
-	./src/execution/files_manager.c ./src/execution/execute_utils.c ./src/builtins/export_utils.c \
+	./src/execution/files_manager.c ./src/execution/execute_utils.c ./src/builtins/export_utils.c  ./src/builtins/export_utils2.c \
 
 OBJS = ${SRC:.c=.o}
 
