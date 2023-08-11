@@ -6,11 +6,25 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 23:02:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:36:37 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	invalid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] == '_' || ft_isalnum(str[i])))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	in_builtins(t_parser *parse)
 {

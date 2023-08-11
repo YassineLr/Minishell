@@ -6,7 +6,7 @@
 #    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/10 23:35:08 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/11 01:40:48 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./src/execution/pipes_handler.c ./src/execution/executor.c ./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c \
 	./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/parsing/hdoc_count.c \
 	./src/parsing/hdoc_utils.c ./src/parsing/hdoc_utils2.c ./src/execution/files_manager.c ./src/execution/execute_utils.c \
-	./src/builtins/export_utils.c  ./src/builtins/export_utils2.c ./src/execution/is_directory.c \
+	./src/builtins/export_utils.c  ./src/builtins/export_utils2.c ./src/execution/is_directory.c ./includes/string_helpers/ft_is_numeric.c
 
 OBJS = ${SRC:.c=.o}
 
