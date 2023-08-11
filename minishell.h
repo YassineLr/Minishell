@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
@@ -52,6 +52,12 @@ typedef struct s_hdc
 	int	*fds;
 	int	count;
 }	t_hdc;
+
+typedef struct s_redir
+{
+	int	red_in;
+	int	red_out;
+}	t_redir;
 
 typedef struct s_lexer
 {
