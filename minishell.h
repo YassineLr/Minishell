@@ -266,6 +266,10 @@ int			check_expanded_cmd(char *str);
 int			count_parser_words(t_list *list);
 int			get_last_red_out(t_reds *red_outs);
 int			get_last_red_in(t_reds *red_ins);
+int			append(t_list **list, t_reds **r_outs);
+int			red_out(t_list **list, t_reds **r_outs, int type);
+int			red_in(t_list **list, t_reds **r_ins, int type);
+void		get_last_reds(t_reds *r_outs, t_reds *r_ins, t_redir *reds);
 
 // init
 t_vars		*init_vars(void);
@@ -295,9 +299,9 @@ void		ctrl_d(void);
 void		ctrl_c_hdoc(int signum);
 
 // builtins
-char		*go_home(void);
+void		go_home(char *oldpwd);
 void		update_pwd(char *oldpwd, char *pwd);
-char		*go_oldpwd(void);
+char		*go_oldpwd(char *pwd);
 void		cd(t_parser *parse );
 int			key_exist(char *key);
 int			invalid_identifier(char *str);
@@ -324,6 +328,7 @@ void		only_identifier(t_parser *parse, int i);
 void		id_val(t_parser *parse, int i);
 void		only_identifier(t_parser *parse, int i);
 void		new_id_val(char **key_val);
+int			invalid(char *str);
 
 // execution
 int			is_directory(const char *path);

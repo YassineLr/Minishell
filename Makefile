@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/11 02:09:31 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/11 04:21:34 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,15 +35,16 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./src/execution/pipes_handler.c ./src/execution/executor.c ./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c \
 	./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/parsing/hdoc_count.c \
 	./src/parsing/hdoc_utils.c ./src/parsing/hdoc_utils2.c ./src/execution/files_manager.c ./src/execution/execute_utils.c \
-	./src/builtins/export_utils.c  ./src/builtins/export_utils2.c ./src/execution/is_directory.c ./includes/string_helpers/ft_is_numeric.c
+	./src/builtins/export_utils.c  ./src/builtins/export_utils2.c ./src/execution/is_directory.c ./includes/string_helpers/ft_is_numeric.c \
+	./src/parsing/parser_utils2.c
 
 OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -fsanitize=address -g3
 
-RL_FLAGS = -L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
+RL_FLAGS = -L /goinfre/ylarhris/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/ylarhris/homebrew/Cellar/readline/8.2.1/include
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

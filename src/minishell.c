@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-// int exitcode;
-
 void	free_lex(t_list **tmp_list, t_lexer *lexer)
 {
 	free_list(tmp_list);

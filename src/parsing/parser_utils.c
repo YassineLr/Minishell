@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 22:43:00 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 02:03:47 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/11 02:33:26 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	get_last_red_out(t_reds *red_outs)
 	int		last_red;
 
 	tmp = red_outs;
-	while (red_outs->next)
+	while (tmp->next)
 	{
-		close(red_outs->fd);
-		red_outs = red_outs->next;
+		close(tmp->fd);
+		tmp = tmp->next;
 	}
-	last_red = red_outs->fd;
+	last_red = tmp->fd;
 	ft_lstclear_reds(&red_outs);
 	return (last_red);
 }

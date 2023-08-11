@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 01:37:10 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 02:25:36 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	unset(t_parser *parse)
 	i = 1;
 	while (parse->command->cmds[i])
 	{
-		if (!invalid_identifier(parse->command->cmds[i]))
+		if (!invalid(parse->command->cmds[i]))
 			invalid_id_err();
 		else if (search_in_env(parse->command->cmds[i]))
 			remove_variable(parse->command->cmds[i]);

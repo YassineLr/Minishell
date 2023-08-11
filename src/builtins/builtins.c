@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 01:36:37 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 02:29:42 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ int	invalid(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] && !ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	i++;
 	while (str[i])
 	{
-		if (!(str[i] == '_' || ft_isalnum(str[i])))
+		if (str[i] != '_' && !ft_isalnum(str[i]))
 			return (0);
 		i++;
 	}

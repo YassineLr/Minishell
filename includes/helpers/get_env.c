@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 19:37:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/11 03:30:56 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,21 @@ t_env	*without_env(void)
 	env = NULL;
 	key_val = malloc(sizeof(char *) * 2);
 	key_val[0] = ft_strdup("PWD");
-	key_val[1] = ft_strdup("/Users/ylarhris/Desktop/Minishell");
+	key_val[1] = ft_strdup("/Users/ylarhris");
 	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
+	free(key_val[0]);
+	free(key_val[1]);
 	key_val[0] = ft_strdup("SHLVL");
 	key_val[1] = ft_strdup("");
 	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
+	free(key_val[0]);
+	free(key_val[1]);
 	key_val[0] = ft_strdup("_");
 	key_val[1] = ft_strdup("/usr/bin/env");
 	ft_lstadd_back_env(&env, ft_lstnew_env(key_val));
 	free(key_val[0]);
 	free(key_val[1]);
-	i++;
+	free(key_val);
 	return (env);
 }
 
