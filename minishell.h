@@ -299,9 +299,8 @@ void		ctrl_d(void);
 void		ctrl_c_hdoc(int signum);
 
 // builtins
-void		go_home(char *oldpwd);
 void		update_pwd(char *oldpwd, char *pwd);
-char		*go_oldpwd(char *pwd);
+void		go_oldpwd(char *oldpwd);
 void		cd(t_parser *parse );
 int			key_exist(char *key);
 int			invalid_identifier(char *str);
@@ -312,7 +311,9 @@ void		export(t_parser *parse);
 void		ft_env(void);
 void		remove_variable(char *key);
 void		unset(t_parser *parse);
+int			with_path(t_parser *parse, char *pwd, char *oldpwd);
 void		pwd(void);
+void		go_home(char *oldpwd);
 void		invalid_id_err(void);
 int			check_args(char **cmd);
 void		ft_echo(t_parser *parse);
