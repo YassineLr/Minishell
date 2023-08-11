@@ -25,7 +25,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
-// #include <sys/types.h>
 #include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -214,6 +213,7 @@ char		*ft_itoa(int n);
 void		*ft_memset(void *s, int c, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
+int			is_numeric(char *str);
 
 // Expansion
 void		expansion(t_list *list);
@@ -320,7 +320,8 @@ void		only_identifier(t_parser *parse, int i);
 void		new_id_val(char **key_val);
 
 // execution
-int 		isDirectory(const char *path);
+int			is_directory(const char *path);
+void		is_not_directory(t_parser *parse);
 char		*ft_path(t_parser *parse);
 char		**env_in_tab(void);
 void		exit_status(int status);

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_directory.c                                     :+:      :+:    :+:   */
+/*   ft_isnumeric.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 23:33:45 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 01:20:59 by ylarhris         ###   ########.fr       */
+/*   Created: 2023/08/11 01:27:35 by ylarhris          #+#    #+#             */
+/*   Updated: 2023/08/11 01:28:10 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_directory(const char *path)
+int	is_numeric(char *str)
 {
-	struct stat	statbuf;
+	int	i;
 
-	if (stat(path, &statbuf) != 0)
+	i = 0;
+	if (str[i] != '-' && str[i] != '+' && !ft_isdigit(str[i]))
 		return (0);
-	return (S_ISDIR(statbuf.st_mode));
-}
-
-void	is_not_directory(t_parser *parse)
-{
-	ft_putstr_fd(parse->command->cmds[0], 2);
-	ft_putstr_fd(" : is a directory\n", 2);
-	g_global.exitcode = 126;
-	exit(126);
+	i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

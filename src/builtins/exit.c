@@ -6,28 +6,11 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 23:07:28 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:30:41 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	is_numeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] != '-' && str[i] != '+' && !ft_isdigit(str[i]))
-		return (0);
-	i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 void	check_max_min(char *s)
 {
@@ -53,6 +36,13 @@ void	check_max_min(char *s)
 	}
 }
 
+void	exit_without(t_parser *parse)
+{
+	g_global.exitcode = ft_atoi(parse->command->cmds[1]);
+	ft_putstr_fd("exit\n", 1);
+	exit (g_global.exitcode);
+}
+
 void	ext_err(void)
 {
 	ft_putstr_fd("exit\nexit : numeric argument required\n", 2);
@@ -73,14 +63,11 @@ int	exit_utils(t_parser *parse)
 	if (strcmp(parse->command->cmds[1], "922337203685477580657") > 0)
 		ext_err();
 	else if (strcmp(parse->command->cmds[1], "-922337203685477580657") > 0
-		&& ft_strlen(parse->command->cmds[1]) == ft_strlen("-922337203685477580657"))
+		&& ft_strlen(parse->command->cmds[1])
+		== ft_strlen("-922337203685477580657"))
 		ext_err();
 	if (parse->command->cmds[1] && !parse->command->cmds[2])
-	{
-		g_global.exitcode = ft_atoi(parse->command->cmds[1]);
-		ft_putstr_fd("exit\n", 1);
-		exit (g_global.exitcode);
-	}
+		exit_without(parse);
 	else if (ft_atoi(parse->command->cmds[1]))
 	{
 		ft_putstr_fd("exit : too many arguments\n", 2);

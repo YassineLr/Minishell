@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 23:45:42 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 01:21:58 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,9 @@ void	execute_cmd(t_parser *parse, char **envp)
 	{
 		g_global.exitcode = 0;
 		ft_dup(parse);
-		if (isDirectory(parse->command->cmds[0]) == 1 && access(parse->command->cmds[0], X_OK) == -1)
-		{
-			ft_putstr_fd(parse->command->cmds[0], 2);
-			ft_putstr_fd(" : is a directory\n", 2);
-			g_global.exitcode = 126;
-			exit(126);
-		}
+		if (isDirectory(parse->command->cmds[0]) == 1
+			&& access(parse->command->cmds[0], X_OK) == -1)
+			is_not_directory(parse);
 		if (index_at(parse->command->cmds[0], '/') != -1)
 			run_script(parse, envp);
 		path = ft_path(parse);
