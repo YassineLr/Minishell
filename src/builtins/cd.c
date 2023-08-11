@@ -6,19 +6,28 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 07:28:08 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 07:39:34 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-void update(char *oldpwd, char *pwd)
+void	update(char *oldpwd, char *pwd)
 {
-	if(search_in_env("PWD"))
+	char	*tmp;
+
+	if (search_in_env("PWD"))
+	{
+		tmp = search_in_env("PWD")->value;
 		search_in_env("PWD")->value = ft_strdup(pwd);
-	if(search_in_env("OLDPWD"))
+		free(tmp);
+	}
+	if (search_in_env("OLDPWD"))
+	{
+		tmp = search_in_env("OLDPWD")->value;
 		search_in_env("OLDPWD")->value = ft_strdup(oldpwd);
+		free(tmp);
+	}
 }
 
 void	go_home(char *oldpwd)
@@ -31,6 +40,7 @@ void	go_home(char *oldpwd)
 		if (home_path)
 			chdir(home_path);
 		update(oldpwd, home_path);
+		free(home_path);
 	}
 	else
 	{
@@ -45,6 +55,7 @@ int	with_path(t_parser *parse, char *pwd, char *oldpwd)
 	{
 		pwd = getcwd(pwd, 0);
 		update(oldpwd, pwd);
+		free(pwd);
 	}
 	else
 	{
@@ -53,7 +64,6 @@ int	with_path(t_parser *parse, char *pwd, char *oldpwd)
 		free(oldpwd);
 		return (1);
 	}
-	free(pwd);
 	return (1);
 }
 
@@ -75,4 +85,5 @@ void	cd(t_parser *parse)
 	}
 	else if (with_path(parse, pwd, oldpwd))
 		return ;
+	free(oldpwd);
 }
