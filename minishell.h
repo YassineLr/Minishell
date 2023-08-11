@@ -311,7 +311,7 @@ void		export(t_parser *parse);
 void		ft_env(void);
 void		remove_variable(char *key);
 void		unset(t_parser *parse);
-int			with_path(t_parser *parse, char *pwd, char *oldpwd);
+void		with_path(t_parser *parse, char *pwd, char *oldpwd);
 void		pwd(void);
 void		go_home(char *oldpwd);
 void		invalid_id_err(void);
