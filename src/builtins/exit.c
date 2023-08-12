@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:16:46 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 01:30:41 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 23:05:40 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	exit_utils(t_parser *parse)
 	}
 	else if (!is_numeric(parse->command->cmds[1]))
 		ext_err();
-	if (strcmp(parse->command->cmds[1], "922337203685477580657") > 0)
+	if (ft_strcmp(parse->command->cmds[1], "922337203685477580657") > 0)
 		ext_err();
-	else if (strcmp(parse->command->cmds[1], "-922337203685477580657") > 0
+	else if (ft_strcmp(parse->command->cmds[1], "-922337203685477580657") > 0
 		&& ft_strlen(parse->command->cmds[1])
 		== ft_strlen("-922337203685477580657"))
 		ext_err();

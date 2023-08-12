@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
+#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/11 18:55:55 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/11 23:02:15 by oubelhaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/string_helpers/ft_split.c ./includes/string_helpers/ft_strdup.c ./includes/string_helpers/ft_strjoin.c \
 	./includes/string_helpers/ft_strlen.c ./includes/string_helpers/ft_strnstr.c ./includes/string_helpers/ft_strcmp.c \
 	./includes/string_helpers/ft_substr.c ./includes/string_helpers/ft_strchr.c ./includes/string_helpers/index_at.c \
-	./includes/get_next_line/get_next_line.c ./includes/get_next_line/get_next_line_utils.c ./includes/linked_lists/ft_lstadd_back_alt.c \
+	./includes/linked_lists/ft_lstadd_back_alt.c ./src/parsing/parser_utils2.c \
 	./includes/linked_lists/ft_last_env.c ./includes/linked_lists/ft_lstnew_alt.c ./includes/linked_lists/ft_lstlast_alt.c \
 	./includes/helpers/get_env.c ./includes/helpers/search_in_env.c ./includes/linked_lists/ft_lstadd_back_env.c \
 	./includes/linked_lists/ft_lstnew_env.c ./src/builtins/cd.c ./src/builtins/exit.c ./src/builtins/unset.c ./src/builtins/pwd.c \
@@ -36,15 +36,14 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/parsing/hdoc_count.c \
 	./src/parsing/hdoc_utils.c ./src/parsing/hdoc_utils2.c ./src/execution/files_manager.c ./src/execution/execute_utils.c \
 	./src/builtins/export_utils.c  ./src/builtins/export_utils2.c ./src/execution/is_directory.c ./includes/string_helpers/ft_is_numeric.c \
-	./src/parsing/parser_utils2.c
 
 OBJS = ${SRC:.c=.o}
 
 CC = cc
 
-CFLAGS = #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror
 
-RL_FLAGS = -L /goinfre/ylarhris/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/ylarhris/homebrew/Cellar/readline/8.2.1/include
+RL_FLAGS = -L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

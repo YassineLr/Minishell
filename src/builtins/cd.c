@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:40:49 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 19:06:21 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 23:02:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	update(char *oldpwd, char *pwd)
 {
 	char	*tmp;
 
-	if (search_in_env("PWD"))
+	if (search_in_env("PWD") && pwd)
 	{
 		tmp = search_in_env("PWD")->value;
 		search_in_env("PWD")->value = ft_strdup(pwd);
 		free(tmp);
 	}
-	if (search_in_env("OLDPWD"))
+	if (search_in_env("OLDPWD") && oldpwd)
 	{
 		tmp = search_in_env("OLDPWD")->value;
 		search_in_env("OLDPWD")->value = ft_strdup(oldpwd);
@@ -81,6 +81,11 @@ void	with_path(t_parser *parse, char *pwd, char *oldpwd)
 		ft_putstr_fd("cd: No such file or directory\n", 2);
 		g_global.exitcode = 1;
 	}
+	if (!oldpwd)
+	{
+		g_global.exitcode = 255;
+		perror("");
+	}
 }
 
 void	cd(t_parser *parse)
@@ -94,11 +99,6 @@ void	cd(t_parser *parse)
 	oldpwd = getcwd(oldpwd, 0);
 	if (!parse->command->cmds[1] || !ft_strcmp(parse->command->cmds[1], "~"))
 		go_home(oldpwd);
-	else if (!oldpwd)
-	{
-		g_global.exitcode = 255;
-		perror("");
-	}
 	else if (!ft_strcmp(parse->command->cmds[1], "-"))
 		go_oldpwd(oldpwd);
 	else

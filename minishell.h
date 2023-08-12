@@ -13,10 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
-
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -138,7 +134,6 @@ typedef struct s_vars
 }	t_vars;
 
 // readline
-
 void		rl_replace_line(const char *text, int clear_undo);
 
 // Error handling
@@ -254,10 +249,6 @@ t_vars		*initialize_vars(t_list *list);
 int			heredoc_count2(t_list *list);
 void		advance_in_list(t_list **list, int *prev_type);
 int			is_last_redin(t_list *list);
-// get_next_line
-char		*fill_buff(int fd);
-char		*get_next_line(int fd);
-char		*fill_and_join(int fd, char **saved, char *line, char *tmp);
 
 // Parser
 t_parser	*ft_parser(t_list *list, t_hdc *hdc);

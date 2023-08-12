@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 02:25:36 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:27:10 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	remove_first(char *key)
 				g_global.env = g_global.env->next;
 			free(tmp->key);
 			free(tmp->value);
+			free(tmp);
 		}
 		return (1);
 	}
