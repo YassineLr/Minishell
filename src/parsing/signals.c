@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:52:30 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/11 20:30:12 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/13 21:27:03 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ctrl_c_hdoc(int signum)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_global.exitcode = 1;
 	exit(1);
 }
 

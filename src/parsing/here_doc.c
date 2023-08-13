@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 19:33:30 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/13 21:47:23 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,32 @@ void	child_process(t_list *list, t_vars *vars)
 	exit(g_global.exitcode);
 }
 
-void	parent_process(t_vars *vars, t_hdc *hdc)
+void	parent_process(t_vars *vars, t_hdc *hdc, int *err)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
+	g_global.exitcode = 0;
 	while (waitpid(-1, &vars->status, 0) != -1)
 		exit_status(vars->status);
-	while (i < vars->pipe_count)
-	{
+	while (++i < vars->pipe_count)
 		close(vars->ends[i][1]);
-		i++;
-	}
-	i = 0;
-	while (i < vars->pipe_count)
+	if (g_global.exitcode == 1)
 	{
-		hdc->fds[i] = vars->ends[i][0];
-		i++;
+		i = -1;
+		while (++i < vars->pipe_count)
+			close(vars->ends[i][0]);
+		*err = -1;
+	}
+	else
+	{
+		i = -1;
+		while (++i < vars->pipe_count)
+			hdc->fds[i] = vars->ends[i][0];
 	}
 }
 
-t_hdc	*here_doc(t_list *list)
+t_hdc	*here_doc(t_list *list, int *err)
 {
 	t_hdc	*hdc;
 	t_vars	*vars;
@@ -127,7 +132,7 @@ t_hdc	*here_doc(t_list *list)
 	if (!vars->pid)
 		child_process(list, vars);
 	else
-		parent_process(vars, hdc);
+		parent_process(vars, hdc, err);
 	free_vars(vars);
 	return (hdc);
 }

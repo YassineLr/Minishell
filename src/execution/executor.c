@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 01:52:55 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/13 22:04:10 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	run_script(t_parser *parse, char **envp)
 	else
 	{
 		perror("");
-		g_global.exitcode = 127;
+		// g_global.exitcode = 127;
 		if (access(parse->command->cmds[0], X_OK) == -1)
 			g_global.exitcode = 126;
 		exit(g_global.exitcode);
@@ -82,10 +82,13 @@ void	executor(t_parser *parse)
 		envt = env_in_tab();
 		while (parse)
 		{
-			pid = fork();
-			if (!pid)
-				in_child(parse, head, envt);
-			close_files(parse);
+			if (parse->command->cmds && parse->command->cmds[0])
+			{
+				pid = fork();
+				if (!pid)
+					in_child(parse, head, envt);
+				close_files(parse);
+			}
 			parse = parse->next;
 		}
 		close_pipes(head, 0, 1);

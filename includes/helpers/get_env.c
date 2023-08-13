@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 04:32:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 03:30:56 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/13 22:37:01 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 t_env	*without_env(void)
 {
-	int		i;
 	char	**key_val;
 	t_env	*env;
 
-	i = 0;
 	env = NULL;
 	key_val = malloc(sizeof(char *) * 2);
 	key_val[0] = ft_strdup("PWD");

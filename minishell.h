@@ -229,7 +229,7 @@ char		*expand_env_variable(char *str, int *i);
 void		search_env(t_env **env, char *tmp);
 
 // heredoc
-t_hdc		*here_doc(t_list *list);
+t_hdc		*here_doc(t_list *list, int *err);
 int			handle_heredoc(t_list **list, int prev_type);
 int			heredoc_count(t_list *list);
 int			hc_handle_errors(int prev_type, int curr_type);
