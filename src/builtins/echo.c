@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 02:42:16 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/13 17:15:11 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,28 @@
 int	check_args(char **cmd)
 {
 	int	i;
+	int	j;
 
 	i = 1;
 	if (!cmd)
 		return (0);
-	if (!ft_strcmp(cmd[1], "-n"))
+	if (!strncmp(cmd[1], "-n", 2))
 	{
-		while (!ft_strcmp(cmd[i], "-n"))
+		while (!strncmp(cmd[i], "-n", 2))
+		{
+			j = 1;
+			while (cmd[i][j])
+			{
+				if (cmd[i][j] != 'n')
+				{
+					if (i == 1)
+						return (i - 1);
+					return (i);
+				}
+				j++;
+			}
 			i++;
+		}
 		return (i);
 	}
 	return (0);
