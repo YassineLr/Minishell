@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:07:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/09 20:20:51 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:01:59 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ void	free_list(t_list **list)
 
 void	free_hdc(t_hdc *hdc)
 {
+	if (!hdc)
+		return ;
 	if (hdc->fds)
 		free(hdc->fds);
 	free(hdc);
-	hdc = 0;
 }
 
 void	free_cmds(t_cmd *cmd)

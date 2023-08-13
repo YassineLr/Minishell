@@ -23,19 +23,6 @@ void	parse_and_exec(t_list *lex_list, t_hdc *hdc)
 	t_parser	*plist;
 
 	plist = ft_parser(lex_list, hdc);
-				// 	int x;
-				// t_parser *p;
-				// p = plist;
-				// while (p)
-				// {
-				// 	x = -1;
-				// 	while (p->command->cmds[++x])
-				// 		printf("cmds[%d]  : %s\n", x, p->command->cmds[x]);
-				// 	printf("pipe     : %d\n", p->command->pipe);
-				// 	printf("red_in   : %d\n", p->command->red_in);
-				// 	printf("red_out  : %d\n", p->command->red_out);
-				// 	p = p->next;
-				// }
 	if (plist)
 	{
 		init_fds(plist);
@@ -61,8 +48,7 @@ void	minishell(t_list *tmp_list, int err)
 	if (err == 1)
 		parse_and_exec(lex_list, hdc);
 	free_list(&lex_list);
-	if (hdc)
-		free_hdc(hdc);
+	free_hdc(hdc);
 }
 
 int	main(int ac, char **av, char **envp)

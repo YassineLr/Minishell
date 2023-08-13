@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/13 21:47:23 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/13 23:42:46 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	child_process(t_list *list, t_vars *vars)
 
 	i = 0;
 	signal(SIGINT, ctrl_c_hdoc);
+	g_global.exitcode = 0;
 	while (i < vars->pipe_count)
 	{
 		close(vars->ends[i][0]);
@@ -89,7 +90,6 @@ void	parent_process(t_vars *vars, t_hdc *hdc, int *err)
 	int	i;
 
 	i = -1;
-	g_global.exitcode = 0;
 	while (waitpid(-1, &vars->status, 0) != -1)
 		exit_status(vars->status);
 	while (++i < vars->pipe_count)
