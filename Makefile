@@ -6,7 +6,7 @@
 #    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/14 18:04:07 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/14 20:14:33 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ OBJS = ${SRC:.c=.o}
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 RL_FLAGS = -L /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/include
 
