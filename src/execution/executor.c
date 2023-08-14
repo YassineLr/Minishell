@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/14 00:20:52 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:09:58 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	executor(t_parser *parse)
 	t_parser	*head;
 	char		**envt;
 	int			pid;
-	int			status;
 
 	head = parse;
 	if (head && in_builtins(parse) && !head->next)
@@ -91,9 +90,7 @@ void	executor(t_parser *parse)
 			}
 			parse = parse->next;
 		}
-		close_pipes(head, 0, 1);
-		while (waitpid(-1, &status, 0) != -1)
-			exit_status(status);
+		close_and_wait(head);
 		ft_free_strs(envt);
 	}
 }

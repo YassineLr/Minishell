@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/13 23:59:43 by oubelhaj         ###   ########.fr        #
+#    Updated: 2023/08/14 01:02:29 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-RL_FLAGS = -L /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/oubelhaj/homebrew/Cellar/readline/8.2.1/include
+RL_FLAGS = -L /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/include
 
 .c.o	:
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

@@ -342,6 +342,7 @@ void		ft_dup(t_parser *parse);
 void		ftt_dup(int fildes, int fildes2);
 void		in_child(t_parser *parse, t_parser *head, char **envt);
 void		executor(t_parser *parse);
+void		close_and_wait(t_parser *head);
 
 // error handler
 void		command_nf_error(t_parser *parse);

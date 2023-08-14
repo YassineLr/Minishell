@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 21:32:03 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/13 17:15:11 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:12:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	check_args(char **cmd)
 	{
 		while (!strncmp(cmd[i], "-n", 2))
 		{
-			j = 1;
-			while (cmd[i][j])
+			j = 0;
+			while (cmd[i][++j])
 			{
 				if (cmd[i][j] != 'n')
 				{
@@ -33,7 +33,6 @@ int	check_args(char **cmd)
 						return (i - 1);
 					return (i);
 				}
-				j++;
 			}
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 22:46:59 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/14 01:09:49 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,13 @@ void	in_child(t_parser *parse, t_parser *head, char **envt)
 		parse->command->pipe_fd.write);
 	redirection(parse);
 	execute_cmd(parse, envt);
+}
+
+void	close_and_wait(t_parser *head)
+{
+	int			status;
+
+	close_pipes(head, 0, 1);
+	while (waitpid(-1, &status, 0) != -1)
+		exit_status(status);
 }
