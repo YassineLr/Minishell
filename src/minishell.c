@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+t_meta_data	g_global;
+
 void	free_lex(t_list **tmp_list, t_lexer *lexer)
 {
 	free_list(tmp_list);

@@ -40,12 +40,8 @@ char	*get_path(t_parser *parse, int i)
 char	*ft_path(t_parser *parse)
 {
 	char	*path;
-	char	*paths;
-	int		i;
 
-	i = 0;
 	path = NULL;
-	paths = NULL;
 	if (parse->command->cmds[0])
 	{
 		if (parse->command->cmds[0][0] == '\0')

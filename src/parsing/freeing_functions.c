@@ -14,9 +14,6 @@
 
 void	free_lexer(t_lexer *lexer)
 {
-	int	i;
-
-	i = -1;
 	if (!lexer)
 		return ;
 	free(lexer->content);

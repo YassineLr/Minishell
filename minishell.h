@@ -41,7 +41,7 @@ typedef struct s_meta_data
 	t_env	*env;
 }	t_meta_data;
 
-t_meta_data	g_global;
+extern t_meta_data	g_global;
 
 typedef struct s_hdc
 {
