@@ -215,6 +215,7 @@ void		*ft_memset(void *s, int c, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
 int			is_numeric(char *str);
+int			ft_strncmp(const char *str1, const char *str2, size_t n);
 
 // Expansion
 void		expansion(t_list *list);

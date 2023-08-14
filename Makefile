@@ -6,7 +6,7 @@
 #    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/14 01:02:29 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/14 18:04:07 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 	./includes/linked_lists/ft_lstdelone_env.c ./src/parsing/parser_utils.c ./src/parsing/expand_utils.c ./includes/helpers/is_quotes.c\
 	./includes/linked_lists/ft_lstadd_back_reds.c ./includes/linked_lists/ft_lstlast_reds.c ./includes/linked_lists/ft_lstnew_reds.c \
 	./includes/linked_lists/ft_lstclear_reds.c ./includes/string_helpers/ft_count_strs.c ./includes/string_helpers/ft_memset.c \
-	./includes/string_helpers/ft_bzero.c  ./includes/string_helpers/ft_calloc.c  ./src/builtins/builtins.c ./src/parsing/lexer_handlers1.c \
+	./includes/string_helpers/ft_bzero.c ./includes/string_helpers/ft_strncmp.c ./includes/string_helpers/ft_calloc.c  ./src/builtins/builtins.c ./src/parsing/lexer_handlers1.c \
 	./src/parsing/lexer_handlers2.c ./src/parsing/lexer_utils.c ./includes/helpers/is_redirection.c ./src/execution/error_handler.c \
 	./src/execution/pipes_handler.c ./src/execution/executor.c ./includes/string_helpers/ft_itoa.c ./src/parsing/signals.c \
 	./src/parsing/join_words.c ./src/parsing/freeing_functions.c ./src/parsing/remove_type.c ./src/parsing/hdoc_count.c \
@@ -39,7 +39,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 
 OBJS = ${SRC:.c=.o}
 
-CC = cc
+CC = clang
 
 CFLAGS = -Wall -Wextra -Werror
 
