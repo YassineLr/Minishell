@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
+#    By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/14 20:14:33 by ylarhris         ###   ########.fr        #
+#    Updated: 2023/08/14 22:13:51 by ylr              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 
 OBJS = ${SRC:.c=.o}
 
-CC = clang
+CC = cc
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 

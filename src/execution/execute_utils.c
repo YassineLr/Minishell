@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/14 20:12:50 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:34:03 by ylr              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_path(t_parser *parse, int i)
 		// free(tmp);
 		i++;
 	}
-	ft_free_strs(splited);
+	// ft_free_strs(splited);
 	free(path);
 	command_nf_error(parse);
 	return (NULL);
