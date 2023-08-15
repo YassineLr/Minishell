@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:03:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/10 17:30:25 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/15 10:39:33 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ char	*expand_env_variable(char *str, int *i)
 	if (env)
 	{
 		free(tmp);
-		return (ft_strdup(env->value));
+		if (env->value)
+			return (ft_strdup(env->value));
+		else
+			return (ft_strdup(""));
 	}
 	free(tmp);
 	return (ft_strdup(""));
