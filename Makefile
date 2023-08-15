@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ylr <ylr@student.42.fr>                    +#+  +:+       +#+         #
+#    By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 18:40:00 by oubelhaj          #+#    #+#              #
-#    Updated: 2023/08/14 22:13:51 by ylr              ###   ########.fr        #
+#    Updated: 2023/08/15 12:26:01 by ylarhris         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,9 @@ SRC = ./src/minishell.c ./src/parsing/file_opening.c ./src/parsing/lexer.c ./src
 
 OBJS = ${SRC:.c=.o}
 
-CC = cc
+CC = clang
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 RL_FLAGS = -L /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/lib -I /goinfre/${USER}/homebrew/Cellar/readline/8.2.1/include
 

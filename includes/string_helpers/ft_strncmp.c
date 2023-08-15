@@ -6,11 +6,11 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:51:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/14 17:52:32 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:14:27 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../minishell.h"
+#include "../../minishell.h"
 
 int	ft_strncmp(const char *str1, const char *str2, size_t n)
 {
