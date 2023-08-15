@@ -42,7 +42,7 @@ void	ft_lexer(t_lexer *lexer, t_list **list)
 			lexer_handle_dollar(lexer, list);
 		else if (lexer->c == '\'')
 			lexer_handle_single_quotes(lexer, list);
-		if (lexer->c == '"')
+		else if (lexer->c == '"')
 			lexer_handle_double_quotes(lexer, list);
 		else if (lexer->c == '|')
 			lexer_handle_pipe(lexer, list);
