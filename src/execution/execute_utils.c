@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/15 12:30:46 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/16 02:10:05 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ char	*get_path(t_parser *parse, int i)
 		path = ft_strjoin( tmp , parse->command->cmds[0]);
 		if (access(path, F_OK) == 0)
 			return (path);
+		free(path);
 		i++;
 	}
-	free(path);
+	free(splited);
 	command_nf_error(parse);
 	return (NULL);
 }
