@@ -67,7 +67,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signals_handler();
-		line = readline("minishell-1.0$ ");
+		line = readline("minishell-2.1$ ");
 		if (!line)
 			ctrl_d();
 		signal(SIGINT, SIG_IGN);
