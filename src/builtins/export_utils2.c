@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/15 12:18:57 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/16 02:45:04 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	concate_val(char **key_val)
 {
 	t_env	*to_concate;
 	char	*tmp;
-	
+
 	tmp = key_val[0];
 	key_val[0] = ft_substr(key_val[0], 0, ft_strlen(key_val[0]) - 1);
 	to_concate = search_in_env(key_val[0]);
 	if (to_concate)
-			to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
+		to_concate->value = ft_strjoin(to_concate->value, key_val[1]);
 	else
 		ft_lstadd_back_env(&g_global.env, ft_lstnew_env(key_val));
 	free(tmp);

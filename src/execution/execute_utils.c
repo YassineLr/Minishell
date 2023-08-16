@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/16 02:10:05 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/16 02:48:40 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_path(t_parser *parse, int i)
 	while (splited[i])
 	{
 		tmp = ft_strjoin(splited[i], "/");
-		path = ft_strjoin( tmp , parse->command->cmds[0]);
+		path = ft_strjoin(tmp, parse->command->cmds[0]);
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
@@ -46,7 +46,7 @@ char	*ft_path(t_parser *parse)
 	path = NULL;
 	if (parse->command->cmds[0])
 	{
-		if (parse->command->cmds[0][0] == '\0')	
+		if (parse->command->cmds[0][0] == '\0')
 			command_nf_error(parse);
 		else
 			path = get_path(parse, 0);
