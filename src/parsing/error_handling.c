@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:11:48 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/16 03:25:26 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/20 00:05:00 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	check_errors(char *input, t_list *list)
 	if (!input || !list)
 		return (2);
 	if (!check_quotes(input))
-	{	
+	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		g_global.exitcode = 258;
 		return (-1);

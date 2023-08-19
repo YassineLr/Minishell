@@ -6,7 +6,7 @@
 /*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 14:49:26 by oubelhaj          #+#    #+#             */
-/*   Updated: 2023/08/13 23:42:46 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/20 00:03:37 by oubelhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	open_heredoc(t_list **list, t_vars *vars)
 			break ;
 		if (ft_strcmp(vars->hdoc_line, (*list)->token->value))
 		{
-			if (is_last_redin(*list))
+			if (vars->count == 1 && is_last_redin(*list))
 			{
 				if (vars->hdc_expand == 0)
 					ft_putendl_fd(vars->hdoc_line, vars->ends[vars->i][1]);
