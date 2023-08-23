@@ -346,8 +346,8 @@ void		executor(t_parser *parse);
 void		close_and_wait(t_parser *head);
 
 // error handler
-void		command_nf_error(t_parser *parse);
-void		print_error(char *error);
 void		no_path_err(t_parser *parse);
+void		print_error(char *error);
+void		command_nf_error(t_parser *parse);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:47:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/14 01:09:58 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:36:17 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	executor(t_parser *parse)
 {
 	t_parser	*head;
 	char		**envt;
-	int			pid;
 
 	head = parse;
 	if (head && in_builtins(parse) && !head->next)
@@ -83,8 +82,7 @@ void	executor(t_parser *parse)
 		{
 			if (parse->command->cmds && parse->command->cmds[0])
 			{
-				pid = fork();
-				if (!pid)
+				if (!fork())
 					in_child(parse, head, envt);
 				close_files(parse);
 			}
