@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 02:17:20 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/23 08:37:51 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:46:25 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	in_builtins(t_parser *parse)
 void	builtins(t_parser *parse, int child)
 {
 	if (child)
-		ft_dup(parse);
+		pipes_red(parse);
 	if (!ft_strcmp(parse->command->cmds[0], "echo"))
 		ft_echo(parse);
 	else if (!ft_strcmp(parse->command->cmds[0], "cd"))

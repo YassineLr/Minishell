@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:53:36 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/10 02:48:33 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:49:48 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_fds(t_parser *parse)
 	}
 }
 
-void	ft_dup(t_parser *parse)
+void	pipes_red(t_parser *parse)
 {
 	close_pipes(parse, parse->command->pipe_fd.read,
 		parse->command->pipe_fd.write);
@@ -35,7 +35,7 @@ void	ft_dup(t_parser *parse)
 		dup2(parse->command->pipe_fd.write, STDOUT_FILENO);
 }
 
-void	ftt_dup(int fildes, int fildes2)
+void	ft_dup(int fildes, int fildes2)
 {
 	dup2(fildes, fildes2);
 	close(fildes);

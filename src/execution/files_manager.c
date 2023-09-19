@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:37:43 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/09 21:41:55 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:49:46 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	close_files(t_parser *parse)
 		close(parse->command->red_out);
 }
 
-void	red_buil(t_parser *parse, int child)
+void	execute_builtin(t_parser *parse, int child)
 {
 	int	save[2];
 
@@ -28,15 +28,15 @@ void	red_buil(t_parser *parse, int child)
 	save[1] = dup(1);
 	redirection(parse);
 	builtins(parse, child);
-	ftt_dup(save[0], STDIN_FILENO);
-	ftt_dup(save[1], STDOUT_FILENO);
+	ft_dup(save[0], STDIN_FILENO);
+	ft_dup(save[1], STDOUT_FILENO);
 	close_files(parse);
 }
 
 void	redirection(t_parser *parse)
 {
 	if (parse->command->red_in && parse->command->red_in != -1)
-		ftt_dup(parse->command->red_in, STDIN_FILENO);
+		ft_dup(parse->command->red_in, STDIN_FILENO);
 	if (parse->command->red_out != 1)
-		ftt_dup(parse->command->red_out, STDOUT_FILENO);
+		ft_dup(parse->command->red_out, STDOUT_FILENO);
 }
