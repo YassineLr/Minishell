@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:56:06 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/13 21:52:39 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:44:47 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	print_error(char *error)
 {
 	ft_putstr_fd(error, 2);
 	g_global.exitcode = 127;
+}
+
+void	exit_with_err(void)
+{
+	g_global.exitcode = 127;
+	exit(g_global.exitcode);
 }
 
 void	no_path_err(t_parser *parse)

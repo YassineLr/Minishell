@@ -314,7 +314,6 @@ int			exit_utils(t_parser *parse);
 void		ft_exit(t_parser *parse);
 int			in_builtins(t_parser *parse);
 void		builtins(t_parser *parse, int child);
-void		red_buil(t_parser *parse, int child);
 int			invalid_identifier(char *str);
 char		**init_id_val(t_parser *parse, int i);
 void		only_identifier(t_parser *parse, int i);
@@ -337,17 +336,18 @@ void		close_pipes(t_parser *parse, int fread, int fwrite);
 void		redirection(t_parser *parse);
 void		close_files(t_parser *parse);
 void		execute_cmd(t_parser *parse, char **envp);
-void		red_buil(t_parser *parse, int child);
+void		execute_builtin(t_parser *parse, int child);
 void		redirection(t_parser *parse);
-void		ft_dup(t_parser *parse);
-void		ftt_dup(int fildes, int fildes2);
+void		pipes_red(t_parser *parse);
+void		ft_dup(int fildes, int fildes2);
 void		in_child(t_parser *parse, t_parser *head, char **envt);
 void		executor(t_parser *parse);
 void		close_and_wait(t_parser *head);
 
 // error handler
-void		command_nf_error(t_parser *parse);
-void		print_error(char *error);
 void		no_path_err(t_parser *parse);
+void		print_error(char *error);
+void		command_nf_error(t_parser *parse);
+void		exit_with_err(void);
 
 #endif

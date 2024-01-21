@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 02:07:17 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 23:03:49 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:39:02 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	pwd(void)
 	pwd = NULL;
 	g_global.exitcode = 0;
 	if (search_in_env("PWD"))
-	{
 		ft_putendl_fd(search_in_env("PWD")->value, 1);
-	}
 	else
 	{
 		pwd = getcwd(pwd, 0);

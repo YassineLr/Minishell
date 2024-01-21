@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oubelhaj <oubelhaj@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:04:21 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/11 22:27:10 by oubelhaj         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:51:50 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	remove_first(char *key)
 
 void	remove_variable(char *key)
 {
-	t_env	*precourant;
-	t_env	*courant;
+	t_env	*precur;
+	t_env	*cur;
 
 	if (!g_global.env)
 		return ;
@@ -73,18 +73,18 @@ void	remove_variable(char *key)
 		return ;
 	else
 	{
-		courant = (g_global.env)->next;
-		precourant = g_global.env;
-		while (courant)
+		cur = (g_global.env)->next;
+		precur = g_global.env;
+		while (cur)
 		{
-			if (!ft_strcmp(courant->key, key))
+			if (!ft_strcmp(cur->key, key))
 			{
-				precourant->next = courant->next;
-				ft_lstdelone_env(courant, free);
+				precur->next = cur->next;
+				ft_lstdelone_env(cur, free);
 				return ;
 			}
-			precourant = precourant->next;
-			courant = courant->next;
+			precur = precur->next;
+			cur = cur->next;
 		}
 	}
 }

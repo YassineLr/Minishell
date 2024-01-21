@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 03:49:34 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/16 02:45:04 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:52:25 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ void	concate_val(char **key_val)
 
 void	export_no_args(void)
 {
-	t_env	*courant;
+	t_env	*cur;
 
-	courant = g_global.env;
-	while (courant)
+	cur = g_global.env;
+	while (cur)
 	{
-		if (courant->value)
-			printf("declare -x %s=\"%s\"\n", courant->key, courant->value);
+		if (cur->value)
+			printf("declare -x %s=\"%s\"\n", cur->key, cur->value);
 		else
-			printf("declare -x %s\n", courant->key);
-		courant = courant->next;
+			printf("declare -x %s\n", cur->key);
+		cur = cur->next;
 	}
 }
 

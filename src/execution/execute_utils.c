@@ -6,7 +6,7 @@
 /*   By: ylarhris <ylarhris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 21:39:19 by ylarhris          #+#    #+#             */
-/*   Updated: 2023/08/16 03:25:52 by ylarhris         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:48:26 by ylarhris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	in_child(t_parser *parse, t_parser *head, char **envt)
 	if (parse->command->red_in == -1 || parse->command->red_in == -3)
 		exit(1);
 	if (in_builtins(parse))
-		red_buil(parse, 1);
+		execute_builtin(parse, 1);
 	close_pipes(head, parse->command->pipe_fd.read,
 		parse->command->pipe_fd.write);
 	redirection(parse);
